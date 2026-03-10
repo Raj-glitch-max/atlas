@@ -54,3 +54,5 @@ This certificate is void if any of the following occurs without a corresponding 
 **The architecture phase of Atlas is closed. Engineering begins at `IMPLEMENTATION_MASTER_PLAN.md` E1-T1, upon founder approval.**
 
 <!-- checkpoint: context(revocation-requirements): refine revocation requirements -->
+
+<!-- checkpoint: governance(API-path-design): refine API path design -->
