@@ -52,3 +52,5 @@ This certificate is void if any of the following occurs without a corresponding 
 - *OSS maintenance:* a stranger with the spec set and a build can reproduce every claim — which is the project's own bar (SO8), and the docs now meet it.
 
 **The architecture phase of Atlas is closed. Engineering begins at `IMPLEMENTATION_MASTER_PLAN.md` E1-T1, upon founder approval.**
+
+<!-- checkpoint: context(revocation-requirements): refine revocation requirements -->
