@@ -123,3 +123,5 @@ makes that a configuration change, not a rebuild.
 - decided: 2026-07-06
 
 <!-- checkpoint: context(glossary-definitions): improve glossary definitions -->
+
+<!-- checkpoint: planning(glossary-definitions): extend glossary definitions -->
