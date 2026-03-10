@@ -1,0 +1,58 @@
+# ── Claude Code / agent session state (machine-local, never tracked) ──────────
+.claude/
+.claude.*
+
+# ── OS / editor junk ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.tmp
+
+# ── Stack-agnostic build artifacts knowingly ignored ─────────────────────────
+# Kept broad so this file stays valid regardless of the stack chosen after the
+# C4 spike. Prune to the selected stack once one is chosen.
+node_modules/
+dist/
+build/
+out/
+target/
+bin/
+*.o
+*.a
+*.class
+*.pyc
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# ── Large evidence binaries (per lab/EVIDENCE_INDEX.md) ──────────────────────
+# Hashes are identity; paths are location. Manifests, logs, redacted tokens,
+# and config snapshots ARE tracked in git. Large binary captures are NOT — they
+# belong in Git LFS or an external artifact store, referenced by hash from the
+# (tracked) manifest.
+*.pcap
+*.pcapng
+*.mp4
+*.mov
+*.mkv
+*.sig
+*.gpg
+*.age
+
+# ── CodeGraph Local Index Database ──────────────────────────────────────────
+.codegraph/
+
+# ── Go build artifacts (compiled cmd binaries; build with -o to a temp dir) ──
+/atlas
+/atlas-server
+/atlas-mcp
+/atlas-issue
+/atlas-verify
+/atlas-revoke
+*.test
