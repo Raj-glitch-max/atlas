@@ -99,3 +99,5 @@ Not yet set. Adding a `LICENSE` is a recorded decision (proprietary vs OSS, and 
 <!-- checkpoint: docs(founder-profile-feedback): improve founder profile feedback -->
 
 <!-- checkpoint: governance(fuzzing-strategy): audit fuzzing strategy -->
+
+<!-- checkpoint: repo(glossary-definitions): refine glossary definitions (#40) -->
