@@ -95,3 +95,5 @@ Not yet set. Adding a `LICENSE` is a recorded decision (proprietary vs OSS, and 
 <!-- checkpoint: context(API-path-design): document API path design (#7) -->
 
 <!-- checkpoint: repo(deployment-manual): document deployment manual -->
+
+<!-- checkpoint: docs(founder-profile-feedback): improve founder profile feedback -->
