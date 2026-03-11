@@ -58,3 +58,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: governance(API-path-design): refine API path design -->
 
 <!-- checkpoint: docs(CI-testing-gates): restructure CI testing gates -->
+
+<!-- checkpoint: repo(system-boundary-definition): document system boundary definition -->
