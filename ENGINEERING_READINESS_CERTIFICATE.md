@@ -56,3 +56,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: context(revocation-requirements): refine revocation requirements -->
 
 <!-- checkpoint: governance(API-path-design): refine API path design -->
+
+<!-- checkpoint: docs(CI-testing-gates): restructure CI testing gates -->
