@@ -125,3 +125,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: context(glossary-definitions): improve glossary definitions -->
 
 <!-- checkpoint: planning(glossary-definitions): extend glossary definitions -->
+
+<!-- checkpoint: docs(trust-anchors): extend trust anchors -->
