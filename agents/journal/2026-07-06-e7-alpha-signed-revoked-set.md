@@ -135,3 +135,5 @@ None; built under the explicit authority grant of 2026-07-06.
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: repo(CI-testing-gates): refine CI testing gates -->
