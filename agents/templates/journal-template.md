@@ -80,3 +80,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 - **`related_entries` is your best friend when chaining decisions.** A pricing decision that ties to an earlier ICP decision should reference both ways.
 
 <!-- checkpoint: context(attenuation-specification): audit attenuation specification -->
+
+<!-- checkpoint: context(deployment-manual): audit deployment manual (#15) -->
