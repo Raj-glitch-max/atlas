@@ -113,3 +113,5 @@ None; built under the technical-lead grant of 2026-07-06.
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: repo(fuzzing-strategy): update fuzzing strategy -->
