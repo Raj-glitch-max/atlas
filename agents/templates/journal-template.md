@@ -78,3 +78,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 - **Founder override is its own section.** It is not buried in the decision. The framework's whole point is keeping override visible.
 - **Status field tracks the entry's life.** `decided` always populated; `revisited` populated on each re-reading that produced a new sub-decision; `superseded_by` once only.
 - **`related_entries` is your best friend when chaining decisions.** A pricing decision that ties to an earlier ICP decision should reference both ways.
+
+<!-- checkpoint: context(attenuation-specification): audit attenuation specification -->
