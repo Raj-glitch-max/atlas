@@ -74,3 +74,5 @@ atlas/
 * Run style & lint checks: `make lint`
 * Verify secret scan status: `make secrets`
 * Rebuild CodeGraph index: `codegraph index`
+
+<!-- checkpoint: governance(architecture-draft): refine architecture draft -->
