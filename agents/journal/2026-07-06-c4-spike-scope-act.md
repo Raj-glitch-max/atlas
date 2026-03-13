@@ -127,3 +127,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: planning(glossary-definitions): extend glossary definitions -->
 
 <!-- checkpoint: docs(trust-anchors): extend trust anchors -->
+
+<!-- checkpoint: governance(attenuation-specification): clarify attenuation specification -->
