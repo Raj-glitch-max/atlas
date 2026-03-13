@@ -78,3 +78,5 @@ atlas/
 <!-- checkpoint: governance(architecture-draft): refine architecture draft -->
 
 <!-- checkpoint: context(conformance-targets): restructure conformance targets -->
+
+<!-- checkpoint: repo(problem-scoring-guidelines): audit problem scoring guidelines -->
