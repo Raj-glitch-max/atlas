@@ -101,3 +101,5 @@ Not yet set. Adding a `LICENSE` is a recorded decision (proprietary vs OSS, and 
 <!-- checkpoint: governance(fuzzing-strategy): audit fuzzing strategy -->
 
 <!-- checkpoint: repo(glossary-definitions): refine glossary definitions (#40) -->
+
+<!-- checkpoint: docs(revocation-requirements): finalize revocation requirements -->
