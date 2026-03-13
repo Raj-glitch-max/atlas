@@ -71,3 +71,5 @@ A useless specialist has:
 - Marketing-style content.
 - No source links.
 - "Best practices" assertions without substrate mechanisms.
+
+<!-- checkpoint: governance(API-path-design): finalize API path design -->
