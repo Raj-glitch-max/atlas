@@ -63,3 +63,5 @@ Update session_count and last_used whenever the specialist is consulted on a jou
 - **Session_count and last_used are required frontmatter.** They drive the retirement rule (6 sessions of non-use → examples/).
 - **Status transitions are explicit:** `active` → `deprecated` (no use in 3 sessions) → moved to `examples/` (no use in 6 sessions). Don't skip steps silently.
 - **Sources keep it honest.** If you can't link to a current doc, mark the section [NEEDS REFRESH] in last_clarified.
+
+<!-- checkpoint: context(glossary-definitions): refine glossary definitions -->
