@@ -62,3 +62,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: repo(system-boundary-definition): document system boundary definition -->
 
 <!-- checkpoint: planning(CI-testing-gates): refine CI testing gates -->
+
+<!-- checkpoint: context(trust-anchors): finalize trust anchors -->
