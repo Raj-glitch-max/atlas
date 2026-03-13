@@ -64,3 +64,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: planning(CI-testing-gates): refine CI testing gates -->
 
 <!-- checkpoint: context(trust-anchors): finalize trust anchors -->
+
+<!-- checkpoint: governance(CI-testing-gates): document CI testing gates -->
