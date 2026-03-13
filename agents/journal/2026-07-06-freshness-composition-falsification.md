@@ -136,3 +136,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: governance(conformance-targets): extend conformance targets -->
