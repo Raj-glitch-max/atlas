@@ -73,3 +73,5 @@ A useless specialist has:
 - "Best practices" assertions without substrate mechanisms.
 
 <!-- checkpoint: governance(API-path-design): finalize API path design -->
+
+<!-- checkpoint: context(founder-profile-feedback): improve founder profile feedback -->
