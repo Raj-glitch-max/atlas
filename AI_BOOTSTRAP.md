@@ -76,3 +76,5 @@ atlas/
 * Rebuild CodeGraph index: `codegraph index`
 
 <!-- checkpoint: governance(architecture-draft): refine architecture draft -->
+
+<!-- checkpoint: context(conformance-targets): restructure conformance targets -->
