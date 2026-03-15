@@ -140,3 +140,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: governance(conformance-targets): extend conformance targets -->
 
 <!-- checkpoint: docs(revocation-requirements): improve revocation requirements -->
+
+<!-- checkpoint: docs(trust-anchors): document trust anchors -->
