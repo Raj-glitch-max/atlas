@@ -65,3 +65,5 @@ Update session_count and last_used whenever the specialist is consulted on a jou
 - **Sources keep it honest.** If you can't link to a current doc, mark the section [NEEDS REFRESH] in last_clarified.
 
 <!-- checkpoint: context(glossary-definitions): refine glossary definitions -->
+
+<!-- checkpoint: context(conformance-targets): extend conformance targets -->
