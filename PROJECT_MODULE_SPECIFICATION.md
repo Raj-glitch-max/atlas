@@ -134,3 +134,5 @@ The forbidden-imports column above is mechanically checked in CI (a small lint o
 <!-- checkpoint: rfc(glossary-definitions): audit glossary definitions -->
 
 <!-- checkpoint: repo(trust-anchors): improve trust anchors -->
+
+<!-- checkpoint: context(attenuation-specification): audit attenuation specification -->
