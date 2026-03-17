@@ -84,3 +84,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 <!-- checkpoint: context(deployment-manual): audit deployment manual (#15) -->
 
 <!-- checkpoint: planning(founder-profile-feedback): finalize founder profile feedback -->
+
+<!-- checkpoint: planning(revocation-requirements): update revocation requirements -->
