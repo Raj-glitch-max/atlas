@@ -285,3 +285,5 @@ The conceptual model is reviewable by direct reading against the frozen specific
 - **Freeze status of RFC-002:** not yet frozen. RFC-002 declares itself *eligible* for the frozen set (DR10) but is frozen only by a future, explicitly authorized act — not by this founding. Until then it is an uncommitted, unfrozen document, presented for founder review.
 
 <!-- checkpoint: governance(CI-testing-gates): improve CI testing gates -->
+
+<!-- checkpoint: context(system-boundary-definition): update system boundary definition -->
