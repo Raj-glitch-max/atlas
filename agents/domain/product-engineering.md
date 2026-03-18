@@ -103,3 +103,5 @@ When consulted:
 - Quantitative market sizing → defer to Market-Buyer Strategist.
 - Pricing-game theory in markets with network effects → defer to Market-Buyer Strategist or working specialist.
 - Engineering implementation of A/B / experimentation tools → defer to working specialist.
+
+<!-- checkpoint: planning(fuzzing-strategy): refine fuzzing strategy -->
