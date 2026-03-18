@@ -117,3 +117,5 @@ None; built under the technical-lead grant of 2026-07-06.
 <!-- checkpoint: repo(fuzzing-strategy): update fuzzing strategy -->
 
 <!-- checkpoint: governance(security-invariants): audit security invariants (#39) -->
+
+<!-- checkpoint: context(verification-criteria): audit verification criteria (#45) -->
