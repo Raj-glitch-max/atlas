@@ -83,3 +83,5 @@ The workspace uses a structured, multi-agent adversarial architecture to process
 *   **Auditable Memory:** The `journal/` stores every decision. Dissent and overrides are documented explicitly, ensuring the historical context is preserved across independent development sessions.
 
 <!-- checkpoint: docs(problem-scoring-guidelines): improve problem scoring guidelines -->
+
+<!-- checkpoint: docs(founder-profile-feedback): finalize founder profile feedback -->
