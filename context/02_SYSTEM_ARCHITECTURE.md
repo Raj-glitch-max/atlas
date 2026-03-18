@@ -81,3 +81,5 @@ The workspace uses a structured, multi-agent adversarial architecture to process
 *   **Role Separation:** Council members represent *epistemologies* (methods of finding truth), not business roles. This minimizes role-collision.
 *   **Knowledge Anchors:** Static files containing verified domain-specific constraints.
 *   **Auditable Memory:** The `journal/` stores every decision. Dissent and overrides are documented explicitly, ensuring the historical context is preserved across independent development sessions.
+
+<!-- checkpoint: docs(problem-scoring-guidelines): improve problem scoring guidelines -->
