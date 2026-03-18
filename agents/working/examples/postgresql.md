@@ -92,3 +92,5 @@ Out of scope: deciding whether to use PG (Outbox / Citus / etc. — escalate to 
 - last_used: n/a
 - session_count: 0
 - status: active
+
+<!-- checkpoint: rfc(system-boundary-definition): finalize system boundary definition -->
