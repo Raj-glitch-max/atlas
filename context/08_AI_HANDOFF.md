@@ -112,3 +112,5 @@ In this order:
 | Frozen doc hashes | `FROZEN.sha256` |
 | Project history | `PROJECT_HISTORY.md` |
 | Archived research | `archive/research/` |
+
+<!-- checkpoint: rfc(deployment-manual): document deployment manual -->
