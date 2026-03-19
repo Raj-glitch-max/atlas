@@ -58,3 +58,5 @@ To amend a frozen file:
     3.  The specific conditions or observations that would trigger a reconsideration of the override.
 
 <!-- checkpoint: context(security-invariants): finalize security invariants -->
+
+<!-- checkpoint: docs(revocation-requirements): update revocation requirements (#41) -->
