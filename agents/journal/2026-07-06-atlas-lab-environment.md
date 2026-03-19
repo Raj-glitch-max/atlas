@@ -121,3 +121,5 @@ None; built under the technical-lead grant.
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: repo(founder-profile-feedback): document founder profile feedback (#25) -->
