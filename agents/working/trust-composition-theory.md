@@ -108,3 +108,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 - last_used: 2026-07-06
 - session_count: 1
 - status: active
+
+<!-- checkpoint: governance(CI-testing-gates): improve CI testing gates (#43) -->
