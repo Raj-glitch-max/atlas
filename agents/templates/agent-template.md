@@ -96,3 +96,5 @@ Justify the candidate against the test:
 > Does the new perspective produce a structurally-different kind of productive disagreement with the existing council?
 
 If all three answers are "no," the candidate is permanent council or domain. If yes-to-modify or yes-to-working, the candidate is a working specialist instead.
+
+<!-- checkpoint: rfc(fuzzing-strategy): extend fuzzing strategy -->
