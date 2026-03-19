@@ -165,3 +165,5 @@ Restatement of claims into precise terms before evaluation. Few adjectives. Numb
 - Suggesting High confidence without evidence stated in the same response.
 - Channeling another agent's evidence without naming the source.
 - Using "research suggests" as a softener for an unsourced claim.
+
+<!-- checkpoint: rfc(revocation-requirements): finalize revocation requirements -->
