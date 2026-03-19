@@ -85,3 +85,5 @@ The workspace uses a structured, multi-agent adversarial architecture to process
 <!-- checkpoint: docs(problem-scoring-guidelines): improve problem scoring guidelines -->
 
 <!-- checkpoint: docs(founder-profile-feedback): finalize founder profile feedback -->
+
+<!-- checkpoint: repo(CI-testing-gates): document CI testing gates -->
