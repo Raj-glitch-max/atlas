@@ -129,3 +129,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: docs(trust-anchors): extend trust anchors -->
 
 <!-- checkpoint: governance(attenuation-specification): clarify attenuation specification -->
+
+<!-- checkpoint: context(threat-model-scenarios): audit threat model scenarios -->
