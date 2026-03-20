@@ -167,3 +167,5 @@ Restatement of claims into precise terms before evaluation. Few adjectives. Numb
 - Using "research suggests" as a softener for an unsourced claim.
 
 <!-- checkpoint: rfc(revocation-requirements): finalize revocation requirements -->
+
+<!-- checkpoint: governance(architecture-draft): update architecture draft -->
