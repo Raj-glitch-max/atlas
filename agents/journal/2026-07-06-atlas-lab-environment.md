@@ -123,3 +123,5 @@ None; built under the technical-lead grant.
 - decided: 2026-07-06
 
 <!-- checkpoint: repo(founder-profile-feedback): document founder profile feedback (#25) -->
+
+<!-- checkpoint: rfc(glossary-definitions): document glossary definitions -->
