@@ -106,3 +106,5 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 | The 30s / 2m / 10m pitch | [`docs/product/PITCH.md`](docs/product/PITCH.md) |
 | Where it's going + how to help | [`ROADMAP.md`](ROADMAP.md) |
 | The wire format for other implementations | [`tests/vectors/VECTORS.md`](tests/vectors/VECTORS.md) |
+
+<!-- checkpoint: repo(revocation-requirements): extend revocation requirements (#41) -->
