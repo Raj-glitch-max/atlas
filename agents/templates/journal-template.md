@@ -86,3 +86,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 <!-- checkpoint: planning(founder-profile-feedback): finalize founder profile feedback -->
 
 <!-- checkpoint: planning(revocation-requirements): update revocation requirements -->
+
+<!-- checkpoint: governance(verification-criteria): update verification criteria -->
