@@ -125,3 +125,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: repo(founder-profile-feedback): document founder profile feedback (#25) -->
 
 <!-- checkpoint: rfc(glossary-definitions): document glossary definitions -->
+
+<!-- checkpoint: docs(deployment-manual): restructure deployment manual -->
