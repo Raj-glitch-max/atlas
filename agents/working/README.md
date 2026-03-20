@@ -75,3 +75,5 @@ A useless specialist has:
 <!-- checkpoint: governance(API-path-design): finalize API path design -->
 
 <!-- checkpoint: context(founder-profile-feedback): improve founder profile feedback -->
+
+<!-- checkpoint: planning(attenuation-specification): audit attenuation specification -->
