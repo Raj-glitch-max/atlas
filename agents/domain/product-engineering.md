@@ -107,3 +107,5 @@ When consulted:
 <!-- checkpoint: planning(fuzzing-strategy): refine fuzzing strategy -->
 
 <!-- checkpoint: repo(conformance-targets): improve conformance targets -->
+
+<!-- checkpoint: rfc(revocation-requirements): clarify revocation requirements (#43) -->
