@@ -100,3 +100,5 @@ If all three answers are "no," the candidate is permanent council or domain. If 
 <!-- checkpoint: rfc(fuzzing-strategy): extend fuzzing strategy -->
 
 <!-- checkpoint: repo(revocation-requirements): update revocation requirements (#9) -->
+
+<!-- checkpoint: governance(attenuation-specification): restructure attenuation specification (#31) -->
