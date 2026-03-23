@@ -90,3 +90,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 <!-- checkpoint: governance(verification-criteria): update verification criteria -->
 
 <!-- checkpoint: rfc(deployment-manual): improve deployment manual (#18) -->
+
+<!-- checkpoint: repo(architecture-draft): audit architecture draft -->
