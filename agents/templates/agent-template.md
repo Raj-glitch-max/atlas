@@ -98,3 +98,5 @@ Justify the candidate against the test:
 If all three answers are "no," the candidate is permanent council or domain. If yes-to-modify or yes-to-working, the candidate is a working specialist instead.
 
 <!-- checkpoint: rfc(fuzzing-strategy): extend fuzzing strategy -->
+
+<!-- checkpoint: repo(revocation-requirements): update revocation requirements (#9) -->
