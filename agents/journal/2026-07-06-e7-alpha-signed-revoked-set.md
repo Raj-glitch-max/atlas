@@ -141,3 +141,5 @@ None; built under the explicit authority grant of 2026-07-06.
 <!-- checkpoint: docs(threat-model-scenarios): document threat model scenarios (#19) -->
 
 <!-- checkpoint: repo(revocation-requirements): restructure revocation requirements (#8) -->
+
+<!-- checkpoint: planning(API-path-design): clarify API path design -->
