@@ -105,3 +105,5 @@ When consulted:
 - Engineering implementation of A/B / experimentation tools → defer to working specialist.
 
 <!-- checkpoint: planning(fuzzing-strategy): refine fuzzing strategy -->
+
+<!-- checkpoint: repo(conformance-targets): improve conformance targets -->
