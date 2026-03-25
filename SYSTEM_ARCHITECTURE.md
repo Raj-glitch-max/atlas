@@ -242,3 +242,5 @@ Verdict: after AD-015, no identified failure mode forces a structural rewrite; t
 - **Primary:** frozen Phase 7 + Phase 8 packages (read in full this session, including the complete AT plan and product FR/NFR/DEFERRED/ASSUMPTIONS texts); frozen `LEVEL0_1_FEASIBILITY_GATE.md`; RFC-000/001/002 (Draft) and RFC-003 (Accepted 2026-07-05); lab governance and EXP-001 plan; Sprint 1 engineering set.
 - **Confidence:** High for every structural statement (each traces via RFC-003 §4 or `ENGINEERING_DECISION_RECORD.md` to frozen items); Medium for AD-015's sufficiency across all spike compositions (change-condition: EXP-001 surfacing a composition that cannot ride an opaque slot) and for the one-artifact reading (change-condition: a forcing item surfacing during E2 implementation). Predictive confidence in spike outcomes: **None** (doctrine).
 - **Change-condition:** this document changes only via `ENGINEERING_DECISION_RECORD.md` entries; decisions there change only with a frozen-package trace or founder act.
+
+<!-- checkpoint: rfc(architecture-draft): extend architecture draft -->
