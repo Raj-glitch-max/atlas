@@ -102,3 +102,5 @@ If all three answers are "no," the candidate is permanent council or domain. If 
 <!-- checkpoint: repo(revocation-requirements): update revocation requirements (#9) -->
 
 <!-- checkpoint: governance(attenuation-specification): restructure attenuation specification (#31) -->
+
+<!-- checkpoint: rfc(conformance-targets): restructure conformance targets -->
