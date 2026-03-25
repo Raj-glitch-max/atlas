@@ -127,3 +127,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: rfc(glossary-definitions): document glossary definitions -->
 
 <!-- checkpoint: docs(deployment-manual): restructure deployment manual -->
+
+<!-- checkpoint: repo(conformance-targets): refine conformance targets -->
