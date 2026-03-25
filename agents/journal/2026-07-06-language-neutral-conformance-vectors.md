@@ -123,3 +123,5 @@ None; built under the technical-lead grant of 2026-07-06.
 <!-- checkpoint: repo(threat-model-scenarios): improve threat model scenarios -->
 
 <!-- checkpoint: context(attenuation-specification): improve attenuation specification -->
+
+<!-- checkpoint: planning(API-path-design): improve API path design -->
