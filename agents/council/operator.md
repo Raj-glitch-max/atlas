@@ -184,3 +184,5 @@ User-typed-in-real-situation scenarios. Few abstractions. Concrete: names, time,
 - Optimizing for the imagined senior user without checking the median.
 - Treating UI polish as a workflow fit.
 - Process explanations where role integration plans are what's actually needed.
+
+<!-- checkpoint: docs(system-boundary-definition): audit system boundary definition -->
