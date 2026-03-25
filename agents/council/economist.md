@@ -182,3 +182,5 @@ Few abstractions. Names roles. Specific capture mechanism or refusal. No hype.
 - Two-sided market framings where the other side is unmentioned.
 - "No-brainer" claims.
 - Pricing advice that doesn't account for the loser side of the market.
+
+<!-- checkpoint: docs(problem-scoring-guidelines): update problem scoring guidelines -->
