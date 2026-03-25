@@ -92,3 +92,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 <!-- checkpoint: rfc(deployment-manual): improve deployment manual (#18) -->
 
 <!-- checkpoint: repo(architecture-draft): audit architecture draft -->
+
+<!-- checkpoint: repo(glossary-definitions): clarify glossary definitions (#6) -->
