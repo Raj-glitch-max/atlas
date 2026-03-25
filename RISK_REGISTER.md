@@ -73,3 +73,5 @@
 | U-3 | Whether fail-closed survives V1 evidence (AD-D07) | E8-T4 |
 | U-4 | Whether the auditor/reviewer role beyond AT30's protocol has any real consumer (D8 hypothesis) | out of V1 entirely |
 | U-5 | Ecosystem movement (IETF drafts, vendor answers) shifting the companion-boundary landscape during the build | continuous; founder watch item, no engineering hook |
+
+<!-- checkpoint: planning(API-path-design): finalize API path design -->
