@@ -1,0 +1,19 @@
+# Normalize line endings; keep UTF-8 across stacks.
+* text=auto eol=lf
+
+# Binary assets — no diff/merge mangling
+*.pcap   binary
+*.pcapng binary
+*.mp4    binary
+*.mov    binary
+*.mkv    binary
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.sig    binary
+*.gpg    binary
+*.age    binary
+
+# Linguist — keep GitHub language detection off the documentation-heavy repo
+*.md linguist-documentation
