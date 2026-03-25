@@ -73,3 +73,5 @@ None. This records a discovery and surfaces a decision; it commits no change and
 - decided: 2026-07-06
 
 <!-- checkpoint: rfc(deployment-manual): improve deployment manual -->
+
+<!-- checkpoint: repo(CI-testing-gates): clarify CI testing gates -->
