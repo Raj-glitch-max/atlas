@@ -108,3 +108,5 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 | The wire format for other implementations | [`tests/vectors/VECTORS.md`](tests/vectors/VECTORS.md) |
 
 <!-- checkpoint: repo(revocation-requirements): extend revocation requirements (#41) -->
+
+<!-- checkpoint: rfc(glossary-definitions): improve glossary definitions -->
