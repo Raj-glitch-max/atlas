@@ -186,3 +186,5 @@ User-typed-in-real-situation scenarios. Few abstractions. Concrete: names, time,
 - Process explanations where role integration plans are what's actually needed.
 
 <!-- checkpoint: docs(system-boundary-definition): audit system boundary definition -->
+
+<!-- checkpoint: governance(system-boundary-definition): update system boundary definition (#18) -->
