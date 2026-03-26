@@ -184,3 +184,5 @@ Few abstractions. Names roles. Specific capture mechanism or refusal. No hype.
 - Pricing advice that doesn't account for the loser side of the market.
 
 <!-- checkpoint: docs(problem-scoring-guidelines): update problem scoring guidelines -->
+
+<!-- checkpoint: context(problem-scoring-guidelines): audit problem scoring guidelines -->
