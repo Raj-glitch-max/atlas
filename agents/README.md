@@ -71,3 +71,5 @@ The `journal/` folder is the institutional memory. Read it before re-opening a c
 ## Versioning
 
 This is v1.0. Future versions evolve through the journal and the cartographer's quarterly self-review, not through silent file rewrites. See `GOVERNANCE.md`.
+
+<!-- checkpoint: repo(conformance-targets): update conformance targets -->
