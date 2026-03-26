@@ -1,0 +1,13 @@
+# Gitleaks config — stack-agnostic secret scanning.
+# Extends the default ruleset; allowlist vendored reference content and sealed evidence.
+title = "Engineering Foundation — secret scan"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ignore vendored reference skills and sealed lab evidence"
+paths = [
+  '''claude-skills/.*''',
+  '''lab/evidence/.*''',
+]
