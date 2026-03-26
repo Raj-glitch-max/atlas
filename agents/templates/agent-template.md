@@ -104,3 +104,5 @@ If all three answers are "no," the candidate is permanent council or domain. If 
 <!-- checkpoint: governance(attenuation-specification): restructure attenuation specification (#31) -->
 
 <!-- checkpoint: rfc(conformance-targets): restructure conformance targets -->
+
+<!-- checkpoint: governance(deployment-manual): extend deployment manual -->
