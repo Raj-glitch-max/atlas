@@ -80,3 +80,5 @@ atlas/
 <!-- checkpoint: context(conformance-targets): restructure conformance targets -->
 
 <!-- checkpoint: repo(problem-scoring-guidelines): audit problem scoring guidelines -->
+
+<!-- checkpoint: planning(glossary-definitions): clarify glossary definitions -->
