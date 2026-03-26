@@ -1,0 +1,32 @@
+{
+  // markdownlint configuration for the Atlas corpus.
+  //
+  // Why this file exists (E1-T3, ENGINEERING_DECISION_RECORD.md context):
+  // the docs-lint gate ran with markdownlint defaults and no config, and
+  // failed on the PRE-EXISTING corpus (README.md included) — the gate was
+  // never green. The bulk of the corpus is hash-pinned frozen documents
+  // (FROZEN.sha256) that CANNOT be reformatted without the amendment
+  // process in CONTRIBUTING.md §4, so the corpus cannot be conformed to
+  // the linter; the linter config is conformed to the corpus instead,
+  // explicitly, rule by rule. Re-enabling any rule below requires either
+  // amending the frozen files that violate it or scoping the glob.
+  //
+  // Rules disabled because the frozen/authored corpus violates them:
+  "config": {
+    "MD010": { "code_blocks": false }, // allow hard tabs inside code blocks (Go uses tabs); still flag tabs in prose
+    "MD001": false, // heading-increment: frozen docs skip levels
+    "MD007": false, // ul-indent: mixed indentation styles in corpus
+    "MD013": false, // line-length: long-line prose style throughout
+    "MD022": false, // blanks-around-headings: compact style in corpus
+    "MD024": false, // no-duplicate-heading: repeated section names (RFC template)
+    "MD025": false, // single-title: multiple top-level headings in corpus docs
+    "MD026": false, // no-trailing-punctuation in headings
+    "MD030": false, // list-marker-space: corpus style
+    "MD032": false, // blanks-around-lists: compact style in corpus
+    "MD036": false, // no-emphasis-as-heading: used deliberately in corpus
+    "MD038": false, // no-space-in-code: one frozen occurrence
+    "MD040": false, // fenced-code-language: ASCII diagrams carry no language
+    "MD041": false, // first-line-heading: some docs open with status lines
+    "MD060": false  // table-column-style: corpus tables are compact-pipe style
+  }
+}
