@@ -75,3 +75,5 @@
 | U-5 | Ecosystem movement (IETF drafts, vendor answers) shifting the companion-boundary landscape during the build | continuous; founder watch item, no engineering hook |
 
 <!-- checkpoint: planning(API-path-design): finalize API path design -->
+
+<!-- checkpoint: context(revocation-requirements): finalize revocation requirements (#19) -->
