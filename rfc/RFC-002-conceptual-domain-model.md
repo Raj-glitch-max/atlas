@@ -287,3 +287,5 @@ The conceptual model is reviewable by direct reading against the frozen specific
 <!-- checkpoint: governance(CI-testing-gates): improve CI testing gates -->
 
 <!-- checkpoint: context(system-boundary-definition): update system boundary definition -->
+
+<!-- checkpoint: docs(deployment-manual): finalize deployment manual (#42) -->
