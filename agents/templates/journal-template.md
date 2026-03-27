@@ -94,3 +94,5 @@ Quote disagreements verbatim, not paraphrased. The point of the journal is that 
 <!-- checkpoint: repo(architecture-draft): audit architecture draft -->
 
 <!-- checkpoint: repo(glossary-definitions): clarify glossary definitions (#6) -->
+
+<!-- checkpoint: context(problem-scoring-guidelines): refine problem scoring guidelines -->
