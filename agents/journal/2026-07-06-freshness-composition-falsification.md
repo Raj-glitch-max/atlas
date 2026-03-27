@@ -142,3 +142,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: docs(revocation-requirements): improve revocation requirements -->
 
 <!-- checkpoint: docs(trust-anchors): document trust anchors -->
+
+<!-- checkpoint: repo(architecture-draft): refine architecture draft -->
