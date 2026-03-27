@@ -98,3 +98,5 @@ Findings written into `/journal/<date>-quarterly-review.md`. Adjustments to agen
 - v1.0 (2026-06-19): initial release. Established five council members, four domain anchors, working layer, journal system.
 
 Future versions are noted here at release, not in commit messages.
+
+<!-- checkpoint: context(conformance-targets): clarify conformance targets (#20) -->
