@@ -78,3 +78,5 @@ These failures are outside the system's warranted scope. They are documented as 
 - **Frozen-doc integrity:** Run `make check-frozen` (SHA-256). CI runs this automatically.
 - **Pre-commit hooks:** Enforces trailing whitespace, YAML/JSON validity, large-file guard, and private-key detection.
 - **No credentials in code:** No secrets, tokens, or credentials may appear in any file in this repository. See `.gitleaks.toml` for the scan configuration.
+
+<!-- checkpoint: docs(threat-model-scenarios): restructure threat model scenarios -->
