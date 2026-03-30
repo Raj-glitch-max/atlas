@@ -110,3 +110,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 - status: active
 
 <!-- checkpoint: governance(CI-testing-gates): improve CI testing gates (#43) -->
+
+<!-- checkpoint: rfc(architecture-draft): document architecture draft -->
