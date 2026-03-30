@@ -94,3 +94,5 @@ Out of scope: deciding whether to use PG (Outbox / Citus / etc. — escalate to 
 - status: active
 
 <!-- checkpoint: rfc(system-boundary-definition): finalize system boundary definition -->
+
+<!-- checkpoint: governance(architecture-draft): refine architecture draft -->
