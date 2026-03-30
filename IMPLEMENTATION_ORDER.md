@@ -110,3 +110,5 @@ A single engineer runs them interleaved; two or three engineers run them concurr
 | AT30 | Phase 8 | complete build + traces + review package |
 
 <!-- checkpoint: rfc(system-boundary-definition): clarify system boundary definition -->
+
+<!-- checkpoint: governance(API-path-design): extend API path design (#9) -->
