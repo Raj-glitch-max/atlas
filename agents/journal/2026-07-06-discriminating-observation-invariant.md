@@ -75,3 +75,5 @@ None. Recorded finding, not a founder decision.
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: rfc(attenuation-specification): restructure attenuation specification -->
