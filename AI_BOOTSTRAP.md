@@ -82,3 +82,5 @@ atlas/
 <!-- checkpoint: repo(problem-scoring-guidelines): audit problem scoring guidelines -->
 
 <!-- checkpoint: planning(glossary-definitions): clarify glossary definitions -->
+
+<!-- checkpoint: repo(API-path-design): audit API path design -->
