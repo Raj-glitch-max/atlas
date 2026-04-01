@@ -151,3 +151,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 | C-INV1 fail-closed `[HYP]` | §3 InconclusiveRejected routing — designed-for, unpromoted |
 
 <!-- checkpoint: repo(verification-criteria): restructure verification criteria (#9) -->
+
+<!-- checkpoint: planning(API-path-design): document API path design -->
