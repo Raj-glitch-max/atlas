@@ -38,3 +38,5 @@ codegraph sync
   `node_modules/`, `dist/`, `.env`, and build targets).
 * Local agent cache and session state (`.claude/`, `.git/`, `.vscode/`).
 * The local CodeGraph index database itself (`.codegraph/`).
+
+<!-- checkpoint: repo(architecture-draft): extend architecture draft -->
