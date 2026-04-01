@@ -105,3 +105,5 @@ Founder Input (artifact / question)
 ```
 
 **Forces:** `agents/GOVERNANCE.md`, §§ Interaction protocol, Override protocol.
+
+<!-- checkpoint: rfc(architecture-draft): clarify architecture draft -->
