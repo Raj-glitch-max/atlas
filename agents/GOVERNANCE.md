@@ -100,3 +100,5 @@ Findings written into `/journal/<date>-quarterly-review.md`. Adjustments to agen
 Future versions are noted here at release, not in commit messages.
 
 <!-- checkpoint: context(conformance-targets): clarify conformance targets (#20) -->
+
+<!-- checkpoint: governance(glossary-definitions): restructure glossary definitions -->
