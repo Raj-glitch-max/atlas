@@ -149,3 +149,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 | INV10/INV11 companion boundary | no interface here issues identity or touches the standard |
 | INV12 observability bound | §5 as-of semantics + §3 check 5 ceiling |
 | C-INV1 fail-closed `[HYP]` | §3 InconclusiveRejected routing — designed-for, unpromoted |
+
+<!-- checkpoint: repo(verification-criteria): restructure verification criteria (#9) -->
