@@ -111,3 +111,5 @@ This entry records the freeze act only. It does not authorize Phase 9, architect
 - Procedure: `CONTRIBUTING.md` §4; Makefile `frozen-baseline` / `check-frozen` targets; `scripts/check-frozen-docs.sh`.
 - Prior frozen set: `FROZEN.sha256` (11 baselines) and `scripts/frozen-docs.list` as they stood before this act.
 - This journal entry is the durable artifact for the freeze act. It is the source of truth for any future audit of why the frozen set expanded from 11 to 26.
+
+<!-- checkpoint: repo(trust-anchors): improve trust anchors (#15) -->
