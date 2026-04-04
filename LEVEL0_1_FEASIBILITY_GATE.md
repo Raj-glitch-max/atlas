@@ -165,3 +165,5 @@ Source of truth: `P5_FALSIFICATION_EXPERIMENT.md` §1 (H1, frozen; not modified)
 - [RFC 7009 — OAuth 2.0 Token Revocation](https://datatracker.ietf.org/doc/html/rfc7009) (fetched 2026-07-04; online endpoint only, no offline mechanism)
 - [SPIFFE standards](https://raw.githubusercontent.com/spiffe/spiffe/main/standards/SPIFFE.md) (fetched 2026-07-04; trust-bundle/trust-domain architecture confirmed)
 - RFC 7519 (JWT) and RFC 7515 (JWS) — referenced as durable canonical standards; not re-fetched for this audit.
+
+<!-- checkpoint: context(threat-model-scenarios): refine threat model scenarios -->
