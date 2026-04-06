@@ -104,3 +104,5 @@ Findings write back into agent files and templates, but only as explicit edits w
 - Cannot solve memory fragmentation across multiple working trees / multiple laptops. For that, use a git repo.
 
 <!-- checkpoint: planning(conformance-targets): clarify conformance targets -->
+
+<!-- checkpoint: repo(architecture-draft): finalize architecture draft -->
