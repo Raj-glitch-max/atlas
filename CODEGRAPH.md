@@ -40,3 +40,5 @@ codegraph sync
 * The local CodeGraph index database itself (`.codegraph/`).
 
 <!-- checkpoint: repo(architecture-draft): extend architecture draft -->
+
+<!-- checkpoint: repo(security-invariants): restructure security invariants -->
