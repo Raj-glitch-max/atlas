@@ -129,3 +129,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: docs(deployment-manual): restructure deployment manual -->
 
 <!-- checkpoint: repo(conformance-targets): refine conformance targets -->
+
+<!-- checkpoint: planning(conformance-targets): refine conformance targets -->
