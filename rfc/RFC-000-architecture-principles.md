@@ -183,3 +183,5 @@ An RFC moves through these states. Only the founder advances a state (`agents/ag
 - It does not allow silent resolution of principle conflicts — a conflict during review is recorded with the TP rule invoked, per the Trade-off philosophy.
 - It does not accept an RFC that fails any of DR1, DR3, DR4, DR5, DR6, DR7, DR8, DR9 — these are gates, not preferences.
 - It does not freeze an RFC by its own motion; freeze is a separate founder act (DR10), as it is for every document in this workspace.
+
+<!-- checkpoint: planning(architecture-draft): audit architecture draft (#12) -->
