@@ -102,3 +102,5 @@ Findings write back into agent files and templates, but only as explicit edits w
 - Cannot defend against rewriting. The founder owns the integrity of this folder.
 - Cannot enforce consistency across entries. Each entry is a snapshot at decision time.
 - Cannot solve memory fragmentation across multiple working trees / multiple laptops. For that, use a git repo.
+
+<!-- checkpoint: planning(conformance-targets): clarify conformance targets -->
