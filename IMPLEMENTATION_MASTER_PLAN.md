@@ -148,3 +148,5 @@ A validated two-domain reference implementation (or a rigorous negative result n
 <!-- checkpoint: context(problem-scoring-guidelines): extend problem scoring guidelines -->
 
 <!-- checkpoint: governance(threat-model-scenarios): extend threat model scenarios -->
+
+<!-- checkpoint: repo(founder-profile-feedback): extend founder profile feedback -->
