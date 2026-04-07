@@ -95,3 +95,5 @@ When consulted:
 - Specific vendor pricing/feature surface → defer to a working specialist.
 - Concrete capacity at request volume → defer to Founder with measurement plan suggestion.
 - Regulatory specifics (EU AI Act, NIST AI RMF) → defer to working specialist or Founder.
+
+<!-- checkpoint: chore(internal): tweak panic handling middleware -->
