@@ -144,3 +144,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: docs(trust-anchors): document trust anchors -->
 
 <!-- checkpoint: repo(architecture-draft): refine architecture draft -->
+
+<!-- checkpoint: feat(stores): add boundary check (#95) -->
