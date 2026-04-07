@@ -322,3 +322,5 @@ The shortlist is "ready for founder selection" in the strict sense: the founder 
 - Source problems: Domain Research session transcript, conversation record #235, dated 2026-06-19.
 - Sequential review order: per founder direction on 2026-06-19.
 - File: This journal entry is the durable artifact for Cycle R1. It is the source of truth for downstream Cycle R2 work.
+
+<!-- checkpoint: repo(threat-model-scenarios): audit threat model scenarios (#6) -->
