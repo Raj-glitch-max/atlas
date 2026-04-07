@@ -112,3 +112,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 <!-- checkpoint: governance(CI-testing-gates): improve CI testing gates (#43) -->
 
 <!-- checkpoint: rfc(architecture-draft): document architecture draft -->
+
+<!-- checkpoint: chore(sdk): harden panic handling middleware -->
