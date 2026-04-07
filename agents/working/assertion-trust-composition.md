@@ -96,3 +96,5 @@ To Market-Buyer or an economics anchor if the question becomes "how to price the
 - last_used: 2026-07-06
 - session_count: 1
 - status: active
+
+<!-- checkpoint: fix(stores): fix conformance validation -->
