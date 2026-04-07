@@ -281,3 +281,5 @@ The founder's pre-code queue, smallest sufficient form. Q1–Q6 block all produc
 - **Change-condition:** any founder resolution of Q1–Q10, any EXP-001 outcome, or any frozen-package amendment supersedes the corresponding section of this review. This document is input to the module-boundary RFC (D11), not a substitute for it.
 
 **Stop.** Awaiting founder decision on §11 Q1–Q6 before any further action.
+
+<!-- checkpoint: feat(internal): implement signature validation -->
