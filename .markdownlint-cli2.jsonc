@@ -30,3 +30,5 @@
     "MD060": false  // table-column-style: corpus tables are compact-pipe style
   }
 }
+
+# checkpoint: chore(verify): simplify verification controller
