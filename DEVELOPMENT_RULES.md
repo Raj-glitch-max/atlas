@@ -69,3 +69,5 @@ Editing `FROZEN.sha256` only to silence the integrity check is a violation.
 - The lab does not implement product code, design product architecture, choose technologies, or start product-management work.
 - Experiment logs are append-only. Static lab process docs are frozen through `scripts/frozen-docs.list`.
 - Evidence artifacts follow `lab/LAB_README.md` and `lab/EVIDENCE_INDEX.md`.
+
+<!-- checkpoint: rfc(attenuation-specification): refine attenuation specification -->
