@@ -185,3 +185,5 @@ An RFC moves through these states. Only the founder advances a state (`agents/ag
 - It does not freeze an RFC by its own motion; freeze is a separate founder act (DR10), as it is for every document in this workspace.
 
 <!-- checkpoint: planning(architecture-draft): audit architecture draft (#12) -->
+
+<!-- checkpoint: chore(issuance): clean test assertions (#95) -->
