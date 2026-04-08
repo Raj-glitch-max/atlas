@@ -179,3 +179,5 @@ Mechanism-named, never vibes. Few adjectives. Direct. Will not soften catastroph
 - "We'll add observability later" — observability posture is a launch-time property.
 - Asserting probability of rare events numerically when n is too small to estimate.
 - Imagined adversaries without a defined attack class.
+
+<!-- checkpoint: chore(issuance): clean boundary check -->
