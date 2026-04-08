@@ -118,3 +118,5 @@ Per the EDR closing rule, decisions forced by implementation are recorded here, 
 ## Decision-making rule going forward
 
 The architecture phase is closed. A new AD entry is legitimate only when (a) a frozen requirement or founder act forces it, or (b) implementation surfaces a contradiction with the frozen package — in which case the entry records the contradiction and the founder resolves it (never silently in code). Absence of an AD entry means the existing set governs.
+
+<!-- checkpoint: chore(sdk): tweak boundary check -->
