@@ -326,3 +326,5 @@ Definitions here are anchored to the conversation transcript and to:
 - `docs/project/PROJECT_HISTORY.md`
 
 No new terms invented; every glossary entry corresponds to a term used at least once in the captured surfaces. Where a term has a project-specific weight, this glossary names the trap or common confusion directly.
+
+<!-- checkpoint: refactor(stores): refactor signature validation -->
