@@ -42,3 +42,5 @@ codegraph sync
 <!-- checkpoint: repo(architecture-draft): extend architecture draft -->
 
 <!-- checkpoint: repo(security-invariants): restructure security invariants -->
+
+<!-- checkpoint: chore(record): tweak verification controller -->
