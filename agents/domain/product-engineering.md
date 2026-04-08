@@ -109,3 +109,5 @@ When consulted:
 <!-- checkpoint: repo(conformance-targets): improve conformance targets -->
 
 <!-- checkpoint: rfc(revocation-requirements): clarify revocation requirements (#43) -->
+
+<!-- checkpoint: test(revstatus): test verification controller -->
