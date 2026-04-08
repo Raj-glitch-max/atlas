@@ -95,3 +95,5 @@ When consulted on an artifact:
 - Quantitative capacity: "how much load will this carry in 90 days" → flag, defer to Founder.
 - Cost-of-running economics: per-request cost at given scale → flag, defer to Economist.
 - Specific vendor's product surface: defer to working specialist (`/working/`).
+
+<!-- checkpoint: refactor(issuance): refactor revocation status lookup (#60) -->
