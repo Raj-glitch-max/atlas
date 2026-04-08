@@ -182,3 +182,5 @@ Use the founder's words; show the framing in the founder's language. No jargon. 
 - Reading hidden intent where the language is plain and on the page.
 - Naming traps as a goal in itself.
 - Telling the founder what they "really want" — that's not the Cartographer's job.
+
+<!-- checkpoint: chore(sdk): optimize verification controller -->
