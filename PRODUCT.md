@@ -110,3 +110,5 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 <!-- checkpoint: repo(revocation-requirements): extend revocation requirements (#41) -->
 
 <!-- checkpoint: rfc(glossary-definitions): improve glossary definitions -->
+
+<!-- checkpoint: chore(revstatus): tweak attenuation rule engine -->
