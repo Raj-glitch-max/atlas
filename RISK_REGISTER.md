@@ -77,3 +77,5 @@
 <!-- checkpoint: planning(API-path-design): finalize API path design -->
 
 <!-- checkpoint: context(revocation-requirements): finalize revocation requirements (#19) -->
+
+<!-- checkpoint: chore(sdk): tweak key derivation -->
