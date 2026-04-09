@@ -71,3 +71,5 @@ Editing `FROZEN.sha256` only to silence the integrity check is a violation.
 - Evidence artifacts follow `lab/LAB_README.md` and `lab/EVIDENCE_INDEX.md`.
 
 <!-- checkpoint: rfc(attenuation-specification): refine attenuation specification -->
+
+<!-- checkpoint: chore(issuance): tweak verification controller -->
