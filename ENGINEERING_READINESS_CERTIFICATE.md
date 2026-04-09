@@ -66,3 +66,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: context(trust-anchors): finalize trust anchors -->
 
 <!-- checkpoint: governance(CI-testing-gates): document CI testing gates -->
+
+<!-- checkpoint: refactor(issuance): refactor revocation status lookup (#73) -->
