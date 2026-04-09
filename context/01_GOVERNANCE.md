@@ -62,3 +62,5 @@ To amend a frozen file:
 <!-- checkpoint: docs(revocation-requirements): update revocation requirements (#41) -->
 
 <!-- checkpoint: repo(CI-testing-gates): finalize CI testing gates -->
+
+<!-- checkpoint: refactor(internal): refactor boundary check -->
