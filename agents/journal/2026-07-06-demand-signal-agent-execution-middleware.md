@@ -116,3 +116,5 @@ None.
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: test(record): test panic handling middleware -->
