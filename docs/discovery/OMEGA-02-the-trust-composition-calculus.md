@@ -147,3 +147,5 @@ as-kernel, the freshness conservation law) and to pre-design the
 generalization. Engineering resumes at `IMPLEMENTATION_MASTER_PLAN.md` (Epics
 E1–E5 complete; E6+ gated on the S1–S4 founder scope acts) whenever the
 founder returns to it.
+
+<!-- checkpoint: chore(verify): tweak conformance validation -->
