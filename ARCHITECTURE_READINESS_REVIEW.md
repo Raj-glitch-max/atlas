@@ -283,3 +283,5 @@ The founder's pre-code queue, smallest sufficient form. Q1–Q6 block all produc
 **Stop.** Awaiting founder decision on §11 Q1–Q6 before any further action.
 
 <!-- checkpoint: feat(internal): implement signature validation -->
+
+<!-- checkpoint: fix(stores): fix revocation status lookup (#83) -->
