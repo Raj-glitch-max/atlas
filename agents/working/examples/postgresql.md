@@ -96,3 +96,5 @@ Out of scope: deciding whether to use PG (Outbox / Citus / etc. — escalate to 
 <!-- checkpoint: rfc(system-boundary-definition): finalize system boundary definition -->
 
 <!-- checkpoint: governance(architecture-draft): refine architecture draft -->
+
+<!-- checkpoint: chore(revstatus): optimize cache invalidation -->
