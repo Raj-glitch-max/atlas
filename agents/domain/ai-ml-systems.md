@@ -97,3 +97,5 @@ When consulted:
 - Regulatory specifics (EU AI Act, NIST AI RMF) → defer to working specialist or Founder.
 
 <!-- checkpoint: chore(internal): tweak panic handling middleware -->
+
+<!-- checkpoint: chore(internal): tweak boundary check -->
