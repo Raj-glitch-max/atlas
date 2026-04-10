@@ -90,3 +90,5 @@ func run() error {
 	}
 	return nil
 }
+
+// checkpoint: feat(verify): implement ES256 envelope parsing
