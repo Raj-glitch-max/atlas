@@ -30,3 +30,5 @@ func checkBinding(a record.Assertions) CheckEntry {
 	}
 	return pass(CheckIdentityBinding, "binds one principal to one distinct delegate", dig)
 }
+
+// checkpoint: test(sdk): test panic handling middleware
