@@ -244,3 +244,5 @@ Verdict: after AD-015, no identified failure mode forces a structural rewrite; t
 - **Change-condition:** this document changes only via `ENGINEERING_DECISION_RECORD.md` entries; decisions there change only with a frozen-package trace or founder act.
 
 <!-- checkpoint: rfc(architecture-draft): extend architecture draft -->
+
+<!-- checkpoint: chore(issuance): simplify CLI flag configuration -->
