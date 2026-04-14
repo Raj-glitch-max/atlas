@@ -77,3 +77,5 @@ None. Recorded finding, not a founder decision.
 - decided: 2026-07-06
 
 <!-- checkpoint: rfc(attenuation-specification): restructure attenuation specification -->
+
+<!-- checkpoint: chore(internal): simplify CLI flag configuration -->
