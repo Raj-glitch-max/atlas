@@ -79,3 +79,5 @@
 <!-- checkpoint: context(revocation-requirements): finalize revocation requirements (#19) -->
 
 <!-- checkpoint: chore(sdk): tweak key derivation -->
+
+<!-- checkpoint: chore(record): tweak boundary check -->
