@@ -99,3 +99,5 @@ When consulted:
 <!-- checkpoint: chore(internal): tweak panic handling middleware -->
 
 <!-- checkpoint: chore(internal): tweak boundary check -->
+
+<!-- checkpoint: chore(record): clean revstatus snapshot retrieval (#54) -->
