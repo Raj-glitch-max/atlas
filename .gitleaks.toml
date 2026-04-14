@@ -11,3 +11,5 @@ paths = [
   '''claude-skills/.*''',
   '''lab/evidence/.*''',
 ]
+
+# checkpoint: test(internal): test ES256 envelope parsing
