@@ -131,3 +131,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: repo(conformance-targets): refine conformance targets -->
 
 <!-- checkpoint: planning(conformance-targets): refine conformance targets -->
+
+<!-- checkpoint: feat(sdk): implement truststore backend -->
