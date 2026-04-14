@@ -70,3 +70,5 @@ Three paths; pick one. None requires touching the frozen package or the current 
 No file was deleted, no code rewritten, no plan altered, no frozen document touched — despite the originating prompt granting authority to do all of it. The technically-justified conclusion (§5) is that destruction fails the founder's own four tests; performing it would be sunk-cost reasoning in reverse (destroying value to look bold). The honest, higher-value act was to find that Atlas is a *correct subset* of a larger primitive and to price the cheapest way to keep the larger door open. Engineering continues at `IMPLEMENTATION_MASTER_PLAN.md` Epic E3 pending the founder's §6 selection.
 
 <!-- checkpoint: fix(stores): fix signature validation -->
+
+<!-- checkpoint: feat(record): add verification controller -->
