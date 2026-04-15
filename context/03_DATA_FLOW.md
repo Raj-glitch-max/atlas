@@ -109,3 +109,5 @@ Founder Input (artifact / question)
 <!-- checkpoint: rfc(architecture-draft): clarify architecture draft -->
 
 <!-- checkpoint: fix(record): fix boundary check -->
+
+<!-- checkpoint: test(internal): test revstatus snapshot retrieval -->
