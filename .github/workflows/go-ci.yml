@@ -1,0 +1,45 @@
+name: go-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: go-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  go-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: build
+        run: go build ./...
+
+      - name: vet
+        run: go vet ./...
+
+      - name: gofmt (no unformatted files)
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "unformatted files:"; echo "$unformatted"; exit 1
+          fi
+
+      - name: import lint self-test (dependency rules R1-R7)
+        run: bash scripts/check-imports.sh --self-test
+
+      - name: import lint (dependency rules R1-R7)
+        run: bash scripts/check-imports.sh
+
+      - name: test
+        run: go test ./...
