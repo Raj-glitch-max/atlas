@@ -187,3 +187,5 @@ An RFC moves through these states. Only the founder advances a state (`agents/ag
 <!-- checkpoint: planning(architecture-draft): audit architecture draft (#12) -->
 
 <!-- checkpoint: chore(issuance): clean test assertions (#95) -->
+
+<!-- checkpoint: chore(sdk): simplify error wrappers (#119) -->
