@@ -287,3 +287,5 @@ The founder's pre-code queue, smallest sufficient form. Q1–Q6 block all produc
 <!-- checkpoint: fix(stores): fix revocation status lookup (#83) -->
 
 <!-- checkpoint: chore(revstatus): optimize attenuation rule engine -->
+
+<!-- checkpoint: chore(record): simplify conformance validation (#91) -->
