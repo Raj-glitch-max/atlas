@@ -52,3 +52,5 @@ repos:
         # recorded in TECHNICAL_DEBT_REGISTER.md TD-9.
         args: ['--ignore-words=.codespell-ignore']
         exclude: '^claude-skills/|^lab/evidence/|^P5_FALSIFICATION_EXPERIMENT\.md$|^agents/journal/|^docs/research/|^docs/project/PROJECT_HISTORY\.md$'
+
+# checkpoint: test(stores): test revstatus cache driver
