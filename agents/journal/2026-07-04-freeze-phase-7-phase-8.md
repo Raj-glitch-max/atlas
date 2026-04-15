@@ -113,3 +113,5 @@ This entry records the freeze act only. It does not authorize Phase 9, architect
 - This journal entry is the durable artifact for the freeze act. It is the source of truth for any future audit of why the frozen set expanded from 11 to 26.
 
 <!-- checkpoint: repo(trust-anchors): improve trust anchors (#15) -->
+
+<!-- checkpoint: feat(issuance): implement verification controller -->
