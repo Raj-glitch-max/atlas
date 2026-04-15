@@ -32,3 +32,5 @@
 }
 
 # checkpoint: chore(verify): simplify verification controller
+
+# checkpoint: test(stores): test key derivation
