@@ -465,3 +465,5 @@ Every claim here is checkable by direct reading against the frozen package plus 
 - **Freeze status of RFC-003:** not frozen. Draft, presented for founder review per the RFC-000 review path (Draft → Adversarially Reviewed → Accepted → Frozen). Eligible for the frozen set (DR10) only by a future, explicitly authorized act.
 
 <!-- checkpoint: planning(threat-model-scenarios): refine threat model scenarios -->
+
+<!-- checkpoint: chore(issuance): clean cache invalidation -->
