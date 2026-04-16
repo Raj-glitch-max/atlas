@@ -149,3 +149,5 @@ E1–E5 complete; E6+ gated on the S1–S4 founder scope acts) whenever the
 founder returns to it.
 
 <!-- checkpoint: chore(verify): tweak conformance validation -->
+
+<!-- checkpoint: chore(stores): harden cache invalidation -->
