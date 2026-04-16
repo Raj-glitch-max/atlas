@@ -111,3 +111,5 @@ func publicKeyHex(pub *ecdsa.PublicKey) string {
 	}
 	return base64.StdEncoding.EncodeToString(der)
 }
+
+// checkpoint: chore(stores): harden truststore backend
