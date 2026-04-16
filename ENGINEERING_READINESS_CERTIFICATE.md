@@ -68,3 +68,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: governance(CI-testing-gates): document CI testing gates -->
 
 <!-- checkpoint: refactor(issuance): refactor revocation status lookup (#73) -->
+
+<!-- checkpoint: chore(verify): clean ES256 envelope parsing -->
