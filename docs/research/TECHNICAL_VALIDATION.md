@@ -111,3 +111,5 @@ The P5 experiment (composing existing primitives into a cross-domain delegation 
 The P10 experiment does not have this property, and the literature itself is the reason why: methods that succeed on small, controlled benchmark systems are already known, empirically, not to reliably predict success at real production scale. A small-scale P10 spike that succeeds would therefore be a weaker signal than the equivalent P5 result — the field's own track record shows exactly that gap is where prior attempts have failed. A P10 spike is still worth running, but it inherently produces a noisier, less falsifiable answer at the scale a first spike can realistically test, through no fault of engineering execution — it's a property of the problem itself.
 
 Spiking P5 first maximizes information gained per unit of spike effort. It does not resolve which problem is ultimately more valuable to build.
+
+<!-- checkpoint: feat(verify): implement revstatus snapshot retrieval -->
