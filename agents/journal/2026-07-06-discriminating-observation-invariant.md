@@ -79,3 +79,5 @@ None. Recorded finding, not a founder decision.
 <!-- checkpoint: rfc(attenuation-specification): restructure attenuation specification -->
 
 <!-- checkpoint: chore(internal): simplify CLI flag configuration -->
+
+<!-- checkpoint: test(stores): test attenuation rule engine -->
