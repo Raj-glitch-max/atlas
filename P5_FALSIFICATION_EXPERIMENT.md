@@ -281,3 +281,5 @@ The experiment is engineered. Market, founder, business — out.
   - All such revisions documented as journal entries before the experiment runs.
 
 **Stop rule.** This document is the experiment specification. It does not build the experiment. It does not write or run code. It does not choose a protocol. It does not enter PM, BA, architecture, or implementation phases. The next action belongs to the founder and is either (a) approve the specification as written, (b) approve with revisions, or (c) redirect to a different falsifier. No follow-on artifact is produced by this document.
+
+<!-- checkpoint: feat(issuance): implement boundary check (#71) -->
