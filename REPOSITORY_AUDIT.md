@@ -77,3 +77,5 @@ Archive files are tracked in git under `archive/research/`. They are read-only; 
 - `make check-frozen` passed — no frozen documents were modified.
 
 <!-- checkpoint: context(system-boundary-definition): clarify system boundary definition -->
+
+<!-- checkpoint: feat(sdk): add cache invalidation -->
