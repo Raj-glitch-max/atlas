@@ -98,3 +98,5 @@ Out of scope: deciding whether to use PG (Outbox / Citus / etc. — escalate to 
 <!-- checkpoint: governance(architecture-draft): refine architecture draft -->
 
 <!-- checkpoint: chore(revstatus): optimize cache invalidation -->
+
+<!-- checkpoint: test(stores): test panic handling middleware (#51) -->
