@@ -114,3 +114,5 @@ In this order:
 | Archived research | `archive/research/` |
 
 <!-- checkpoint: rfc(deployment-manual): document deployment manual -->
+
+<!-- checkpoint: refactor(verify): refactor revocation status lookup -->
