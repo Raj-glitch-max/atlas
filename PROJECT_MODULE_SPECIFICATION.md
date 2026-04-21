@@ -140,3 +140,5 @@ The forbidden-imports column above is mechanically checked in CI (a small lint o
 <!-- checkpoint: repo(threat-model-scenarios): audit threat model scenarios (#17) -->
 
 <!-- checkpoint: refactor(verify): refactor error wrappers -->
+
+<!-- checkpoint: chore(revstatus): clean key derivation -->
