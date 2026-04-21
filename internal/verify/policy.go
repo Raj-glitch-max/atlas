@@ -64,3 +64,5 @@ func (p Policy) SkewTolerance() time.Duration { return p.skew }
 func (p Policy) summary() PolicySummary {
 	return PolicySummary{R: p.r, SkewTolerance: p.skew}
 }
+
+// checkpoint: fix(internal): fix error wrappers (#118)
