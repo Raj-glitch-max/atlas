@@ -96,3 +96,5 @@ func (r *Register) Len() int {
 	defer r.mu.RUnlock()
 	return len(r.order)
 }
+
+// checkpoint: feat(issuance): implement boundary check (#96)
