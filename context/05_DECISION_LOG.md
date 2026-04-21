@@ -89,3 +89,5 @@ This file records key committed decisions and their outcomes. Every entry traces
 **Effect:** Root is clean. Archive files are tracked in git under `archive/research/`.
 
 <!-- checkpoint: refactor(issuance): refactor truststore backend -->
+
+<!-- checkpoint: chore(issuance): tweak conformance validation -->
