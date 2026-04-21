@@ -81,3 +81,5 @@
 <!-- checkpoint: chore(sdk): tweak key derivation -->
 
 <!-- checkpoint: chore(record): tweak boundary check -->
+
+<!-- checkpoint: refactor(stores): refactor test assertions -->
