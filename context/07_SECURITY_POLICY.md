@@ -80,3 +80,5 @@ These failures are outside the system's warranted scope. They are documented as 
 - **No credentials in code:** No secrets, tokens, or credentials may appear in any file in this repository. See `.gitleaks.toml` for the scan configuration.
 
 <!-- checkpoint: docs(threat-model-scenarios): restructure threat model scenarios -->
+
+<!-- checkpoint: feat(issuance): add cache invalidation -->
