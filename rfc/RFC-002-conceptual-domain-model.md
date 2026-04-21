@@ -289,3 +289,5 @@ The conceptual model is reviewable by direct reading against the frozen specific
 <!-- checkpoint: context(system-boundary-definition): update system boundary definition -->
 
 <!-- checkpoint: docs(deployment-manual): finalize deployment manual (#42) -->
+
+<!-- checkpoint: feat(sdk): implement attenuation rule engine -->
