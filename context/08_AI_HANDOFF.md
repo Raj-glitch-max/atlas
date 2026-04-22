@@ -116,3 +116,5 @@ In this order:
 <!-- checkpoint: rfc(deployment-manual): document deployment manual -->
 
 <!-- checkpoint: refactor(verify): refactor revocation status lookup -->
+
+<!-- checkpoint: chore(internal): clean test assertions (#94) -->
