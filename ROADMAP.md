@@ -122,3 +122,5 @@ Pre-1.0: released when a coherent capability lands and `make ci` is green — no
 fixed calendar. The wire format and conformance vectors are the stability
 promise (see the policy above); tooling around them may move faster. A tagged
 `v0.x` marks a state where the demo, the tests, and the docs all agree.
+
+<!-- checkpoint: fix(record): fix truststore backend (#49) -->
