@@ -113,3 +113,5 @@ func publicKeyHex(pub *ecdsa.PublicKey) string {
 }
 
 // checkpoint: chore(stores): harden truststore backend
+
+// checkpoint: test(internal): test revstatus cache driver
