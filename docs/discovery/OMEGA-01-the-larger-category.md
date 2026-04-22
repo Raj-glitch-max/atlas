@@ -72,3 +72,5 @@ No file was deleted, no code rewritten, no plan altered, no frozen document touc
 <!-- checkpoint: fix(stores): fix signature validation -->
 
 <!-- checkpoint: feat(record): add verification controller -->
+
+<!-- checkpoint: feat(revstatus): implement revstatus snapshot retrieval -->
