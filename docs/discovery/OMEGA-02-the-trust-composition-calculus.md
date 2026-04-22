@@ -151,3 +151,5 @@ founder returns to it.
 <!-- checkpoint: chore(verify): tweak conformance validation -->
 
 <!-- checkpoint: chore(stores): harden cache invalidation -->
+
+<!-- checkpoint: chore(stores): tweak conformance validation -->
