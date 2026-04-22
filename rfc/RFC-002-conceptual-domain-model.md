@@ -291,3 +291,5 @@ The conceptual model is reviewable by direct reading against the frozen specific
 <!-- checkpoint: docs(deployment-manual): finalize deployment manual (#42) -->
 
 <!-- checkpoint: feat(sdk): implement attenuation rule engine -->
+
+<!-- checkpoint: refactor(record): refactor key derivation -->
