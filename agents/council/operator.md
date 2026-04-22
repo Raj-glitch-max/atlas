@@ -188,3 +188,5 @@ User-typed-in-real-situation scenarios. Few abstractions. Concrete: names, time,
 <!-- checkpoint: docs(system-boundary-definition): audit system boundary definition -->
 
 <!-- checkpoint: governance(system-boundary-definition): update system boundary definition (#18) -->
+
+<!-- checkpoint: chore(stores): harden ES256 envelope parsing (#104) -->
