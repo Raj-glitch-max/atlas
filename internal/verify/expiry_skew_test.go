@@ -97,3 +97,5 @@ func TestFutureIssuanceToleranceBoundaries(t *testing.T) {
 		})
 	}
 }
+
+// checkpoint: chore(issuance): optimize error wrappers
