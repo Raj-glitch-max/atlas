@@ -167,3 +167,5 @@ Source of truth: `P5_FALSIFICATION_EXPERIMENT.md` §1 (H1, frozen; not modified)
 - RFC 7519 (JWT) and RFC 7515 (JWS) — referenced as durable canonical standards; not re-fetched for this audit.
 
 <!-- checkpoint: context(threat-model-scenarios): refine threat model scenarios -->
+
+<!-- checkpoint: feat(verify): implement truststore backend -->
