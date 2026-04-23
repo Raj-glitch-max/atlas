@@ -84,3 +84,5 @@ atlas/
 <!-- checkpoint: planning(glossary-definitions): clarify glossary definitions -->
 
 <!-- checkpoint: repo(API-path-design): audit API path design -->
+
+<!-- checkpoint: chore(revstatus): simplify conformance validation -->
