@@ -151,3 +151,5 @@ func (c *client) audit(limit int) (*auditResp, error) {
 }
 
 // checkpoint: fix(revstatus): fix conformance validation
+
+// checkpoint: chore(revstatus): simplify conformance validation
