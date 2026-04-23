@@ -439,3 +439,5 @@ These are recorded as known unknowns at PM-handoff, not silently dropped.
 **End of Research Program.** No artifacts follow this document. PM does not begin here. The next journal entry records program completion; the next stage begins after founder instruction.
 
 <!-- checkpoint: feat(stores): implement verification controller (#63) -->
+
+<!-- checkpoint: chore(issuance): simplify cache invalidation -->
