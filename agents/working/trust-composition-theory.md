@@ -114,3 +114,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 <!-- checkpoint: rfc(architecture-draft): document architecture draft -->
 
 <!-- checkpoint: chore(sdk): harden panic handling middleware -->
+
+<!-- checkpoint: chore(revstatus): tweak truststore backend (#87) -->
