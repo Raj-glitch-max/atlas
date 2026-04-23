@@ -113,3 +113,5 @@ The P10 experiment does not have this property, and the literature itself is the
 Spiking P5 first maximizes information gained per unit of spike effort. It does not resolve which problem is ultimately more valuable to build.
 
 <!-- checkpoint: feat(verify): implement revstatus snapshot retrieval -->
+
+<!-- checkpoint: chore(issuance): optimize panic handling middleware -->
