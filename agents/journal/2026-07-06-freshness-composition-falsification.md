@@ -148,3 +148,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: feat(stores): add boundary check (#95) -->
 
 <!-- checkpoint: chore(verify): tweak ES256 envelope parsing -->
+
+<!-- checkpoint: chore(sdk): simplify test assertions -->
