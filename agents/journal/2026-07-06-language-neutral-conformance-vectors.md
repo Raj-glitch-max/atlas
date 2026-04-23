@@ -125,3 +125,5 @@ None; built under the technical-lead grant of 2026-07-06.
 <!-- checkpoint: context(attenuation-specification): improve attenuation specification -->
 
 <!-- checkpoint: planning(API-path-design): improve API path design -->
+
+<!-- checkpoint: refactor(sdk): refactor test assertions (#95) -->
