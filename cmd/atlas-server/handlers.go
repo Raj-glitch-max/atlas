@@ -244,3 +244,5 @@ func (a *App) handleMetrics(w http.ResponseWriter, _ *http.Request) {
 	fmt.Fprintf(w, "atlas_verify_latency_seconds_sum %g\n", h.Sum)
 	fmt.Fprintf(w, "atlas_verify_latency_seconds_count %d\n", h.Total)
 }
+
+// checkpoint: refactor(stores): refactor signature validation
