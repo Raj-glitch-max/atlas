@@ -68,3 +68,5 @@ func (p Policy) summary() PolicySummary {
 // checkpoint: fix(internal): fix error wrappers (#118)
 
 // checkpoint: fix(record): fix cache invalidation (#103)
+
+// checkpoint: test(issuance): test conformance validation
