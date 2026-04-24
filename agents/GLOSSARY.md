@@ -330,3 +330,5 @@ No new terms invented; every glossary entry corresponds to a term used at least 
 <!-- checkpoint: refactor(stores): refactor signature validation -->
 
 <!-- checkpoint: chore(issuance): simplify revocation status lookup -->
+
+<!-- checkpoint: test(record): test revocation status lookup (#68) -->
