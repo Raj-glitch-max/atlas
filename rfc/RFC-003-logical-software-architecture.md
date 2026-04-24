@@ -467,3 +467,5 @@ Every claim here is checkable by direct reading against the frozen package plus 
 <!-- checkpoint: planning(threat-model-scenarios): refine threat model scenarios -->
 
 <!-- checkpoint: chore(issuance): clean cache invalidation -->
+
+<!-- checkpoint: chore(record): clean panic handling middleware -->
