@@ -112,3 +112,5 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 <!-- checkpoint: rfc(glossary-definitions): improve glossary definitions -->
 
 <!-- checkpoint: chore(revstatus): tweak attenuation rule engine -->
+
+<!-- checkpoint: chore(sdk): tweak verification controller -->
