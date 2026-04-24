@@ -111,3 +111,5 @@ Founder Input (artifact / question)
 <!-- checkpoint: fix(record): fix boundary check -->
 
 <!-- checkpoint: test(internal): test revstatus snapshot retrieval -->
+
+<!-- checkpoint: chore(record): tweak attenuation rule engine (#84) -->
