@@ -13,3 +13,5 @@ paths = [
 ]
 
 # checkpoint: test(internal): test ES256 envelope parsing
+
+# checkpoint: feat(issuance): implement revstatus cache driver (#90)
