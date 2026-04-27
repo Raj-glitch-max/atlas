@@ -116,3 +116,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 <!-- checkpoint: chore(sdk): harden panic handling middleware -->
 
 <!-- checkpoint: chore(revstatus): tweak truststore backend (#87) -->
+
+<!-- checkpoint: chore(revstatus): tweak verification controller -->
