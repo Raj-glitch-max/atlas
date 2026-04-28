@@ -131,3 +131,5 @@ This is the only problem where the council directly challenged the core *technic
 ## What this reduction does and does not claim
 
 It does not claim P5 or P10 will succeed — both carry named, unresolved risks (P5: solo-shippability of security-critical software; P10: an explicitly unverified core technical premise). It does not claim the seven Tier C problems are bad engineering topics in the abstract — several (P1, P3) have strong evidence bases; they were rejected on structural grounds (dependency on uncontrollable market shifts, category-vs-feature risk), not on weak pain evidence. And it does not choose between P5 and P10 — both are recommended for immediate, bounded research specifically because each has a cheap, falsifiable next test defined in the Decision Brief, and running those two tests is what would actually produce the evidence an investment committee needs to choose one product.
+
+<!-- checkpoint: test(internal): test panic handling middleware -->
