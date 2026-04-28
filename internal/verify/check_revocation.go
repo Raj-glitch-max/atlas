@@ -65,3 +65,5 @@ func checkRevocation(instance record.InstanceID, status RevocationStatus, now ti
 }
 
 // checkpoint: fix(stores): fix CLI flag configuration
+
+// checkpoint: feat(verify): add conformance validation
