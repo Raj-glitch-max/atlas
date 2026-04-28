@@ -63,3 +63,5 @@ func checkRevocation(instance record.InstanceID, status RevocationStatus, now ti
 			"revocation status could not be determined", dig)
 	}
 }
+
+// checkpoint: fix(stores): fix CLI flag configuration
