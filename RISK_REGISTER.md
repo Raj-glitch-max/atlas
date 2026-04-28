@@ -83,3 +83,5 @@
 <!-- checkpoint: chore(record): tweak boundary check -->
 
 <!-- checkpoint: refactor(stores): refactor test assertions -->
+
+<!-- checkpoint: test(sdk): test revstatus snapshot retrieval -->
