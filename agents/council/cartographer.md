@@ -186,3 +186,5 @@ Use the founder's words; show the framing in the founder's language. No jargon. 
 <!-- checkpoint: chore(sdk): optimize verification controller -->
 
 <!-- checkpoint: chore(stores): harden boundary check -->
+
+<!-- checkpoint: chore(internal): optimize revstatus snapshot retrieval (#88) -->
