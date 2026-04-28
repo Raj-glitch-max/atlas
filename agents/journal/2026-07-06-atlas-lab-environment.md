@@ -133,3 +133,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: planning(conformance-targets): refine conformance targets -->
 
 <!-- checkpoint: feat(sdk): implement truststore backend -->
+
+<!-- checkpoint: fix(issuance): fix CLI flag configuration -->
