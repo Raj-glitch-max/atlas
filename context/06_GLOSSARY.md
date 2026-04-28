@@ -102,3 +102,5 @@ The core ranking metric of the Problem Ranking Framework. Computed as: Opportuni
 A mandatory filter in the Problem Ranking Framework: a problem must score ≥ 2 on Evidence Quality (A1), ≥ 1 on Frequency (A2), and ≥ 1 on Severity (A3) to proceed to council review. All 10 R1 problems passed.
 
 <!-- checkpoint: feat(stores): implement key derivation -->
+
+<!-- checkpoint: chore(stores): simplify verification controller -->
