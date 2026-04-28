@@ -181,3 +181,5 @@ Mechanism-named, never vibes. Few adjectives. Direct. Will not soften catastroph
 - Imagined adversaries without a defined attack class.
 
 <!-- checkpoint: chore(issuance): clean boundary check -->
+
+<!-- checkpoint: chore(sdk): harden key derivation -->
