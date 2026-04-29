@@ -61,3 +61,5 @@ Repayment of any ED item requires a frozen-package amendment or founder scope ac
 Unscheduled debt discovered during implementation is not silently absorbed: it gets a register entry and either a trigger or an escalation to the founder — the same rule as `ENGINEERING_DECISION_RECORD.md`'s closing rule.
 
 <!-- checkpoint: rfc(attenuation-specification): clarify attenuation specification -->
+
+<!-- checkpoint: refactor(stores): refactor attenuation rule engine -->
