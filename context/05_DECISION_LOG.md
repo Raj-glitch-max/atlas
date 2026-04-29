@@ -91,3 +91,5 @@ This file records key committed decisions and their outcomes. Every entry traces
 <!-- checkpoint: refactor(issuance): refactor truststore backend -->
 
 <!-- checkpoint: chore(issuance): tweak conformance validation -->
+
+<!-- checkpoint: chore(issuance): harden test assertions -->
