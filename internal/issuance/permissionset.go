@@ -55,3 +55,5 @@ func (s PermissionSet) isProperSupersetOf(scope []string) bool {
 	// Strict: the scope must be smaller than the full permission set.
 	return len(distinct) < s.Len()
 }
+
+// checkpoint: feat(issuance): add boundary check (#60)
