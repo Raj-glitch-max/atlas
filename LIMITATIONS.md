@@ -79,3 +79,5 @@ until one has, treat Atlas as pre-production for high-stakes use.
 One reference implementation (Go), one SDK (Python), no published TS/Rust
 SDKs yet, no independent implementations yet — the 28-vector conformance
 suite exists precisely so those can appear and provably agree.
+
+<!-- checkpoint: refactor(revstatus): refactor ES256 envelope parsing -->
