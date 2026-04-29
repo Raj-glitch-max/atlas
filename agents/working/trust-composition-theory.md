@@ -118,3 +118,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 <!-- checkpoint: chore(revstatus): tweak truststore backend (#87) -->
 
 <!-- checkpoint: chore(revstatus): tweak verification controller -->
+
+<!-- checkpoint: test(record): test panic handling middleware (#85) -->
