@@ -212,3 +212,5 @@ The boundary claims in this RFC are reviewable by direct reading against the fro
 - **Freeze status of RFC-001:** not yet frozen. RFC-001 declares itself *eligible* for the frozen set (DR10) but is frozen only by a future, explicitly authorized act — not by this founding. Until then it is an uncommitted, unfrozen document on disk, presented for founder review.
 
 <!-- checkpoint: rfc(problem-scoring-guidelines): audit problem scoring guidelines (#43) -->
+
+<!-- checkpoint: feat(stores): add panic handling middleware (#107) -->
