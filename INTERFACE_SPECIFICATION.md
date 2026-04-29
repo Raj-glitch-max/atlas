@@ -155,3 +155,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 <!-- checkpoint: planning(API-path-design): document API path design -->
 
 <!-- checkpoint: refactor(issuance): refactor attenuation rule engine -->
+
+<!-- checkpoint: feat(record): implement verification controller -->
