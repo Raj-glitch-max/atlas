@@ -154,3 +154,5 @@ atlas/
 4. **Tests live with their module; acceptance tests live at the boundary.** Unit tests exercise package surfaces; `tests/acceptance/` exercises the AT plan's stated test loci through drivers/fakes and never reaches into internals — mirroring SO8's reviewer, who has spec + build, not source-level privilege.
 5. **Skips carry blockers, not TODOs.** A substrate- or scope-act-blocked AT compiles and skips with the named blocker (`S1-scope-act`, `substrate`, `spike-outcome`) so `IMPLEMENTATION_ORDER.md`'s unblock map stays executable and nothing rots silently.
 6. **`scripts/check-imports.sh` is the architecture's teeth.** The forbidden-import tables in `PROJECT_MODULE_SPECIFICATION.md` fail the build when violated; the dependency rules do not depend on reviewer vigilance.
+
+<!-- checkpoint: test(internal): test panic handling middleware -->
