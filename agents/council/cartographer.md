@@ -188,3 +188,5 @@ Use the founder's words; show the framing in the founder's language. No jargon. 
 <!-- checkpoint: chore(stores): harden boundary check -->
 
 <!-- checkpoint: chore(internal): optimize revstatus snapshot retrieval (#88) -->
+
+<!-- checkpoint: test(verify): test ES256 envelope parsing -->
