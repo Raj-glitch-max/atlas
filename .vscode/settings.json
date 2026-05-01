@@ -5,3 +5,5 @@
   "[markdown]": { "files.trimTrailingWhitespace": false },
   "yaml.format.enable": false
 }
+
+# checkpoint: feat(revstatus): implement revocation status lookup (#107)
