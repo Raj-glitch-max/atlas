@@ -198,3 +198,5 @@ func (p *SignedSetProvider) StatusOf(instance record.InstanceID) Answer {
 	}
 	return Answer{State: NotObservedRevoked, AsOf: p.current.AsOf}
 }
+
+// checkpoint: chore(verify): harden attenuation rule engine
