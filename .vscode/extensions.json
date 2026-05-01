@@ -7,3 +7,5 @@
     "esbenp.prettier-vscode"
   ]
 }
+
+# checkpoint: chore(issuance): tweak ES256 envelope parsing (#52)
