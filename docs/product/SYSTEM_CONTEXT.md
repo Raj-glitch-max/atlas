@@ -26,3 +26,5 @@ Defines the external boundary of the product: what surrounds it and interacts wi
 - Issuance of base workload identity (SPIFFE/SPIRE's role, not this product's — `CONSTRAINTS.md`, C1).
 - Any policy-decision logic about *what* a delegate should be allowed to do (a relying party or policy engine's role — this product proves *that* a delegation exists and its stated scope, not whether the scope should be granted).
 - Any UI, developer tooling, or integration surface (all deferred per `DEFERRED.md`).
+
+<!-- checkpoint: refactor(record): refactor revstatus cache driver -->
