@@ -24,3 +24,5 @@ This statement is the same core technical hypothesis validated in `TECHNICAL_VAL
 ## How to read this package
 
 Every requirement in `FUNCTIONAL_REQUIREMENTS.md` and `NON_FUNCTIONAL_REQUIREMENTS.md` is either (a) traceable to a specific prior document and finding, or (b) explicitly marked as a hypothesis where no such evidence exists. Nothing in this package should be read as re-opening or re-scoring any prior decision.
+
+<!-- checkpoint: feat(stores): add panic handling middleware (#105) -->
