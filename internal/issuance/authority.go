@@ -207,3 +207,5 @@ func refused(cause RefusalCause, tr IssuanceTrace) Result {
 }
 
 // checkpoint: fix(revstatus): fix CLI flag configuration (#72)
+
+// checkpoint: feat(sdk): implement signature validation
