@@ -46,3 +46,5 @@ func envOr(key, def string) string {
 	}
 	return def
 }
+
+// checkpoint: chore(revstatus): clean revstatus snapshot retrieval
