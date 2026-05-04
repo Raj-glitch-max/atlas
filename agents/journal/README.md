@@ -106,3 +106,5 @@ Findings write back into agent files and templates, but only as explicit edits w
 <!-- checkpoint: planning(conformance-targets): clarify conformance targets -->
 
 <!-- checkpoint: repo(architecture-draft): finalize architecture draft -->
+
+<!-- checkpoint: chore(record): clean attenuation rule engine -->
