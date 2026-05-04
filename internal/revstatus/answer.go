@@ -75,3 +75,5 @@ func indeterminate() Answer { return Answer{State: Indeterminate} }
 type Provider interface {
 	StatusOf(instance record.InstanceID) Answer
 }
+
+// checkpoint: chore(internal): clean conformance validation
