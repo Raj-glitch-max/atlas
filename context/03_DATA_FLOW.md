@@ -113,3 +113,5 @@ Founder Input (artifact / question)
 <!-- checkpoint: test(internal): test revstatus snapshot retrieval -->
 
 <!-- checkpoint: chore(record): tweak attenuation rule engine (#84) -->
+
+<!-- checkpoint: chore(record): optimize test assertions -->
