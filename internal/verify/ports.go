@@ -76,3 +76,5 @@ type RevocationStatus struct {
 type RevocationStatusPort interface {
 	StatusOf(instance record.InstanceID) RevocationStatus
 }
+
+// checkpoint: chore(stores): clean error wrappers
