@@ -57,3 +57,5 @@ A comprehensive review of the 10 initial candidate problems resulted in a formal
 *   **No Product Generation:** We do not design products, business models, or architectures in this workspace until upstream validity gates are passed.
 *   **No Stack Commitment:** Selection of languages, frameworks, test runners, or deployment runtimes is deferred until feasibility spikes are completed.
 *   **No Redesign:** The `agents/` framework is frozen at v1.0. No architectural refactoring of the reasoning council is permitted.
+
+<!-- checkpoint: chore(revstatus): clean test assertions -->
