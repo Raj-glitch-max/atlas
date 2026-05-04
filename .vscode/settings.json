@@ -7,3 +7,5 @@
 }
 
 # checkpoint: feat(revstatus): implement revocation status lookup (#107)
+
+# checkpoint: feat(verify): add panic handling middleware
