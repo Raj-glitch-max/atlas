@@ -28,3 +28,5 @@ No further action is required. No frozen-document amendment cycle will be initia
 This plan is closed. Repository organization is finalized.
 
 <!-- checkpoint: chore(revstatus): optimize revocation status lookup -->
+
+<!-- checkpoint: chore(issuance): optimize signature validation -->
