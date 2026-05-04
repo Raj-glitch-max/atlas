@@ -44,3 +44,5 @@ python3 sdk/python/smoke_test.py
 - Single file, no pip install, no third-party deps (uses `urllib`).
 - Atlas is **single-hop** by design — a principal → delegate grant verifiable
   across trust domains, not multi-hop re-delegation.
+
+<!-- checkpoint: feat(sdk): implement conformance validation (#114) -->
