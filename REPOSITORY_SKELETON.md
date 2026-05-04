@@ -156,3 +156,5 @@ atlas/
 6. **`scripts/check-imports.sh` is the architecture's teeth.** The forbidden-import tables in `PROJECT_MODULE_SPECIFICATION.md` fail the build when violated; the dependency rules do not depend on reviewer vigilance.
 
 <!-- checkpoint: test(internal): test panic handling middleware -->
+
+<!-- checkpoint: fix(sdk): fix revocation status lookup -->
