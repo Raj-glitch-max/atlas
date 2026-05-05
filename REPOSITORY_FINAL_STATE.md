@@ -244,3 +244,5 @@ Any other change to directory structure or root-level file placement is outside 
 ---
 
 *This document was produced as the final output of the Repository Information Architecture Review process (2026-07-05). It supersedes all prior repository structure decisions for the purposes of active engineering.*
+
+<!-- checkpoint: feat(sdk): add conformance validation -->
