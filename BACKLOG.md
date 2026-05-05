@@ -134,3 +134,5 @@ Nothing below is committed yet — decide what to keep.
 - **Awaiting you:** UI review/tuning; commit decisions; go-ahead to wire the verifier.
 
 <!-- checkpoint: rfc(API-path-design): refine API path design -->
+
+<!-- checkpoint: chore(internal): simplify test assertions -->
