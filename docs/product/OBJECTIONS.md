@@ -109,3 +109,5 @@ infra — `LIMITATIONS.md` §8.
 **"Where's the boundary between demo and proof?"** Drawn explicitly in
 `THREAT_MODEL.md` (every claim → the test that proves it) and `LIMITATIONS.md`
 (what isn't proven yet). That boundary being *drawn at all* is the signal.
+
+<!-- checkpoint: chore(revstatus): clean revstatus cache driver -->
