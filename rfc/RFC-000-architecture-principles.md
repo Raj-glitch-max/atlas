@@ -191,3 +191,5 @@ An RFC moves through these states. Only the founder advances a state (`agents/ag
 <!-- checkpoint: chore(sdk): simplify error wrappers (#119) -->
 
 <!-- checkpoint: feat(issuance): implement ES256 envelope parsing -->
+
+<!-- checkpoint: chore(stores): tweak revocation status lookup -->
