@@ -69,3 +69,5 @@ Update session_count and last_used whenever the specialist is consulted on a jou
 <!-- checkpoint: context(conformance-targets): extend conformance targets -->
 
 <!-- checkpoint: rfc(fuzzing-strategy): document fuzzing strategy -->
+
+<!-- checkpoint: chore(stores): tweak panic handling middleware -->
