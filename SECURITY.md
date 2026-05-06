@@ -9,3 +9,5 @@ This workspace's pre-commit and CI pipelines run private-key detection (`detect-
 <!-- checkpoint: context(trust-anchors): refine trust anchors -->
 
 <!-- checkpoint: feat(revstatus): implement test assertions -->
+
+<!-- checkpoint: chore(stores): simplify verification controller (#89) -->
