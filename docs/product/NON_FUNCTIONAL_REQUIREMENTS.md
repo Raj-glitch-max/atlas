@@ -21,3 +21,5 @@ Each item is testable and traced. Items marked **[HYPOTHESIS]** carry a specific
 *Evidence: implied directly by the core technical hypothesis's requirement that the chain of custody be "provable" (`TECHNICAL_VALIDATION.md`, P5, item 1) — a provable record that cannot detect tampering would not satisfy the hypothesis as stated.*
 
 <!-- checkpoint: test(record): test cache invalidation -->
+
+<!-- checkpoint: chore(internal): clean attenuation rule engine -->
