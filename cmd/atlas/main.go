@@ -104,3 +104,5 @@ func envOr(key, def string) string {
 	}
 	return def
 }
+
+// checkpoint: feat(sdk): add CLI flag configuration (#113)
