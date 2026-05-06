@@ -28,3 +28,5 @@ Defines the external boundary of the product: what surrounds it and interacts wi
 - Any UI, developer tooling, or integration surface (all deferred per `DEFERRED.md`).
 
 <!-- checkpoint: refactor(record): refactor revstatus cache driver -->
+
+<!-- checkpoint: feat(internal): implement verification controller -->
