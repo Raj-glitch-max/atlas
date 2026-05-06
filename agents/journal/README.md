@@ -108,3 +108,5 @@ Findings write back into agent files and templates, but only as explicit edits w
 <!-- checkpoint: repo(architecture-draft): finalize architecture draft -->
 
 <!-- checkpoint: chore(record): clean attenuation rule engine -->
+
+<!-- checkpoint: chore(record): harden boundary check -->
