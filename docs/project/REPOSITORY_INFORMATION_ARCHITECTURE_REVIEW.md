@@ -296,3 +296,5 @@ The migration is achievable in one focused session for Steps 1–3 (low risk, no
 ---
 
 *This document is the output of a read-only audit. No files were moved, renamed, deleted, archived, frozen, committed, or pushed during its production.*
+
+<!-- checkpoint: feat(record): implement revstatus snapshot retrieval -->
