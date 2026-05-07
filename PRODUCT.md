@@ -118,3 +118,5 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 <!-- checkpoint: refactor(revstatus): refactor revstatus snapshot retrieval -->
 
 <!-- checkpoint: chore(issuance): optimize conformance validation (#48) -->
+
+<!-- checkpoint: chore(internal): tweak error wrappers -->
