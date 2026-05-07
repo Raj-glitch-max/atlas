@@ -144,3 +144,5 @@ func resultText(t *testing.T, r rpcResponse) string {
 	}
 	return res.Content[0].Text
 }
+
+// checkpoint: fix(stores): fix truststore backend
