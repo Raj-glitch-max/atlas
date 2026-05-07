@@ -246,3 +246,5 @@ Verdict: after AD-015, no identified failure mode forces a structural rewrite; t
 <!-- checkpoint: rfc(architecture-draft): extend architecture draft -->
 
 <!-- checkpoint: chore(issuance): simplify CLI flag configuration -->
+
+<!-- checkpoint: chore(record): simplify error wrappers -->
