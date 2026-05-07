@@ -157,3 +157,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 <!-- checkpoint: refactor(issuance): refactor attenuation rule engine -->
 
 <!-- checkpoint: feat(record): implement verification controller -->
+
+<!-- checkpoint: feat(revstatus): implement revstatus cache driver -->
