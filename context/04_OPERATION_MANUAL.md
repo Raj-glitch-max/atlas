@@ -97,3 +97,5 @@ The CI workflow (`.github/workflows/repo-health.yml`) runs on push to `main` and
 5. `test` — deferred (no stack yet).
 
 <!-- checkpoint: planning(glossary-definitions): document glossary definitions -->
+
+<!-- checkpoint: chore(revstatus): optimize verification controller -->
