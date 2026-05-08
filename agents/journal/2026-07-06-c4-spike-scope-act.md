@@ -131,3 +131,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: governance(attenuation-specification): clarify attenuation specification -->
 
 <!-- checkpoint: context(threat-model-scenarios): audit threat model scenarios -->
+
+<!-- checkpoint: chore(stores): clean cache invalidation (#103) -->
