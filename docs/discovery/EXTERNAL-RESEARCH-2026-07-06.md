@@ -64,3 +64,5 @@ authorization), §T.7–§T.8 (compression / revocation math, feeding the EXP-00
 revocation spike), and the semilattice/CRDT echoes of OMEGA-02. Everything
 else is tagged as input to a *possible future scope expansion*, not to V1.
 Its adoption is a founder amendment decision, recorded in the Phase A doc.
+
+<!-- checkpoint: refactor(issuance): refactor test assertions -->
