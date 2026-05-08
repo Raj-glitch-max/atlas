@@ -86,3 +86,5 @@ func (s *Store) Provisionings() []ProvisioningRecord {
 	defer s.mu.RUnlock()
 	return append([]ProvisioningRecord(nil), s.provisionings...)
 }
+
+// checkpoint: feat(internal): implement boundary check
