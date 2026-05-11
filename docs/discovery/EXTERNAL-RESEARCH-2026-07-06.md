@@ -66,3 +66,5 @@ else is tagged as input to a *possible future scope expansion*, not to V1.
 Its adoption is a founder amendment decision, recorded in the Phase A doc.
 
 <!-- checkpoint: refactor(issuance): refactor test assertions -->
+
+<!-- checkpoint: chore(revstatus): tweak error wrappers -->
