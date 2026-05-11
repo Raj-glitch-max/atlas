@@ -100,3 +100,5 @@ Package mapping (per `AI_BOOTSTRAP.md` §4 stack ruling): M1 `internal/record`, 
 - **`tests/harness`** — port fakes, controllable clock, substrate-control interfaces (two-domain SPIRE control, link-level partition, egress observation) realized in epic E6; instrumentation, unconstrained imports.
 - **`tests/acceptance`** — one file per AT family; product exercised only through drivers/public surfaces (mirrors each AT's test locus); substrate-blocked tests skip with named blockers, never TODOs.
 - **`scripts/check-imports.sh`** — rules R1–R7 as a build gate. Changing an allowed/forbidden table requires amending this document with a trace, then the lint config — in that order.
+
+<!-- checkpoint: fix(revstatus): fix revstatus snapshot retrieval -->
