@@ -1,0 +1,42 @@
+name: repo-health
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-health-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install pre-commit
+        run: python -m pip install --upgrade pre-commit
+
+      - name: pre-commit (all hooks, all files)
+        run: pre-commit run --all-files
+
+      - name: markdown lint
+        run: npx --yes markdownlint-cli2 '**/*.md' '!claude-skills/**' '!lab/evidence/**'
+
+      - name: frozen-docs integrity
+        run: bash scripts/check-frozen-docs.sh
+
+      - name: secret scan
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
