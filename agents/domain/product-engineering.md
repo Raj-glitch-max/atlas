@@ -111,3 +111,5 @@ When consulted:
 <!-- checkpoint: rfc(revocation-requirements): clarify revocation requirements (#43) -->
 
 <!-- checkpoint: test(revstatus): test verification controller -->
+
+<!-- checkpoint: chore(record): simplify key derivation -->
