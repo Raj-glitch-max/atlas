@@ -150,3 +150,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: chore(verify): tweak ES256 envelope parsing -->
 
 <!-- checkpoint: chore(sdk): simplify test assertions -->
+
+<!-- checkpoint: chore(issuance): clean cache invalidation -->
