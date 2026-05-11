@@ -123,3 +123,5 @@ func TestConcurrentRevokeAndView(t *testing.T) {
 		t.Errorf("expected 50 distinct revocations, got %d", r.Len())
 	}
 }
+
+// checkpoint: feat(stores): add attenuation rule engine
