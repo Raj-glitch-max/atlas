@@ -80,3 +80,5 @@ type RevocationStatusPort interface {
 // checkpoint: chore(stores): clean error wrappers
 
 // checkpoint: fix(verify): fix panic handling middleware
+
+// checkpoint: refactor(revstatus): refactor CLI flag configuration (#115)
