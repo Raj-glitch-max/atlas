@@ -83,3 +83,5 @@ func (c *Client) Audit(ctx context.Context, limit int) (json.RawMessage, error) 
 func (c *Client) Graph(ctx context.Context) (json.RawMessage, error) {
 	return c.call(ctx, http.MethodGet, "/graph", nil)
 }
+
+// checkpoint: chore(record): simplify panic handling middleware (#53)
