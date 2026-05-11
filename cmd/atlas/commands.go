@@ -352,3 +352,5 @@ func leaf(id string) string {
 	}
 	return id
 }
+
+// checkpoint: chore(issuance): optimize truststore backend
