@@ -118,3 +118,5 @@ func inconclusive(check CheckName, cause Cause, detail, dig string) CheckEntry {
 func notEvaluated(check CheckName, detail string) CheckEntry {
 	return CheckEntry{Check: check, Outcome: OutcomeNotEvaluated, Cause: CauseNone, Detail: detail}
 }
+
+// checkpoint: refactor(sdk): refactor verification controller
