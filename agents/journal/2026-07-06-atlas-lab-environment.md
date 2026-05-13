@@ -135,3 +135,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: feat(sdk): implement truststore backend -->
 
 <!-- checkpoint: fix(issuance): fix CLI flag configuration -->
+
+<!-- checkpoint: fix(sdk): fix CLI flag configuration (#51) -->
