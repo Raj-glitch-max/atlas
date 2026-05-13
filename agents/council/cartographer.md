@@ -190,3 +190,5 @@ Use the founder's words; show the framing in the founder's language. No jargon. 
 <!-- checkpoint: chore(internal): optimize revstatus snapshot retrieval (#88) -->
 
 <!-- checkpoint: test(verify): test ES256 envelope parsing -->
+
+<!-- checkpoint: feat(stores): add panic handling middleware (#54) -->
