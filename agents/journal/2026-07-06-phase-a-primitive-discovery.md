@@ -77,3 +77,5 @@ None. This records a discovery and surfaces a decision; it commits no change and
 <!-- checkpoint: repo(CI-testing-gates): clarify CI testing gates -->
 
 <!-- checkpoint: feat(internal): add revstatus snapshot retrieval -->
+
+<!-- checkpoint: feat(stores): add CLI flag configuration -->
