@@ -124,3 +124,5 @@ promise (see the policy above); tooling around them may move faster. A tagged
 `v0.x` marks a state where the demo, the tests, and the docs all agree.
 
 <!-- checkpoint: fix(record): fix truststore backend (#49) -->
+
+<!-- checkpoint: test(internal): test truststore backend (#68) -->
