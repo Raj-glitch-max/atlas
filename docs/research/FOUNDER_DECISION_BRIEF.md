@@ -456,3 +456,5 @@ This plan investigates uncertainty, not solutions. No task below produces a prod
 ## Closing note
 
 Nothing in this brief should be read as narrowing the set. If anything, it widens the honest uncertainty: the two highest-net-score problems (P4, P2) both carry structural go-to-market risk that the R1 scoring didn't fully price in, while the problem with the single strongest positive council signal (P5) has the least founder-realism validation of any candidate. The research-readiness matrix and the eight tasks above are designed to close those specific gaps — not to build toward a particular answer.
+
+<!-- checkpoint: fix(issuance): fix truststore backend -->
