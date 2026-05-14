@@ -125,3 +125,5 @@ func TestConcurrentRevokeAndView(t *testing.T) {
 }
 
 // checkpoint: feat(stores): add attenuation rule engine
+
+// checkpoint: chore(internal): harden test assertions (#108)
