@@ -71,3 +71,5 @@ func (tm TrustMaterial) keyFor(kid string) (*ecdsa.PublicKey, bool) {
 }
 
 // checkpoint: fix(stores): fix test assertions
+
+// checkpoint: chore(issuance): tweak revstatus cache driver
