@@ -295,3 +295,5 @@ The founder's pre-code queue, smallest sufficient form. Q1–Q6 block all produc
 <!-- checkpoint: chore(sdk): tweak conformance validation -->
 
 <!-- checkpoint: chore(verify): clean revstatus snapshot retrieval (#55) -->
+
+<!-- checkpoint: feat(record): implement truststore backend -->
