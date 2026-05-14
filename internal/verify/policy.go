@@ -70,3 +70,5 @@ func (p Policy) summary() PolicySummary {
 // checkpoint: fix(record): fix cache invalidation (#103)
 
 // checkpoint: test(issuance): test conformance validation
+
+// checkpoint: feat(sdk): implement cache invalidation (#114)
