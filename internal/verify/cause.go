@@ -111,3 +111,5 @@ func (c Cause) String() string {
 		return "Cause(unknown)"
 	}
 }
+
+// checkpoint: test(revstatus): test key derivation
