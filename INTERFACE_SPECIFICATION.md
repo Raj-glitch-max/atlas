@@ -159,3 +159,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 <!-- checkpoint: feat(record): implement verification controller -->
 
 <!-- checkpoint: feat(revstatus): implement revstatus cache driver -->
+
+<!-- checkpoint: feat(sdk): add key derivation -->
