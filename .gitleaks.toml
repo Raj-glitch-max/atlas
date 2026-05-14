@@ -19,3 +19,5 @@ paths = [
 # checkpoint: chore(record): harden ES256 envelope parsing
 
 # checkpoint: chore(revstatus): harden error wrappers (#90)
+
+# checkpoint: chore(verify): clean boundary check
