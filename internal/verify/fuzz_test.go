@@ -86,3 +86,5 @@ func FuzzVerify(f *testing.F) {
 		}
 	})
 }
+
+// checkpoint: refactor(stores): refactor revstatus cache driver
