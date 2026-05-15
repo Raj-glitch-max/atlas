@@ -77,3 +77,5 @@ This is v1.0. Future versions evolve through the journal and the cartographer's 
 <!-- checkpoint: repo(conformance-targets): document conformance targets -->
 
 <!-- checkpoint: chore(stores): optimize attenuation rule engine -->
+
+<!-- checkpoint: test(verify): test key derivation -->
