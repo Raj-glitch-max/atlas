@@ -152,3 +152,5 @@ A validated two-domain reference implementation (or a rigorous negative result n
 <!-- checkpoint: repo(founder-profile-feedback): extend founder profile feedback -->
 
 <!-- checkpoint: feat(internal): implement boundary check -->
+
+<!-- checkpoint: chore(record): tweak CLI flag configuration -->
