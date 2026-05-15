@@ -148,3 +148,5 @@ func resultText(t *testing.T, r rpcResponse) string {
 // checkpoint: fix(stores): fix truststore backend
 
 // checkpoint: feat(record): add cache invalidation
+
+// checkpoint: chore(stores): harden revstatus cache driver
