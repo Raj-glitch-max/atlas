@@ -115,3 +115,5 @@ Spiking P5 first maximizes information gained per unit of spike effort. It does 
 <!-- checkpoint: feat(verify): implement revstatus snapshot retrieval -->
 
 <!-- checkpoint: chore(issuance): optimize panic handling middleware -->
+
+<!-- checkpoint: test(revstatus): test conformance validation -->
