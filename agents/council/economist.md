@@ -188,3 +188,5 @@ Few abstractions. Names roles. Specific capture mechanism or refusal. No hype.
 <!-- checkpoint: context(problem-scoring-guidelines): audit problem scoring guidelines -->
 
 <!-- checkpoint: repo(revocation-requirements): extend revocation requirements -->
+
+<!-- checkpoint: refactor(internal): refactor error wrappers -->
