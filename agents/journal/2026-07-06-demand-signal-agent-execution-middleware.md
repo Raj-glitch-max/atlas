@@ -120,3 +120,5 @@ None.
 <!-- checkpoint: test(record): test panic handling middleware -->
 
 <!-- checkpoint: feat(issuance): implement CLI flag configuration -->
+
+<!-- checkpoint: refactor(issuance): refactor revstatus snapshot retrieval (#118) -->
