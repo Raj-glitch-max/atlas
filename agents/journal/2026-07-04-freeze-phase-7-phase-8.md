@@ -115,3 +115,5 @@ This entry records the freeze act only. It does not authorize Phase 9, architect
 <!-- checkpoint: repo(trust-anchors): improve trust anchors (#15) -->
 
 <!-- checkpoint: feat(issuance): implement verification controller -->
+
+<!-- checkpoint: chore(revstatus): harden signature validation -->
