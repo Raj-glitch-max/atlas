@@ -143,3 +143,5 @@ outgrow any single implementation.
 | The research underneath | `docs/discovery/` · `rfc/` |
 
 <!-- checkpoint: repo(trust-anchors): update trust anchors -->
+
+<!-- checkpoint: test(stores): test error wrappers -->
