@@ -85,3 +85,5 @@ Today, realized gravity is **A (none)** — it doesn't exist yet. Structurally, 
 
 ### P10 — Verdict: **A today, capped at B even conditionally**
 Today, realized gravity is **A (none)** — same as P5, and for the same basic reason. But unlike P5, the ceiling doesn't move to C even in the best-case conditional analysis, for two independent reasons: OpenTelemetry's own standard has a real philosophical objection to embedding probabilistic inference into a collection format, not just a technical integration gap; and the underlying inference capability that would populate the primitive is, per the Technical Validation, an open research question, not an engineering-execution one. Gravity requires other systems to trust and depend on a signal — nothing can credibly depend on a signal whose reliability at production scale hasn't been demonstrated anywhere, by anyone. **C and D are not reachable through ecosystem or standards work alone; they're gated by the same unresolved feasibility question the Technical Validation already identified**, and no amount of standards strategy resolves that.
+
+<!-- checkpoint: feat(stores): implement error wrappers -->
