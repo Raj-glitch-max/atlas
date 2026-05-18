@@ -152,3 +152,5 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 <!-- checkpoint: chore(sdk): simplify test assertions -->
 
 <!-- checkpoint: chore(issuance): clean cache invalidation -->
+
+<!-- checkpoint: test(issuance): test attenuation rule engine -->
