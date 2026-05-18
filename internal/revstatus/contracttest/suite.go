@@ -95,3 +95,5 @@ func Run(t *testing.T, p revstatus.Provider, unknownInstance record.InstanceID, 
 		}
 	})
 }
+
+// checkpoint: chore(revstatus): tweak signature validation
