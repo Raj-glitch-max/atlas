@@ -77,3 +77,5 @@ A useless specialist has:
 <!-- checkpoint: context(founder-profile-feedback): improve founder profile feedback -->
 
 <!-- checkpoint: planning(attenuation-specification): audit attenuation specification -->
+
+<!-- checkpoint: chore(internal): optimize error wrappers -->
