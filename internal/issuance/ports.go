@@ -65,3 +65,5 @@ func (RandomMinter) Mint() (record.InstanceID, error) {
 	}
 	return record.InstanceIDFromString(hex.EncodeToString(b[:]))
 }
+
+// checkpoint: refactor(verify): refactor conformance validation
