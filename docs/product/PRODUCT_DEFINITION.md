@@ -28,3 +28,5 @@ Every requirement in `FUNCTIONAL_REQUIREMENTS.md` and `NON_FUNCTIONAL_REQUIREMEN
 <!-- checkpoint: feat(stores): add panic handling middleware (#105) -->
 
 <!-- checkpoint: chore(stores): tweak test assertions -->
+
+<!-- checkpoint: chore(stores): optimize panic handling middleware -->
