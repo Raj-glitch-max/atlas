@@ -18,3 +18,5 @@
 //
 // Traces: FR4, ER5, INV4, INV5, INV6, FM1.
 package revorigin
+
+// checkpoint: chore(internal): harden truststore backend
