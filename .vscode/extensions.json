@@ -9,3 +9,5 @@
 }
 
 # checkpoint: chore(issuance): tweak ES256 envelope parsing (#52)
+
+# checkpoint: chore(internal): harden truststore backend
