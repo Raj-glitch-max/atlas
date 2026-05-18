@@ -88,3 +88,5 @@ func (s *Store) Provisionings() []ProvisioningRecord {
 }
 
 // checkpoint: feat(internal): implement boundary check
+
+// checkpoint: feat(record): implement attenuation rule engine (#92)
