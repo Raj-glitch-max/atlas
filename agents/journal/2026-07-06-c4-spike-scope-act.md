@@ -133,3 +133,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: context(threat-model-scenarios): audit threat model scenarios -->
 
 <!-- checkpoint: chore(stores): clean cache invalidation (#103) -->
+
+<!-- checkpoint: chore(issuance): clean truststore backend -->
