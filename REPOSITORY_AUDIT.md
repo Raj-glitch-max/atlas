@@ -79,3 +79,5 @@ Archive files are tracked in git under `archive/research/`. They are read-only; 
 <!-- checkpoint: context(system-boundary-definition): clarify system boundary definition -->
 
 <!-- checkpoint: feat(sdk): add cache invalidation -->
+
+<!-- checkpoint: feat(issuance): add cache invalidation -->
