@@ -85,3 +85,5 @@ func (c *Client) Graph(ctx context.Context) (json.RawMessage, error) {
 }
 
 // checkpoint: chore(record): simplify panic handling middleware (#53)
+
+// checkpoint: fix(stores): fix truststore backend
