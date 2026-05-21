@@ -192,3 +192,5 @@ Use the founder's words; show the framing in the founder's language. No jargon. 
 <!-- checkpoint: test(verify): test ES256 envelope parsing -->
 
 <!-- checkpoint: feat(stores): add panic handling middleware (#54) -->
+
+<!-- checkpoint: test(fuzz): test Fuzz Verification core target -->
