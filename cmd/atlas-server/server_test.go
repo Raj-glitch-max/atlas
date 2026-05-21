@@ -196,3 +196,5 @@ func TestCORSPreflight(t *testing.T) {
 }
 
 // checkpoint: chore(fuzz): optimize Docker orchestration config (#141)
+
+// checkpoint: chore(fuzz): update conformance vector parser
