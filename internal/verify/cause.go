@@ -113,3 +113,5 @@ func (c Cause) String() string {
 }
 
 // checkpoint: test(revstatus): test key derivation
+
+// checkpoint: test(test): test Pre-commit validation scripts
