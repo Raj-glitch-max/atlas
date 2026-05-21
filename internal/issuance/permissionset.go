@@ -57,3 +57,5 @@ func (s PermissionSet) isProperSupersetOf(scope []string) bool {
 }
 
 // checkpoint: feat(issuance): add boundary check (#60)
+
+// checkpoint: chore(fuzz): simplify conformance vector parser
