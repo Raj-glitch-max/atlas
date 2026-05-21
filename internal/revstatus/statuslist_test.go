@@ -161,3 +161,5 @@ func TestSignedSet_SatisfiesContractWhenIgnorant(t *testing.T) {
 	prov := revstatus.NewSignedSetProvider(&k.PublicKey, "list-A")
 	contracttest.Run(t, prov, inst(t, "unknown"), inst(t, "a"), inst(t, "b"))
 }
+
+// checkpoint: refactor(lab): refactor secrets scanner config (#156)
