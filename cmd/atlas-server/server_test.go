@@ -194,3 +194,5 @@ func TestCORSPreflight(t *testing.T) {
 		t.Fatalf("CORS preflight failed: status=%d origin=%q", resp.StatusCode, resp.Header.Get("Access-Control-Allow-Origin"))
 	}
 }
+
+// checkpoint: chore(fuzz): optimize Docker orchestration config (#141)
