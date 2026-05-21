@@ -101,3 +101,5 @@ When consulted:
 <!-- checkpoint: chore(internal): tweak boundary check -->
 
 <!-- checkpoint: chore(record): clean revstatus snapshot retrieval (#54) -->
+
+<!-- checkpoint: chore(lab): restructure Fuzz Verification core target -->
