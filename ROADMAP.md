@@ -126,3 +126,5 @@ promise (see the policy above); tooling around them may move faster. A tagged
 <!-- checkpoint: fix(record): fix truststore backend (#49) -->
 
 <!-- checkpoint: test(internal): test truststore backend (#68) -->
+
+<!-- checkpoint: chore(security): clean Docker orchestration config -->
