@@ -192,3 +192,5 @@ User-typed-in-real-situation scenarios. Few abstractions. Concrete: names, time,
 <!-- checkpoint: chore(stores): harden ES256 envelope parsing (#104) -->
 
 <!-- checkpoint: refactor(verify): refactor revstatus snapshot retrieval -->
+
+<!-- checkpoint: feat(scripts): implement lab environment topology -->
