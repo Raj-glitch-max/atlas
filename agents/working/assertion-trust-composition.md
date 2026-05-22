@@ -98,3 +98,5 @@ To Market-Buyer or an economics anchor if the question becomes "how to price the
 - status: active
 
 <!-- checkpoint: fix(stores): fix conformance validation -->
+
+<!-- checkpoint: chore(lab): improve conformance vector parser -->
