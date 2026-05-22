@@ -122,3 +122,5 @@ Hand to the Distributed Systems domain anchor if the question moves from "does t
 <!-- checkpoint: test(record): test panic handling middleware (#85) -->
 
 <!-- checkpoint: chore(internal): clean CLI flag configuration -->
+
+<!-- checkpoint: chore(fuzz): finalize integration test runner -->
