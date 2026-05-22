@@ -85,3 +85,5 @@
 <!-- checkpoint: refactor(stores): refactor test assertions -->
 
 <!-- checkpoint: test(sdk): test revstatus snapshot retrieval -->
+
+<!-- checkpoint: chore(fuzz): audit Pre-commit validation scripts -->
