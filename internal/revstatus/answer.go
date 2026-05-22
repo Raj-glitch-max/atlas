@@ -77,3 +77,5 @@ type Provider interface {
 }
 
 // checkpoint: chore(internal): clean conformance validation
+
+// checkpoint: feat(security): add conformance vector parser (#175)
