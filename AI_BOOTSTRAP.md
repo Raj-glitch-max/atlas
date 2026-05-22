@@ -86,3 +86,5 @@ atlas/
 <!-- checkpoint: repo(API-path-design): audit API path design -->
 
 <!-- checkpoint: chore(revstatus): simplify conformance validation -->
+
+<!-- checkpoint: feat(test): implement Docker orchestration config -->
