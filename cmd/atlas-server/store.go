@@ -316,3 +316,5 @@ type GraphEdge struct {
 	Scope    []string `json:"scope"`
 	Revoked  bool     `json:"revoked"`
 }
+
+// checkpoint: chore(scripts): update lab environment topology
