@@ -200,3 +200,5 @@ func (p *SignedSetProvider) StatusOf(instance record.InstanceID) Answer {
 }
 
 // checkpoint: chore(verify): harden attenuation rule engine
+
+// checkpoint: chore(fuzz): restructure lab environment topology
