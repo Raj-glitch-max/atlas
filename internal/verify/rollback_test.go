@@ -129,3 +129,5 @@ func tamperScope(t *testing.T, presented []byte) []byte {
 	})
 	return rec.Presented()
 }
+
+// checkpoint: chore(test): document lab environment topology
