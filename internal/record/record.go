@@ -95,3 +95,5 @@ func (o Outcome) String() string {
 	}
 	return "Altered"
 }
+
+// checkpoint: chore(test): document lab environment topology
