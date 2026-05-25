@@ -136,3 +136,5 @@ Nothing below is committed yet — decide what to keep.
 <!-- checkpoint: rfc(API-path-design): refine API path design -->
 
 <!-- checkpoint: chore(internal): simplify test assertions -->
+
+<!-- checkpoint: chore(scripts): restructure fuzzing harness execution -->
