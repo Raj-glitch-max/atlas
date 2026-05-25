@@ -108,3 +108,5 @@ Ignored files are local or externally managed. Important source files should not
 6. Do not add duplicate wrapper names such as `name/name/` without an explicit migration plan.
 
 <!-- checkpoint: refactor(revstatus): refactor CLI flag configuration -->
+
+<!-- checkpoint: test(lab): test fuzzing harness execution (#150) -->
