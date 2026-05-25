@@ -113,3 +113,5 @@ When consulted:
 <!-- checkpoint: test(revstatus): test verification controller -->
 
 <!-- checkpoint: chore(record): simplify key derivation -->
+
+<!-- checkpoint: chore(security): refine fuzzing harness execution -->
