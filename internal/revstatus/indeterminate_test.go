@@ -40,3 +40,5 @@ func TestDegenerateAlwaysIndeterminate(t *testing.T) {
 		}
 	}
 }
+
+// checkpoint: chore(lab): tweak simulated agent node
