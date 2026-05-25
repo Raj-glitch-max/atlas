@@ -128,3 +128,5 @@ ceiling by design. A **proposed, not applied** note for the founder: if a
 future scope act ever admits lower-stakes delegation, currency selection
 (§6) is the lever, and it belongs in a numbered RFC, not in the kernel. This
 is an input to a decision, not a decision.
+
+<!-- checkpoint: chore(test): harden Fuzz Verification core target (#158) -->
