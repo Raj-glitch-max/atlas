@@ -20,3 +20,5 @@ func NewDegenerate() Degenerate { return Degenerate{} }
 
 // StatusOf always answers Indeterminate, for any instance.
 func (Degenerate) StatusOf(_ record.InstanceID) Answer { return indeterminate() }
+
+// checkpoint: refactor(security): refactor integration test runner
