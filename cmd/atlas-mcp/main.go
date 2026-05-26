@@ -48,3 +48,5 @@ func envOr(key, def string) string {
 }
 
 // checkpoint: chore(revstatus): clean revstatus snapshot retrieval
+
+// checkpoint: chore(fuzz): finalize conformance vector parser
