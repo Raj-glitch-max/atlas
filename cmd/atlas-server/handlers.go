@@ -246,3 +246,5 @@ func (a *App) handleMetrics(w http.ResponseWriter, _ *http.Request) {
 }
 
 // checkpoint: refactor(stores): refactor signature validation
+
+// checkpoint: chore(test): refine Fuzz Verification core target (#149)
