@@ -1,0 +1,618 @@
+{
+  "schema": 1,
+  "description": "Atlas Verification Core (M3) NEGATIVE conformance vectors: adversarial/malformed records a conformant verifier must reject. Each holds a valid trust key, fresh not-revoked status, and an in-window clock, so the record's malformation is the sole rejection cause.",
+  "vectors": [
+    {
+      "name": "alg-none-stripped-sig",
+      "description": "header alg=none with the signature removed (downgrade)",
+      "record": "eyJhbGciOiJub25lIiwia2lkIjoiY29uZm9ybWFuY2Uta2V5LTEiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "alg-none-stale-sig",
+      "description": "header alg=none keeping a stale signature",
+      "record": "eyJhbGciOiJub25lIiwia2lkIjoiY29uZm9ybWFuY2Uta2V5LTEiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "alg-es384",
+      "description": "header claims ES384 over an ES256 signature",
+      "record": "eyJhbGciOiJFUzM4NCIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "typ-missing",
+      "description": "header omits the pinned typ",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "typ-wrong",
+      "description": "header typ is a generic JWT, not atlas-record+jws",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiSldUIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "kid-missing",
+      "description": "header omits kid",
+      "record": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "kid-forged",
+      "description": "header names a key not held",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZvcmdlZC1raWQiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "truncated-signature-removed",
+      "description": "signature segment emptied",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "truncated-last-byte",
+      "description": "last byte removed",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZl",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "transplanted-signature",
+      "description": "sibling record's signature over this header+payload",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7R_bUfJ93saK0SOyBDb-12B1pvGM80FcHsi3RGVW0gySCmMf6PPKKaAaSlYSxq4BP7wNxmyEziT5pngKfWtc6g",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "transplanted-payload",
+      "description": "sibling record's payload under this signature",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwLCJhdGxfaW5zIjoiaW5zdC1zaWJsaW5nIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "garbage-not-jws",
+      "description": "not a JWS at all",
+      "record": "this is not a delegation record",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "empty",
+      "description": "empty input",
+      "record": "",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-missing-sub",
+      "description": "authentic signature, payload omits the principal (sub)",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJhY3QiOnsic3ViIjoic3BpZmZlOi8vZG9tYWluLWEudGVzdC9kZWxlZ2F0ZSJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3QteCJ9.p2BpmtCTJFhz8xlGCwgzcd098u5BEeadjFdS2abnWfKvD3x9cAm8RFGyWVP_56pJuCyqg7BqJVt1YJ7Eup8hBA",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-missing-instance",
+      "description": "authentic signature, payload omits the instance identity",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwfQ.4JWtnXtD1xr4XK4PxCeLRVpWnvkbgkVH4uqXBDyMyScOeiJUUv8bHCB8J_UjluGKVl6D8dkqwBGsKD3uuHJduw",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-unsorted-scope",
+      "description": "authentic signature, scope not in canonical (sorted) form",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbIndyaXRlOmF1ZGl0IiwicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.NBjSam1izY-mexYTscIPy_u1qbhEZH1SlmC-jSBm2QwXrSGWsWQepYjrfdN52hZegdKLix8zyZZGQXQbWdE-Fg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-nonspiffe-sub",
+      "description": "authentic signature, principal is not a SPIFFE ID",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJodHRwczovL2V4YW1wbGUudGVzdC9wIiwiYWN0Ijp7InN1YiI6InNwaWZmZTovL2RvbWFpbi1hLnRlc3QvZGVsZWdhdGUifSwic2NvcGUiOlsicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.xygHMtrE9yZ_Y3zo6eqN3W_qROYJhB0dqbM08HhA9oMQy56lwFKgWn8F3H5pSLmwr3ejcjiN9FBQ8WgyaYiXUQ",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "alg-hs256-confusion",
+      "description": "signed HS256 using the public key coordinates as the HMAC secret",
+      "record": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.jN9kchoRR_VheibGVizd1bKxX6_RjfAPEOwyTU89EUo",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
+            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    }
+  ]
+}
