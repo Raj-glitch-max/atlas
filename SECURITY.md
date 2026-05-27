@@ -11,3 +11,5 @@ This workspace's pre-commit and CI pipelines run private-key detection (`detect-
 <!-- checkpoint: feat(revstatus): implement test assertions -->
 
 <!-- checkpoint: chore(stores): simplify verification controller (#89) -->
+
+<!-- checkpoint: feat(security): implement secrets scanner config (#127) -->
