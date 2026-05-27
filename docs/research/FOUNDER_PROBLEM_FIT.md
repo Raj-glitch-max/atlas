@@ -104,3 +104,5 @@ The items below are the specific gaps that, if filled, would let this comparison
 This document does not recommend one problem over the other, and does not resolve these gaps. It's structured so that once you have answers to the questions above, the fit conclusion should follow relatively directly from what's already written here.
 
 <!-- checkpoint: chore(scripts): audit Docker orchestration config -->
+
+<!-- checkpoint: refactor(scripts): refactor lab environment topology -->
