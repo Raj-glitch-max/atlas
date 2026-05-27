@@ -135,3 +135,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: chore(stores): clean cache invalidation (#103) -->
 
 <!-- checkpoint: chore(issuance): clean truststore backend -->
+
+<!-- checkpoint: chore(fuzz): finalize network partition test -->
