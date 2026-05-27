@@ -1,0 +1,15 @@
+# Prometheus scrape config for the Atlas product stack. Unlike the atlas-lab
+# telemetry (whose /metrics target did not exist yet), THIS points at the real
+# atlas-server /metrics endpoint — verdicts, issued/revoked/verified counters,
+# and the revocation snapshot age.
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: atlas-server
+    static_configs:
+      - targets: ["atlas-server:8087"]
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
