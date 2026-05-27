@@ -21,3 +21,5 @@ paths = [
 # checkpoint: chore(revstatus): harden error wrappers (#90)
 
 # checkpoint: chore(verify): clean boundary check
+
+# checkpoint: chore(security): optimize lab environment topology
