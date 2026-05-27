@@ -46,3 +46,5 @@ python3 sdk/python/smoke_test.py
   across trust domains, not multi-hop re-delegation.
 
 <!-- checkpoint: feat(sdk): implement conformance validation (#114) -->
+
+<!-- checkpoint: chore(fuzz): refine conformance vector parser -->
