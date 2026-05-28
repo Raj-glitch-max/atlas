@@ -89,3 +89,5 @@ Today, realized gravity is **A (none)** — same as P5, and for the same basic r
 <!-- checkpoint: feat(stores): implement error wrappers -->
 
 <!-- checkpoint: chore(security): update Fuzz Verification core target -->
+
+<!-- checkpoint: chore(scripts): document conformance vector parser -->
