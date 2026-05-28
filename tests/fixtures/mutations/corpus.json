@@ -1,0 +1,5 @@
+{
+  "comment": "AT20 mutation-corpus parameters (docs/engineering/05_ACCEPTANCE_TEST_PLAN.md AT20; SO3 threshold: detection-and-rejection fraction = 1 over the corpus). The seed makes the randomized bit-flip class reproducible across runs and machines; the structural classes (field substitution, truncation, reordering, header and signature substitution) are exhaustive and unseeded. Consumed by internal/record/mutation_test.go.",
+  "seed": 42,
+  "bitFlips": 256
+}
