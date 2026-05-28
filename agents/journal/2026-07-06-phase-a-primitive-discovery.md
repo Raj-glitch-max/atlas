@@ -79,3 +79,5 @@ None. This records a discovery and surfaces a decision; it commits no change and
 <!-- checkpoint: feat(internal): add revstatus snapshot retrieval -->
 
 <!-- checkpoint: feat(stores): add CLI flag configuration -->
+
+<!-- checkpoint: test(security): test conformance vector parser -->
