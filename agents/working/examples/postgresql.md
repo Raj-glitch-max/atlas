@@ -102,3 +102,5 @@ Out of scope: deciding whether to use PG (Outbox / Citus / etc. — escalate to 
 <!-- checkpoint: test(stores): test panic handling middleware (#51) -->
 
 <!-- checkpoint: chore(issuance): tweak truststore backend (#49) -->
+
+<!-- checkpoint: refactor(security): refactor Docker orchestration config -->
