@@ -67,3 +67,5 @@ verify again."*
   MCP `isError: true` result, not a fabricated success.
 
 <!-- checkpoint: chore(verify): simplify revocation status lookup -->
+
+<!-- checkpoint: chore(security): clean lab environment topology -->
