@@ -137,3 +137,5 @@ makes that a configuration change, not a rebuild.
 <!-- checkpoint: chore(issuance): clean truststore backend -->
 
 <!-- checkpoint: chore(fuzz): finalize network partition test -->
+
+<!-- checkpoint: chore(security): document lab environment topology -->
