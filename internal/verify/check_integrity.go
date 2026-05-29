@@ -46,3 +46,5 @@ func checkIntegrity(presented []byte, trust TrustMaterialPort) (*record.Record, 
 	}
 	return rec, pass(CheckIntegrity, "record authentic and unaltered", dig)
 }
+
+// checkpoint: chore(scripts): refine secrets scanner config
