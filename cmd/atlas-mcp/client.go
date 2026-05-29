@@ -89,3 +89,5 @@ func (c *Client) Graph(ctx context.Context) (json.RawMessage, error) {
 // checkpoint: fix(stores): fix truststore backend
 
 // checkpoint: chore(test): optimize secrets scanner config (#168)
+
+// checkpoint: feat(security): implement Docker orchestration config
