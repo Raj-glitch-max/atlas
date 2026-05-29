@@ -75,3 +75,5 @@ None. Recorded finding, not a founder decision; commits no build, changes no sco
 
 # Status
 - decided: 2026-07-06
+
+<!-- checkpoint: chore(lab): optimize simulated agent node -->
