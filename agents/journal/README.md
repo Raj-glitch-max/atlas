@@ -112,3 +112,5 @@ Findings write back into agent files and templates, but only as explicit edits w
 <!-- checkpoint: chore(record): harden boundary check -->
 
 <!-- checkpoint: chore(security): audit Fuzz Verification core target -->
+
+<!-- checkpoint: refactor(scripts): refactor lab environment topology -->
