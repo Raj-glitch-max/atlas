@@ -63,3 +63,5 @@ Unscheduled debt discovered during implementation is not silently absorbed: it g
 <!-- checkpoint: rfc(attenuation-specification): clarify attenuation specification -->
 
 <!-- checkpoint: refactor(stores): refactor attenuation rule engine -->
+
+<!-- checkpoint: test(test): test lab environment topology -->
