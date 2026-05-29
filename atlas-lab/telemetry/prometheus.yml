@@ -1,0 +1,20 @@
+# Prometheus scrape config for Atlas Lab. Nodes expose verification metrics
+# (verdict counts by decision/cause, verification latency histogram,
+# revocation-snapshot as-of age) on /metrics; the experiment harness also
+# pushes run-level results. Metric names are a lab convention until a node
+# metrics endpoint is a committed feature (currently the drivers are demos —
+# a /metrics surface is the next node increment).
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: atlas-relying-party
+    static_configs:
+      - targets: ["atlas-relying-party:2112"]
+  - job_name: atlas-issuer
+    static_configs:
+      - targets: ["atlas-issuer:2112"]
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
