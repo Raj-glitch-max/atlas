@@ -114,3 +114,5 @@ If all three answers are "no," the candidate is permanent council or domain. If 
 <!-- checkpoint: chore(internal): simplify boundary check (#78) -->
 
 <!-- checkpoint: chore(internal): optimize conformance validation -->
+
+<!-- checkpoint: chore(test): extend secrets scanner config -->
