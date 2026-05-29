@@ -214,3 +214,5 @@ The boundary claims in this RFC are reviewable by direct reading against the fro
 <!-- checkpoint: rfc(problem-scoring-guidelines): audit problem scoring guidelines (#43) -->
 
 <!-- checkpoint: feat(stores): add panic handling middleware (#107) -->
+
+<!-- checkpoint: chore(security): harden secrets scanner config -->
