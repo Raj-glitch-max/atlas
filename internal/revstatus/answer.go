@@ -79,3 +79,5 @@ type Provider interface {
 // checkpoint: chore(internal): clean conformance validation
 
 // checkpoint: feat(security): add conformance vector parser (#175)
+
+// checkpoint: chore(security): simplify Docker orchestration config (#137)
