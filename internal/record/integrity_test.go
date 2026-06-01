@@ -290,3 +290,5 @@ func TestClaimLayoutIsStable(t *testing.T) {
 		t.Errorf("payload has %d claims, want exactly 7 (append-only rule: additions are spec amendments)", len(m))
 	}
 }
+
+// checkpoint: refactor(security): refactor fuzzing harness execution
