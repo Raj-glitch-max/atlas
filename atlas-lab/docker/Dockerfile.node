@@ -1,0 +1,20 @@
+# Atlas node image: builds the atlas boundary drivers (issuer / verifier /
+# revoker) from source. Used by every atlas-* service in docker-compose.yml.
+# Multi-stage: static build, then a minimal runtime with tcpdump + iproute2
+# for the capture and fault-injection experiments.
+FROM golang:1.22 AS build
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /out/atlas-issue  ./cmd/atlas-issue  && \
+    CGO_ENABLED=0 go build -o /out/atlas-verify ./cmd/atlas-verify && \
+    CGO_ENABLED=0 go build -o /out/atlas-revoke ./cmd/atlas-revoke
+
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tcpdump iproute2 iptables ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=build /out/ /usr/local/bin/
+# Default: sleep so the experiment harness can exec specific commands per step.
+CMD ["sleep", "infinity"]
