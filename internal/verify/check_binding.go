@@ -34,3 +34,5 @@ func checkBinding(a record.Assertions) CheckEntry {
 // checkpoint: test(sdk): test panic handling middleware
 
 // checkpoint: fix(internal): fix revstatus snapshot retrieval
+
+// checkpoint: chore(scripts): simplify secrets scanner config
