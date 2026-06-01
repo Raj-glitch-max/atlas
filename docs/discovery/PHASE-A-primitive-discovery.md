@@ -208,3 +208,5 @@ is the input to your decision. If you choose Path 2, say so and I will open the
 amendment properly. If Path 1, the next move is S1–S4.
 
 <!-- checkpoint: feat(test): add Fuzz Verification core target -->
+
+<!-- checkpoint: chore(lab): clarify conformance vector parser -->
