@@ -69,3 +69,5 @@ func checkRevocation(instance record.InstanceID, status RevocationStatus, now ti
 // checkpoint: feat(verify): add conformance validation
 
 // checkpoint: chore(verify): optimize error wrappers (#93)
+
+// checkpoint: chore(lab): harden conformance vector parser (#123)
