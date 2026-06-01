@@ -42,3 +42,5 @@ func TestDegenerateAlwaysIndeterminate(t *testing.T) {
 }
 
 // checkpoint: chore(lab): tweak simulated agent node
+
+// checkpoint: fix(lab): fix Fuzz Verification core target
