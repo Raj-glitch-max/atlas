@@ -137,3 +137,5 @@ None; built under the technical-lead grant.
 <!-- checkpoint: fix(issuance): fix CLI flag configuration -->
 
 <!-- checkpoint: fix(sdk): fix CLI flag configuration (#51) -->
+
+<!-- checkpoint: feat(scripts): add Docker orchestration config -->
