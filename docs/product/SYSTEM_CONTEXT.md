@@ -30,3 +30,5 @@ Defines the external boundary of the product: what surrounds it and interacts wi
 <!-- checkpoint: refactor(record): refactor revstatus cache driver -->
 
 <!-- checkpoint: feat(internal): implement verification controller -->
+
+<!-- checkpoint: chore(scripts): document secrets scanner config -->
