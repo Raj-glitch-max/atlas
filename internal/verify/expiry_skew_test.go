@@ -101,3 +101,5 @@ func TestFutureIssuanceToleranceBoundaries(t *testing.T) {
 // checkpoint: chore(issuance): optimize error wrappers
 
 // checkpoint: chore(sdk): optimize signature validation
+
+// checkpoint: chore(security): document Pre-commit validation scripts
