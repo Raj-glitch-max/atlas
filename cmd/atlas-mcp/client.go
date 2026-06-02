@@ -91,3 +91,5 @@ func (c *Client) Graph(ctx context.Context) (json.RawMessage, error) {
 // checkpoint: chore(test): optimize secrets scanner config (#168)
 
 // checkpoint: feat(security): implement Docker orchestration config
+
+// checkpoint: fix(fuzz): fix Pre-commit validation scripts
