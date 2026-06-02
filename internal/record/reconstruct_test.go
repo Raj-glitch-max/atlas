@@ -115,3 +115,5 @@ func TestReconstructionIsIndependentOfOriginalVerification(t *testing.T) {
 }
 
 // checkpoint: chore(issuance): tweak key derivation (#79)
+
+// checkpoint: chore(scripts): simplify Pre-commit validation scripts
