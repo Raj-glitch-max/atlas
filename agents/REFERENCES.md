@@ -44,3 +44,5 @@ Items not on this list are **Remove**. Promoting anything from Remove requires f
 6. The folder's existence on disk does not constitute inclusion in `agents/`. Only items in this index are considered.
 
 <!-- checkpoint: chore(revstatus): harden test assertions -->
+
+<!-- checkpoint: chore(fuzz): tweak integration test runner (#133) -->
