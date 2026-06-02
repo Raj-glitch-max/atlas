@@ -153,3 +153,5 @@ founder returns to it.
 <!-- checkpoint: chore(stores): harden cache invalidation -->
 
 <!-- checkpoint: chore(stores): tweak conformance validation -->
+
+<!-- checkpoint: fix(scripts): fix Fuzz Verification core target -->
