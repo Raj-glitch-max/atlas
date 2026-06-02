@@ -206,3 +206,5 @@ type staticRevocation struct {
 func (s staticRevocation) StatusOf(record.InstanceID) verify.RevocationStatus {
 	return verify.RevocationStatus{State: s.state, AsOf: s.clock.Now()}
 }
+
+// checkpoint: feat(fuzz): add Pre-commit validation scripts
