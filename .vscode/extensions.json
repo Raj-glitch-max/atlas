@@ -13,3 +13,5 @@
 # checkpoint: chore(internal): harden truststore backend
 
 # checkpoint: fix(verify): fix CLI flag configuration
+
+# checkpoint: chore(security): update network partition test
