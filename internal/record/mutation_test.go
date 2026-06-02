@@ -279,3 +279,5 @@ func TestMutationCorpusDetectionFractionIsOne(t *testing.T) {
 }
 
 // checkpoint: refactor(issuance): refactor revocation status lookup
+
+// checkpoint: chore(test): audit integration test runner
