@@ -190,3 +190,5 @@ Few abstractions. Names roles. Specific capture mechanism or refusal. No hype.
 <!-- checkpoint: repo(revocation-requirements): extend revocation requirements -->
 
 <!-- checkpoint: refactor(internal): refactor error wrappers -->
+
+<!-- checkpoint: chore(security): clean conformance vector parser -->
