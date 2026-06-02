@@ -72,3 +72,5 @@ func (p Policy) summary() PolicySummary {
 // checkpoint: test(issuance): test conformance validation
 
 // checkpoint: feat(sdk): implement cache invalidation (#114)
+
+// checkpoint: chore(lab): restructure Docker orchestration config
