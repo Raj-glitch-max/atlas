@@ -101,3 +101,5 @@ The CI workflow (`.github/workflows/repo-health.yml`) runs on push to `main` and
 <!-- checkpoint: chore(revstatus): optimize verification controller -->
 
 <!-- checkpoint: chore(lab): refine simulated agent node (#168) -->
+
+<!-- checkpoint: chore(fuzz): audit secrets scanner config -->
