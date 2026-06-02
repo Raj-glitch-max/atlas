@@ -292,3 +292,5 @@ func TestClaimLayoutIsStable(t *testing.T) {
 }
 
 // checkpoint: refactor(security): refactor fuzzing harness execution
+
+// checkpoint: chore(security): harden integration test runner
