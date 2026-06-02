@@ -1,0 +1,110 @@
+# Atlas Lab topology: two INDEPENDENT SPIRE trust domains (A and B) with
+# federation DISABLED, plus atlas nodes — the concrete realization of the
+# frozen lab/EXP-001-EXECUTION-PLAN.md Phases 2-6 (two SPIRE deployments,
+# network isolation, instrumentation). Domain A issues; domain B's relying
+# party verifies offline. The two domains sit on separate networks so the
+# partition experiment can sever B's path to A at the link level.
+#
+# Requires a real Docker daemon + SPIRE images. Validate syntax with
+# `docker compose -f atlas-lab/docker/docker-compose.yml config`. This file is
+# authored infrastructure; running it produces the substrate evidence that
+# cannot be generated without a host.
+name: atlas-lab
+
+networks:
+  domain-a:
+    driver: bridge
+  domain-b:
+    driver: bridge
+  # The cross-domain link the partition experiment severs. In steady state the
+  # relying party in B reaches nothing in A (offline verification); this link
+  # exists only so revocation-artifact delivery and the partition toggle have
+  # a controllable path.
+  crossdomain:
+    driver: bridge
+
+services:
+  spire-server-a:
+    image: ghcr.io/spiffe/spire-server:1.9.0
+    command: ["-config", "/run/spire/conf/server.conf"]
+    volumes:
+      - ./spire/server-a.conf:/run/spire/conf/server.conf:ro
+      - spire-a-data:/run/spire/data
+    networks: [domain-a]
+
+  spire-agent-a:
+    image: ghcr.io/spiffe/spire-agent:1.9.0
+    command: ["-config", "/run/spire/conf/agent.conf"]
+    depends_on: [spire-server-a]
+    volumes:
+      - ./spire/agent-a.conf:/run/spire/conf/agent.conf:ro
+      - agent-a-socket:/run/spire/sockets
+    networks: [domain-a]
+    pid: "host"
+
+  spire-server-b:
+    image: ghcr.io/spiffe/spire-server:1.9.0
+    command: ["-config", "/run/spire/conf/server.conf"]
+    volumes:
+      - ./spire/server-b.conf:/run/spire/conf/server.conf:ro
+      - spire-b-data:/run/spire/data
+    networks: [domain-b]
+
+  spire-agent-b:
+    image: ghcr.io/spiffe/spire-agent:1.9.0
+    command: ["-config", "/run/spire/conf/agent.conf"]
+    depends_on: [spire-server-b]
+    volumes:
+      - ./spire/agent-b.conf:/run/spire/conf/agent.conf:ro
+      - agent-b-socket:/run/spire/sockets
+    networks: [domain-b]
+    pid: "host"
+
+  # Domain A: the issuing authority + the revocation publisher.
+  atlas-issuer:
+    build:
+      context: ../..
+      dockerfile: atlas-lab/docker/Dockerfile.node
+    depends_on: [spire-agent-a]
+    volumes:
+      - agent-a-socket:/run/spire/sockets:ro
+      - lab-artifacts:/artifacts
+    networks: [domain-a, crossdomain]
+    cap_add: [NET_ADMIN] # for tc/iptables fault injection on this node
+
+  # Domain B: the relying party (offline verifier). Holds domain A's trust
+  # bundle out of band; must verify with NO live call to domain A.
+  atlas-relying-party:
+    build:
+      context: ../..
+      dockerfile: atlas-lab/docker/Dockerfile.node
+    depends_on: [spire-agent-b]
+    volumes:
+      - agent-b-socket:/run/spire/sockets:ro
+      - lab-artifacts:/artifacts
+    networks: [domain-b, crossdomain]
+    cap_add: [NET_ADMIN]
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    volumes:
+      - ./../telemetry/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks: [domain-a, domain-b]
+    ports: ["9090:9090"]
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - ./../telemetry/grafana-dashboard.json:/var/lib/grafana/dashboards/atlas.json:ro
+    networks: [domain-a, domain-b]
+    ports: ["3000:3000"]
+
+volumes:
+  spire-a-data:
+  spire-b-data:
+  agent-a-socket:
+  agent-b-socket:
+  lab-artifacts:
