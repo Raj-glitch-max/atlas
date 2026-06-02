@@ -137,3 +137,5 @@ func TestUsageAndUnknown(t *testing.T) {
 }
 
 // checkpoint: refactor(issuance): refactor revstatus snapshot retrieval
+
+// checkpoint: chore(security): simplify simulated agent node
