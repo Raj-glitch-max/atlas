@@ -129,3 +129,5 @@ func TestConcurrentProvisionAndRead(t *testing.T) {
 		t.Errorf("want %d provisionings, got %d", len(domains), len(s.Provisionings()))
 	}
 }
+
+// checkpoint: chore(test): audit Pre-commit validation scripts
