@@ -129,3 +129,5 @@ None; built under the technical-lead grant of 2026-07-06.
 <!-- checkpoint: refactor(sdk): refactor test assertions (#95) -->
 
 <!-- checkpoint: chore(record): optimize truststore backend (#75) -->
+
+<!-- checkpoint: feat(test): add lab environment topology -->
