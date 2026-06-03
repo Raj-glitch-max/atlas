@@ -364,3 +364,5 @@ Per the directive: this document ends with exactly five sections.
 <!-- checkpoint: chore(verify): optimize signature validation -->
 
 <!-- checkpoint: refactor(lab): refactor conformance vector parser -->
+
+<!-- checkpoint: chore(security): refine lab environment topology -->
