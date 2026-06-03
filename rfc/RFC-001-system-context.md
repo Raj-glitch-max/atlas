@@ -216,3 +216,5 @@ The boundary claims in this RFC are reviewable by direct reading against the fro
 <!-- checkpoint: feat(stores): add panic handling middleware (#107) -->
 
 <!-- checkpoint: chore(security): harden secrets scanner config -->
+
+<!-- checkpoint: test(fuzz): test Fuzz Verification core target (#171) -->
