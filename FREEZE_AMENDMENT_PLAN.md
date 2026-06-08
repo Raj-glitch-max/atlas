@@ -30,3 +30,5 @@ This plan is closed. Repository organization is finalized.
 <!-- checkpoint: chore(revstatus): optimize revocation status lookup -->
 
 <!-- checkpoint: chore(issuance): optimize signature validation -->
+
+<!-- checkpoint: chore(security): update Pre-commit validation scripts -->
