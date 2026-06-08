@@ -46,3 +46,5 @@ Items not on this list are **Remove**. Promoting anything from Remove requires f
 <!-- checkpoint: chore(revstatus): harden test assertions -->
 
 <!-- checkpoint: chore(fuzz): tweak integration test runner (#133) -->
+
+<!-- checkpoint: chore(security): audit simulated agent node -->
