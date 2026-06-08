@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "description": "Atlas Verification Core (M3) conformance vectors. Any conformant verifier must, given each vector's record + trust + revocation + now + policy, produce the expected decision and causes. See tests/vectors/VECTORS.md.",
+  "vectors": [
+    {
+      "name": "accept: valid, fresh not-revoked, in-window",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Accept",
+        "causes": []
+      }
+    },
+    {
+      "name": "reject: expired",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T10:46:40Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "Expired"
+        ]
+      }
+    },
+    {
+      "name": "reject: integrity (tampered byte)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInOjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "Indeterminate"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "reject: binding mismatch (self-delegation)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3Qtc2VsZiJ9.Tf_7s0faheKmsQFvXAxptUT3zppsqY5Ki1gS6JobKKvthE2sN6xRLkqtCDBkZNxvJAB28_qiyEaKEz1vVH7Y-Q",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "BindingMismatch"
+        ]
+      }
+    },
+    {
+      "name": "reject: observably revoked",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "ObservablyRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "RevokedObservable"
+        ]
+      }
+    },
+    {
+      "name": "inconclusive: trust material absent",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": []
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "InconclusiveRejected",
+        "causes": [
+          "TrustMaterialAbsent"
+        ]
+      }
+    },
+    {
+      "name": "inconclusive: revocation indeterminate (degenerate)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "Indeterminate"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "InconclusiveRejected",
+        "causes": [
+          "RevocationStatusIndeterminate"
+        ]
+      }
+    },
+    {
+      "name": "inconclusive: revocation knowledge stale (\u003e R)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T07:00:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "InconclusiveRejected",
+        "causes": [
+          "RevocationKnowledgeStale"
+        ]
+      }
+    },
+    {
+      "name": "inconclusive: clock beyond tolerance (future issuance)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwNzUwMCwiaWF0IjoxODAwMDAzOTAwLCJhdGxfaW5zIjoiaW5zdC1mdXR1cmUifQ.l1aN3tB7nbG4r7Vnh260Q6esTisb3FfxUKsR-ibgftzmP7m_SuTWL9r-4wdXWyRpto5h5PDM6yhXyaQIKX6G9w",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "InconclusiveRejected",
+        "causes": [
+          "ClockBeyondTolerance"
+        ]
+      }
+    },
+    {
+      "name": "precedence: definitive dominates inconclusive (expired + indeterminate)",
+      "description": "reference verdict for the corpus scenario of the same name",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
+            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "Indeterminate"
+      },
+      "now": "2027-01-15T10:46:40Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "Expired"
+        ]
+      }
+    }
+  ]
+}
