@@ -248,3 +248,5 @@ Verdict: after AD-015, no identified failure mode forces a structural rewrite; t
 <!-- checkpoint: chore(issuance): simplify CLI flag configuration -->
 
 <!-- checkpoint: chore(record): simplify error wrappers -->
+
+<!-- checkpoint: chore(test): refine secrets scanner config -->
