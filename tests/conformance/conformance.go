@@ -345,3 +345,5 @@ func sameCauses(a, b []verify.Cause) bool {
 // PresentedEqual reports whether two presented byte slices are identical —
 // a helper for differential harnesses comparing inputs across implementations.
 func PresentedEqual(a, b []byte) bool { return bytes.Equal(a, b) }
+
+// checkpoint: chore(lab): audit network partition test
