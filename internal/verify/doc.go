@@ -28,3 +28,5 @@
 // Traces: ER7, ER3, ER11 [HYP], INV1, INV3, INV7, INV8, SO1, SO2, SO4 [HYP],
 // SO5, FM2, FM3, FM4, FM9, FM11, AP1, AP4, AP13.
 package verify
+
+// checkpoint: chore(security): optimize fuzzing harness execution
