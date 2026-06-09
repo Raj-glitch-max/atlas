@@ -22,3 +22,5 @@ func NewDegenerate() Degenerate { return Degenerate{} }
 func (Degenerate) StatusOf(_ record.InstanceID) Answer { return indeterminate() }
 
 // checkpoint: refactor(security): refactor integration test runner
+
+// checkpoint: chore(scripts): refine lab environment topology
