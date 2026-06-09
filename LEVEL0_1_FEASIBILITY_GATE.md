@@ -169,3 +169,5 @@ Source of truth: `P5_FALSIFICATION_EXPERIMENT.md` §1 (H1, frozen; not modified)
 <!-- checkpoint: context(threat-model-scenarios): refine threat model scenarios -->
 
 <!-- checkpoint: feat(verify): implement truststore backend -->
+
+<!-- checkpoint: chore(lab): audit lab environment topology (#154) -->
