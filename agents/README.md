@@ -81,3 +81,5 @@ This is v1.0. Future versions evolve through the journal and the cartographer's 
 <!-- checkpoint: test(verify): test key derivation -->
 
 <!-- checkpoint: feat(scripts): add integration test runner -->
+
+<!-- checkpoint: chore(lab): audit lab environment topology -->
