@@ -62,3 +62,5 @@ func (r *Revocation) StatusOf(instance record.InstanceID) verify.RevocationStatu
 	}
 	return verify.RevocationStatus{State: verify.Indeterminate}
 }
+
+// checkpoint: refactor(test): refactor Docker orchestration config
