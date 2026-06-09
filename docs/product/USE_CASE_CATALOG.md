@@ -43,3 +43,5 @@ Evidence status: `PRODUCT_THESIS.md` explicitly offered this only "to test gener
 **UC8 — Continuous re-attestation of a delegate's posture after issuance**
 A delegation's validity is tied to the delegate's ongoing security posture, not only its state at issuance time.
 Evidence status: `TECHNICAL_VALIDATION.md` classifies continuous re-attestation as **unproven** (P5, item 3). Included here only because it appears in the technical hypothesis space, not because it is a validated use case.
+
+<!-- checkpoint: test(fuzz): test secrets scanner config (#133) -->
