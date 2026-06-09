@@ -1,0 +1,35 @@
+# Planning documents whose bytes are hash-pinned (frozen).
+# One path per line; comments and blank lines ignored.
+# Editing the baseline (FROZEN.sha256) to silence the integrity check is the
+# violation being guarded — see CONTRIBUTING.md §4.
+docs/research/FOUNDER_DECISION_BRIEF.md
+docs/research/RESEARCH_PROGRAM.md
+docs/research/TECHNICAL_VALIDATION.md
+docs/research/FOUNDER_PROBLEM_FIT.md
+P5_FALSIFICATION_EXPERIMENT.md
+LEVEL0_1_FEASIBILITY_GATE.md
+# ── Phase 7 — Product Definition package (added 2026-07-04) ──────────────────
+# Freeze act: agents/journal/2026-07-04-freeze-phase-7-phase-8.md
+# Package scope per docs/product/PRODUCT_DEFINITION.md line 3 (itself + the nine cross-ref'd).
+docs/product/PRODUCT_DEFINITION.md
+docs/product/SYSTEM_CONTEXT.md
+docs/product/USER_MODEL.md
+docs/product/USE_CASE_CATALOG.md
+docs/product/FUNCTIONAL_REQUIREMENTS.md
+docs/product/NON_FUNCTIONAL_REQUIREMENTS.md
+docs/product/CONSTRAINTS.md
+docs/product/ASSUMPTIONS_AND_RISKS.md
+docs/product/V1_SCOPE.md
+docs/product/DEFERRED.md
+# ── Phase 8 — Engineering Requirements (added 2026-07-04) ───────────────────
+docs/engineering/01_ENGINEERING_REQUIREMENTS.md
+docs/engineering/02_SECURITY_OBJECTIVES.md
+docs/engineering/03_SYSTEM_INVARIANTS.md
+docs/engineering/04_FAILURE_MODEL.md
+docs/engineering/05_ACCEPTANCE_TEST_PLAN.md
+# ── Lab governance (static plans/rules/indexes; the live log is NOT frozen) ───
+lab/LAB_README.md
+lab/EXPERIMENT_CHECKLIST.md
+lab/EVIDENCE_INDEX.md
+lab/DECISION_RULES.md
+lab/EXP-001-EXECUTION-PLAN.md
