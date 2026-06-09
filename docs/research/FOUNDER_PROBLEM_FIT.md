@@ -106,3 +106,5 @@ This document does not recommend one problem over the other, and does not resolv
 <!-- checkpoint: chore(scripts): audit Docker orchestration config -->
 
 <!-- checkpoint: refactor(scripts): refactor lab environment topology -->
+
+<!-- checkpoint: chore(fuzz): tweak Fuzz Verification core target -->
