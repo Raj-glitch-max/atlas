@@ -111,3 +111,5 @@ infra — `LIMITATIONS.md` §8.
 (what isn't proven yet). That boundary being *drawn at all* is the signal.
 
 <!-- checkpoint: chore(revstatus): clean revstatus cache driver -->
+
+<!-- checkpoint: chore(security): restructure conformance vector parser -->
