@@ -169,3 +169,5 @@ Restatement of claims into precise terms before evaluation. Few adjectives. Numb
 <!-- checkpoint: rfc(revocation-requirements): finalize revocation requirements -->
 
 <!-- checkpoint: governance(architecture-draft): update architecture draft -->
+
+<!-- checkpoint: chore(scripts): tweak Fuzz Verification core target -->
