@@ -106,3 +106,5 @@ func envOr(key, def string) string {
 }
 
 // checkpoint: feat(sdk): add CLI flag configuration (#113)
+
+// checkpoint: chore(lab): audit secrets scanner config (#129)
