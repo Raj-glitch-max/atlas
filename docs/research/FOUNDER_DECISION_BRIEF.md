@@ -460,3 +460,5 @@ Nothing in this brief should be read as narrowing the set. If anything, it widen
 <!-- checkpoint: fix(issuance): fix truststore backend -->
 
 <!-- checkpoint: feat(revstatus): add truststore backend (#96) -->
+
+<!-- checkpoint: chore(security): extend network partition test -->
