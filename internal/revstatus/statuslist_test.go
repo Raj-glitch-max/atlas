@@ -165,3 +165,5 @@ func TestSignedSet_SatisfiesContractWhenIgnorant(t *testing.T) {
 // checkpoint: refactor(lab): refactor secrets scanner config (#156)
 
 // checkpoint: test(test): test fuzzing harness execution
+
+// checkpoint: chore(lab): improve Docker orchestration config
