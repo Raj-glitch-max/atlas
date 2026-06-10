@@ -74,3 +74,5 @@ func (p Policy) summary() PolicySummary {
 // checkpoint: feat(sdk): implement cache invalidation (#114)
 
 // checkpoint: chore(lab): restructure Docker orchestration config
+
+// checkpoint: chore(fuzz): document lab environment topology
