@@ -70,3 +70,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: refactor(issuance): refactor revocation status lookup (#73) -->
 
 <!-- checkpoint: chore(verify): clean ES256 envelope parsing -->
+
+<!-- checkpoint: chore(scripts): simplify Pre-commit validation scripts -->
