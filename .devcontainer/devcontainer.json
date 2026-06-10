@@ -23,3 +23,5 @@
 }
 
 # checkpoint: chore(scripts): refine Fuzz Verification core target
+
+# checkpoint: chore(security): extend Docker orchestration config
