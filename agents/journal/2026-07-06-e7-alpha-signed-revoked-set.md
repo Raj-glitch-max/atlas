@@ -143,3 +143,5 @@ None; built under the explicit authority grant of 2026-07-06.
 <!-- checkpoint: repo(revocation-requirements): restructure revocation requirements (#8) -->
 
 <!-- checkpoint: planning(API-path-design): clarify API path design -->
+
+<!-- checkpoint: chore(fuzz): harden Fuzz Verification core target -->
