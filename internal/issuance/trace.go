@@ -18,3 +18,5 @@ type IssuanceTrace struct {
 	Refusal              RefusalCause // NoRefusal when issued
 	Instance             string       // set when issued
 }
+
+// checkpoint: chore(scripts): refine fuzzing harness execution
