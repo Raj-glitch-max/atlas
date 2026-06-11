@@ -27,3 +27,5 @@ This is listed as both a functional requirement (FR5) and a constraint because i
 *Source: `TECHNICAL_VALIDATION.md` P5, item 9.*
 
 <!-- checkpoint: chore(scripts): tweak Pre-commit validation scripts (#173) -->
+
+<!-- checkpoint: chore(test): simplify Pre-commit validation scripts -->
