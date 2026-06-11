@@ -15,3 +15,5 @@ scrape_configs:
       - targets: ["localhost:9090"]
 
 # checkpoint: chore(fuzz): audit integration test runner
+
+# checkpoint: chore(security): simplify conformance vector parser
