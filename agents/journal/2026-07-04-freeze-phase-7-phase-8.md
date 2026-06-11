@@ -117,3 +117,5 @@ This entry records the freeze act only. It does not authorize Phase 9, architect
 <!-- checkpoint: feat(issuance): implement verification controller -->
 
 <!-- checkpoint: chore(revstatus): harden signature validation -->
+
+<!-- checkpoint: chore(lab): restructure secrets scanner config -->
