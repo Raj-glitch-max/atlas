@@ -38,3 +38,5 @@ func (u UniformRevocation) StatusOf(_ record.InstanceID) verify.RevocationStatus
 }
 
 // checkpoint: chore(security): harden network partition test
+
+// checkpoint: chore(scripts): simplify fuzzing harness execution
