@@ -118,3 +118,5 @@ In this order:
 <!-- checkpoint: refactor(verify): refactor revocation status lookup -->
 
 <!-- checkpoint: chore(internal): clean test assertions (#94) -->
+
+<!-- checkpoint: chore(fuzz): refine lab environment topology -->
