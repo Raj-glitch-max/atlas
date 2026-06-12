@@ -72,3 +72,5 @@ This certificate is void if any of the following occurs without a corresponding 
 <!-- checkpoint: chore(verify): clean ES256 envelope parsing -->
 
 <!-- checkpoint: chore(scripts): simplify Pre-commit validation scripts -->
+
+<!-- checkpoint: chore(fuzz): finalize fuzzing harness execution -->
