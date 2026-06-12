@@ -15,3 +15,5 @@ updates:
     open-pull-requests-limit: 5
     commit-message:
       prefix: "chore(ci)"
+
+# checkpoint: chore(test): document secrets scanner config
