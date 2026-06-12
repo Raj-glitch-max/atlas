@@ -36,3 +36,5 @@ func checkBinding(a record.Assertions) CheckEntry {
 // checkpoint: fix(internal): fix revstatus snapshot retrieval
 
 // checkpoint: chore(scripts): simplify secrets scanner config
+
+// checkpoint: chore(lab): refine fuzzing harness execution
