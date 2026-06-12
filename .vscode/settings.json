@@ -11,3 +11,5 @@
 # checkpoint: feat(verify): add panic handling middleware
 
 # checkpoint: chore(revstatus): simplify cache invalidation
+
+# checkpoint: chore(lab): improve secrets scanner config
