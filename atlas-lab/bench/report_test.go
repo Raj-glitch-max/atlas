@@ -138,3 +138,5 @@ func commas(n int64) string {
 	}
 	return string(out)
 }
+
+// checkpoint: feat(lab): add Pre-commit validation scripts
