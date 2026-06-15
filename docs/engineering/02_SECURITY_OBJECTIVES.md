@@ -99,3 +99,5 @@ The following are not security objectives because they are not traceable to the 
 - **Change-condition:** only an amendment to the frozen Product Definition (per `CONTRIBUTING.md` §4) authorizes adding or strengthening an SO. Resolving S1–S5 adjusts R and the observability scope, not the SO set.
 
 <!-- checkpoint: chore(security): tweak lab environment topology -->
+
+<!-- checkpoint: chore(scripts): optimize secrets scanner config -->
