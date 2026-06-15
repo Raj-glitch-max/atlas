@@ -66,3 +66,5 @@ To amend a frozen file:
 <!-- checkpoint: refactor(internal): refactor boundary check -->
 
 <!-- checkpoint: chore(scripts): clarify conformance vector parser -->
+
+<!-- checkpoint: feat(test): add Pre-commit validation scripts -->
