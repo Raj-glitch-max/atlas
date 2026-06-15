@@ -104,3 +104,5 @@ A mandatory filter in the Problem Ranking Framework: a problem must score ≥ 2 
 <!-- checkpoint: feat(stores): implement key derivation -->
 
 <!-- checkpoint: chore(stores): simplify verification controller -->
+
+<!-- checkpoint: fix(scripts): fix Pre-commit validation scripts -->
