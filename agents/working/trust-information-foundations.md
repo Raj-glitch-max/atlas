@@ -102,3 +102,5 @@ To an economics anchor for the incentive-channel case; to the sibling specialist
 - status: active
 
 <!-- checkpoint: refactor(verify): refactor key derivation -->
+
+<!-- checkpoint: chore(lab): improve integration test runner -->
