@@ -70,3 +70,5 @@ Its adoption is a founder amendment decision, recorded in the Phase A doc.
 <!-- checkpoint: chore(revstatus): tweak error wrappers -->
 
 <!-- checkpoint: chore(test): document integration test runner -->
+
+<!-- checkpoint: chore(security): improve integration test runner -->
