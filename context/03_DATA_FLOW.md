@@ -115,3 +115,5 @@ Founder Input (artifact / question)
 <!-- checkpoint: chore(record): tweak attenuation rule engine (#84) -->
 
 <!-- checkpoint: chore(record): optimize test assertions -->
+
+<!-- checkpoint: chore(lab): tweak integration test runner (#134) -->
