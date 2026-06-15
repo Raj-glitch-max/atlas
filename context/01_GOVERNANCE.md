@@ -64,3 +64,5 @@ To amend a frozen file:
 <!-- checkpoint: repo(CI-testing-gates): finalize CI testing gates -->
 
 <!-- checkpoint: refactor(internal): refactor boundary check -->
+
+<!-- checkpoint: chore(scripts): clarify conformance vector parser -->
