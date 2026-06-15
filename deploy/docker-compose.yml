@@ -1,0 +1,44 @@
+# Atlas product stack: the server (durable), with Prometheus scraping its real
+# /metrics and Grafana for dashboards. This is the deployable product — distinct
+# from atlas-lab/ (the SPIRE experiment substrate).
+name: atlas
+
+services:
+  atlas-server:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    # Durable state + authority key persist on the named volume, so records
+    # survive restarts. Set ATLAS_API_KEY to guard mutating endpoints.
+    command: ["-addr", "0.0.0.0:8087", "-store", "/data/state.json", "-key", "/data/authority.key", "-trust-domain", "domain-a.test"]
+    environment:
+      - ATLAS_API_KEY=${ATLAS_API_KEY:-}
+    ports:
+      - "8087:8087"
+    volumes:
+      - atlas-data:/data
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - atlas-server
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  atlas-data:
