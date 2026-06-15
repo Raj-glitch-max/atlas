@@ -1,0 +1,38 @@
+{
+  "__comment": "Atlas Lab dashboard. Panels bind to the lab-convention metric names (see prometheus.yml). Provisioned read-only into Grafana; the node /metrics surface is the next node increment.",
+  "title": "Atlas — Delegation Verification",
+  "schemaVersion": 39,
+  "editable": true,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Verification verdicts / sec by decision",
+      "targets": [
+        { "expr": "sum by (decision) (rate(atlas_verify_verdicts_total[1m]))" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Verification latency (p50/p95/p99)",
+      "targets": [
+        { "expr": "histogram_quantile(0.50, sum by (le) (rate(atlas_verify_latency_seconds_bucket[5m])))" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(atlas_verify_latency_seconds_bucket[5m])))" },
+        { "expr": "histogram_quantile(0.99, sum by (le) (rate(atlas_verify_latency_seconds_bucket[5m])))" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Inconclusive (fail-closed) rate by cause",
+      "targets": [
+        { "expr": "sum by (cause) (rate(atlas_verify_inconclusive_total[1m]))" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Revocation-snapshot age (as-of) held by RP",
+      "targets": [
+        { "expr": "atlas_revocation_snapshot_age_seconds" }
+      ]
+    }
+  ]
+}
