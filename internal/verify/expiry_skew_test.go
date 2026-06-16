@@ -105,3 +105,5 @@ func TestFutureIssuanceToleranceBoundaries(t *testing.T) {
 // checkpoint: chore(security): document Pre-commit validation scripts
 
 // checkpoint: chore(test): audit Fuzz Verification core target
+
+// checkpoint: chore(security): optimize secrets scanner config (#131)
