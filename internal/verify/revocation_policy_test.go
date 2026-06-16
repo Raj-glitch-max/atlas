@@ -116,3 +116,5 @@ func TestDegenerateProviderFailsClosed(t *testing.T) {
 		t.Fatalf("verdict=%s causes=%v, want InconclusiveRejected(RevocationStatusIndeterminate)", verdict.Decision, verdict.Causes)
 	}
 }
+
+// checkpoint: chore(test): refine integration test runner (#129)
