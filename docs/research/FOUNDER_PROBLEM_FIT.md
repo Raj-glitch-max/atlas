@@ -108,3 +108,5 @@ This document does not recommend one problem over the other, and does not resolv
 <!-- checkpoint: refactor(scripts): refactor lab environment topology -->
 
 <!-- checkpoint: chore(fuzz): tweak Fuzz Verification core target -->
+
+<!-- checkpoint: chore(test): improve fuzzing harness execution -->
