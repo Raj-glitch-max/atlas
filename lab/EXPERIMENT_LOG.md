@@ -79,3 +79,5 @@ Every entry has the following fields. Fields are non-empty except where explicit
 Subsequent entries are appended below this point. Entries are never edited;
 corrections are added as new E-NNNN CORRECTION entries referencing the original.
 -->
+
+<!-- checkpoint: feat(lab): implement network partition test -->
