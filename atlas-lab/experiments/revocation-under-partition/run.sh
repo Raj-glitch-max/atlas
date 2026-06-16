@@ -79,3 +79,5 @@ $COMPOSE exec -T "$RP" atlas-verify || true
 echo
 echo "== record the observed outcomes into a run report per lab evidence discipline =="
 echo "(a full harness writes results/${run_id}.json and appends to the evidence index)"
+
+# checkpoint: chore(lab): restructure network partition test
