@@ -113,3 +113,5 @@ Atlas is not Devin, not Zapier, not an MCP hub, not your IDE. It doesn't reduce
 the number of tools you touch. It makes it *safe to let an agent touch them for
 you* — which is the only version of "solve the tool hop" that a senior engineer
 will actually trust.
+
+<!-- checkpoint: refactor(scripts): refactor integration test runner (#146) -->
