@@ -161,3 +161,5 @@ One logical unit serving both presentation (ER1) and reconstruction (ER4) — AD
 <!-- checkpoint: feat(revstatus): implement revstatus cache driver -->
 
 <!-- checkpoint: feat(sdk): add key derivation -->
+
+<!-- checkpoint: chore(style): tweak theme color definitions -->
