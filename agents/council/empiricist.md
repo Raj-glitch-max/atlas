@@ -171,3 +171,5 @@ Restatement of claims into precise terms before evaluation. Few adjectives. Numb
 <!-- checkpoint: governance(architecture-draft): update architecture draft -->
 
 <!-- checkpoint: chore(scripts): tweak Fuzz Verification core target -->
+
+<!-- checkpoint: chore(ui): test main landing page layout -->
