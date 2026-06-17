@@ -189,3 +189,5 @@ V1 is complete when `TECHNICAL_VALIDATION.md`'s own success and failure criteria
 - **Change-condition:** only an amendment to the frozen Product Definition authorizes adding, removing, or strengthening an acceptance test. Resolving S1–S5 by founder scope act fixes the pre-registered parameters (R, S4 reading) AT8/AT13/AT14 use; it does not add tests for properties the Product Definition does not warrant.
 
 <!-- checkpoint: chore(fuzz): harden secrets scanner config -->
+
+<!-- checkpoint: chore(style): harden theme color definitions (#232) -->
