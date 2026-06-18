@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Atlas — console</title>
+<meta name="theme-color" content="#07080A"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237DD3FC' stroke-width='1.6'><path d='M12 2 3 6v6c0 5 3.8 8.4 9 10 5.2-1.6 9-5 9-10V6l-9-4Z'/><path d='M8.5 12 11 14.5l4.5-5.5'/></svg>"/>
+</head>
+<body class="console-body">
+
+<nav class="nav stuck">
+  <a class="brand" href="/">
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 6v6c0 5 3.8 8.4 9 10 5.2-1.6 9-5 9-10V6l-9-4Z"/><path d="M8.5 12 11 14.5l4.5-5.5"/></svg></span>
+    <span class="wm">ATLAS</span>
+  </a>
+  <span style="width:1px;height:20px;background:var(--border)"></span>
+  <span class="mono" style="color:var(--fg3);font-size:12px">console</span>
+  <span class="sp" style="flex:1"></span>
+  <span class="stat" id="conn"><span class="dot warn"></span>connecting…</span>
+  <a class="pill sm" href="/">← site</a>
+</nav>
+
+<main class="cpage">
+  <div class="wrap">
+
+    <div id="offline" class="offline-panel" hidden>
+      <h2 class="h-3">atlas-server not reachable</h2>
+      <p class="muted">Start it, then this console goes live:</p>
+      <pre class="codeblock2">go run ./cmd/atlas-server      # → 127.0.0.1:8087</pre>
+      <p class="muted" style="font-size:12px">If it's on another host/port, set <code>localStorage.atlasApi</code> in the browser console. For a guarded server, set <code>localStorage.atlasApiKey</code>.</p>
+    </div>
+
+    <div id="livewrap" hidden>
+      <div class="cpanel-head">
+        <h1 class="page-title">Trust state</h1>
+        <span class="page-sub"><span class="mono" id="td">—</span> · R <span class="mono" id="rr">—</span> · auto‑refresh 3s</span>
+      </div>
+
+      <div class="metrics" id="stats" style="margin:18px 0 28px"></div>
+
+      <div class="grid-2" style="gap:18px;align-items:start">
+        <div class="card">
+          <div class="card-h"><span class="cap">Issue a delegation</span></div>
+          <form id="issueForm" class="cform">
+            <label>Principal <input name="principal" value="spiffe://domain-a.test/workload/payments-api" spellcheck="false"/></label>
+            <label>Delegate <input name="delegate" value="spiffe://domain-b.test/agent/booking-worker" spellcheck="false"/></label>
+            <label>Scope <input name="scope" value="read:orders,write:audit" spellcheck="false"/></label>
+            <label class="ttl">TTL (s) <input name="ttl" type="number" value="3600"/></label>
+            <button class="btn" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>Issue</button>
+            <div class="form-msg" id="issueMsg"></div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card-h"><span class="cap">Audit</span><span class="meta" id="auditCount"></span></div>
+          <div class="audit-list" id="audit"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><span class="cap">Delegations</span><span class="meta">click ✗ to revoke</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Instance</th><th>Principal</th><th>Delegate</th><th>Scope</th><th>Status</th><th></th></tr></thead><tbody id="delBody"></tbody></table></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="card-h"><span class="cap">Trust graph</span></div>
+        <div class="stage-pad"><svg id="cgraph" style="width:100%;height:240px"></svg></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="/src/console.js"></script>
+</body>
+</html>
