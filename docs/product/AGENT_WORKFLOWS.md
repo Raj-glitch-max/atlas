@@ -115,3 +115,5 @@ you* — which is the only version of "solve the tool hop" that a senior enginee
 will actually trust.
 
 <!-- checkpoint: refactor(scripts): refactor integration test runner (#146) -->
+
+<!-- checkpoint: chore(examples): test verification results state -->
