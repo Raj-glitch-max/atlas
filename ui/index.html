@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Atlas — let your AI agents delegate work, safely</title>
+<meta name="description" content="Atlas is the software you use when one AI agent needs to safely authorize another. Scoped, expiring, revocable capabilities — verifiable offline, no shared secrets, no live auth server."/>
+<meta name="theme-color" content="#07080A"/>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/Geist.woff2" crossorigin/>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/GeistMono.woff2" crossorigin/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237DD3FC' stroke-width='1.6'><path d='M12 2 3 6v6c0 5 3.8 8.4 9 10 5.2-1.6 9-5 9-10V6l-9-4Z'/><path d='M8.5 12 11 14.5l4.5-5.5'/></svg>"/>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- boot -->
+<div id="boot"><div class="w">
+  <div class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2 3 6v6c0 5 3.8 8.4 9 10 5.2-1.6 9-5 9-10V6l-9-4Z"/><path d="M8.5 12 11 14.5l4.5-5.5"/></svg></div>
+  <div class="t" id="bootT">establishing trust link</div>
+  <div class="bar"><i id="bootB"></i></div>
+</div></div>
+
+<!-- nav -->
+<nav class="nav" id="nav">
+  <a class="brand" href="#top">
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 6v6c0 5 3.8 8.4 9 10 5.2-1.6 9-5 9-10V6l-9-4Z"/><path d="M8.5 12 11 14.5l4.5-5.5"/></svg></span>
+    <span class="wm">ATLAS</span>
+  </a>
+  <div class="links">
+    <a href="#what">Why</a>
+    <a href="#workflows">Agents</a>
+    <a href="#verify">Try</a>
+    <a href="#partition">Offline</a>
+    <a href="#perf">Speed</a>
+    <a href="/console.html">Console</a>
+  </div>
+  <span class="sp"></span>
+  <button class="cmdk" id="cmdk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><span class="lbl">Search</span><span class="kbd">⌘K</span></button>
+  <a class="pill sm" href="#verify">Try it →</a>
+  <button class="mbtn" id="mbtn" aria-label="Menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
+</nav>
+
+<!-- mobile nav overlay -->
+<div class="mnav" id="mnav" hidden>
+  <nav class="mnav-links" aria-label="Site sections">
+    <a class="ml" href="#what"><span class="no">01</span>Why</a>
+    <a class="ml" href="#workflows"><span class="no">02</span>Agents</a>
+    <a class="ml" href="#verify"><span class="no">03</span>Try</a>
+    <a class="ml" href="#partition"><span class="no">04</span>Offline</a>
+    <a class="ml" href="#perf"><span class="no">05</span>Speed</a>
+    <a class="ml" href="/console.html"><span class="no">06</span>Console</a>
+  </nav>
+  <a class="pill" href="#verify">Try it →</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="hero-veil"></div>
+  <div class="wrap">
+    <span class="chip"><span class="tag">v0.1‑dev</span> secure delegation for multi‑agent systems</span>
+    <h1 class="h-display">Let your AI agents<br/>delegate work — <em>safely</em>.</h1>
+    <p class="lede">When one agent needs another to act with its authority, hand off a scoped, expiring, revocable capability — not a secret. The other side verifies it in microseconds, even when the network to the issuer is gone.</p>
+    <div class="cta">
+      <a class="pill" href="#verify">See it verify →</a>
+      <a class="ghost" href="#partition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg>Kill the network, watch it work</a>
+    </div>
+    <div class="keys" id="keys">
+      <span class="key">atlas delegate</span><span class="key">scope</span><span class="key">expires</span><span class="key">revoke</span><span class="key">verify ‑‑offline</span>
+    </div>
+  </div>
+  <div class="scroll-cue">scroll<span class="m"></span></div>
+</header>
+
+<!-- ============ WHAT ============ -->
+<section class="section" id="what">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="ln"></span>The pain it removes</div>
+    <h2 class="h-2 reveal d1" style="margin-top:18px;max-width:22ch">Stop sharing secrets between your agents.</h2>
+    <p class="lede reveal d2" style="margin-top:18px">Today, one agent authorizes another by sharing an API key — now it <em>is</em> you, forever — or by routing every action through an auth server that has to be up. Atlas replaces both with a signed hand‑off: this scope, until this time, revocable anytime.</p>
+    <div class="grid-3" style="margin-top:48px">
+      <div class="card card-pad feat reveal d1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 5 5.5v5c0 4 2.8 6.5 7 7.8 4.2-1.3 7-3.8 7-7.8v-5L12 3Z"/><path d="m9 11 2 2 4-4.5"/></svg></div><h3 class="h-3">Works when the network doesn't</h3><p>The receiving side verifies from local trust material — no call to the issuer. Kill the auth server; verification still answers in microseconds.</p></div>
+      <div class="card card-pad feat reveal d2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><h3 class="h-3">Least privilege, enforced</h3><p>A delegate only ever gets a subset of what the grantor holds — narrower scope, shorter life. Over‑asks are refused at issuance.</p></div>
+      <div class="card card-pad feat reveal d3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg></div><h3 class="h-3">Revoke, and mean it</h3><p>Signed revocation snapshots with verifiable freshness. Past your staleness budget, verification fails closed — never silently open.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKFLOWS (multi-tool agent scenario) ============ -->
+<section class="section" id="workflows">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="ln"></span>Your agents, across your tools</div>
+    <h2 class="h-2 reveal d1" style="margin-top:18px;max-width:24ch">Let an agent ship the landing page — without your tokens.</h2>
+    <p class="lede reveal d2" style="margin-top:18px">An agent has to push to GitHub, deploy to Vercel, post to Slack. The unsafe way: hand it all three tokens — now one compromised prompt owns everything. The Atlas way: hand each agent one scoped, expiring, revocable capability. The tools keep their own secrets.</p>
+
+    <div class="grid-2 reveal d2" style="gap:20px;align-items:start;margin-top:44px">
+      <div class="card">
+        <div class="card-h"><span class="cap">the flow</span><span class="meta">bash examples/ship-a-landing-page.sh</span></div>
+        <div class="code"><span class="c"># you issue scoped capabilities — not secrets</span>
+coder    <span class="k">github:push:acme/landing</span>   <span class="c">15m</span>
+deployer <span class="k">vercel:deploy:landing-prod</span> <span class="c">10m</span>
+notifier <span class="k">slack:post:launches</span>        <span class="c">5m</span>
+
+<span class="c"># each tool verifies OFFLINE, then acts with ITS OWN token</span>
+[github] <span class="s">✓ authorized</span> → git push
+[vercel] <span class="s">✓ authorized</span> → deploy
+[slack]  <span class="s">✓ authorized</span> → post
+
+<span class="c"># the coder is compromised and reaches for more:</span>
+[vercel] <span class="p">✗ DENIED</span> — not granted vercel:deploy
+[slack]  <span class="p">✗ DENIED</span> — not granted slack:post
+
+<span class="c"># one revoke contains it — offline, everywhere:</span>
+[github] <span class="p">✗ DENIED</span> — capability revoked</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card card-pad feat reveal d1"><h3 class="h-3">The agent holds capabilities</h3><p>The tools hold secrets. An agent's most powerful move is presenting a capability it already has — scoped to one action, for minutes, revocable anytime.</p></div>
+        <div class="card card-pad feat reveal d2"><h3 class="h-3">Blast radius = one scope</h3><p>Prompt-inject the coder all you like; the Vercel and Slack adapters still deny it. Least privilege, enforced at every tool.</p></div>
+        <div class="card card-pad feat reveal d3"><h3 class="h-3">Honest boundary</h3><p>Atlas isn't the agent and isn't the orchestrator — it's the trust fabric that makes letting agents act on your behalf safe. <a href="/console.html" style="color:var(--accent)">See the full story →</a></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERIFY (interactive console) ============ -->
+<section class="section" id="verify">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="ln"></span>The verification</div>
+    <h2 class="h-2 reveal d1" style="margin-top:18px;max-width:22ch">Watch the signature travel the trust path.</h2>
+    <p class="lede reveal d2" style="margin-top:18px">Five checks, in order, against the presented record. No hidden state — the trace below is the whole story.</p>
+
+    <div class="console reveal d2" style="margin-top:44px">
+      <div class="console-bar"><span class="dots"><i></i><i></i><i></i></span><span class="ttl mono">atlas verify · domain‑b.test</span><span class="st" id="liveStatus"><span class="d"></span>demo · scripted</span></div>
+      <div class="console-grid">
+        <div>
+          <div class="stage-pad"><canvas class="demo-graph" id="graph" role="img" aria-label="Animated trust graph: an issuer in domain A signs a delegation for an agent; a verifier in domain B checks it locally and renders a verdict."></canvas></div>
+        </div>
+        <div>
+          <div class="stage-pad">
+            <div class="verdict" id="verdict" aria-live="polite"><div class="g" id="vg" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg></div><div class="w" id="vw">IDLE<small id="vs">Awaiting a presented delegation.</small></div></div>
+            <div class="pipe" id="pipe"></div>
+            <div class="dstat" style="margin-top:16px"><div><div class="k">Latency</div><div class="v" id="mLat">—</div></div><div><div class="k">Snapshot</div><div class="v" id="mSnap">—</div></div><div><div class="k">Trust root</div><div class="v sm">Domain&nbsp;A</div></div><div><div class="k">Confidence</div><div class="v sm">Deterministic</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-actions">
+        <button class="btn" id="runBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 12 5 5L20 7"/></svg>Run verification</button>
+        <button class="btn alt" id="revBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg>Revoke under partition</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTITION ============ -->
+<section class="section" id="partition">
+  <div class="wrap">
+    <div class="grid-2" style="align-items:center;gap:56px">
+      <div>
+        <div class="eyebrow reveal"><span class="ln"></span>The hardest case · S4</div>
+        <h2 class="h-2 reveal d1" style="margin-top:18px">When the network splits, Atlas doesn't lie.</h2>
+        <p class="lede reveal d2" style="margin-top:18px">A revocation performed while a relying party is partitioned from the issuer is <span class="accent">not claimed observable</span>. Atlas fails closed — then rejects the moment the partition heals and a fresh snapshot arrives.</p>
+        <div class="tags reveal d3" style="margin-top:26px">
+          <span class="tag" title="Spec invariant 12, scenario S4: a revocation issued while the network is partitioned">INV12 / S4</span><span class="tag" title="Acceptance test 13: verification stays inconclusive during the partition">AT13</span><span class="tag" title="Acceptance test 14: the revocation is enforced once the partition heals">AT14</span><span class="tag good" title="When freshness can't be proven, verification refuses instead of allowing">fail‑closed</span><span class="tag bad" title="The rejection cause returned once the revocation is visible">RevokedObservable</span>
+        </div>
+        <p class="reveal d3" style="margin-top:24px;color:var(--fg3);font-size:13.5px">Trigger it in the console above — <b style="color:var(--fg2);font-weight:500">Revoke under partition</b> — and watch the field tear, fail closed, then reject on recovery.</p>
+      </div>
+      <div class="reveal d2">
+        <div class="plain"><span class="pe">plain english</span><p>Revoke access while the network is down and Atlas answers "can't know yet" — never "yes" — then enforces the revocation the moment the link heals.</p></div>
+        <div class="card">
+        <div class="code"><span class="c"># revocation-under-partition · R = 2s</span>
+issue      <span class="s">booking-worker</span>   <span class="c">→ Accept · zero egress</span>
+partition  <span class="p">sever RP ⇄ issuer</span>
+revoke     <span class="s">booking-worker</span>   <span class="c">(in domain A)</span>
+verify     <span class="c">→</span> <span class="k">Inconclusive</span>       <span class="c"># S4: not observable</span>
+heal       <span class="c">snapshot propagates →</span>
+verify     <span class="c">→</span> <span class="p">Reject</span>            <span class="c"># RevokedObservable</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERF ============ -->
+<section class="section" id="perf">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="ln"></span>TrustPerf · measured, not asserted</div>
+    <h2 class="h-2 reveal d1" style="margin-top:18px;max-width:20ch">Fast enough to sit in the hot path.</h2>
+    <div class="plain reveal d2" style="margin-top:28px"><span class="pe">plain english</span><p>Quick enough to check on every single action an agent takes — not just once at login.</p></div>
+    <div class="metrics reveal d2" id="metrics" style="margin-top:16px"></div>
+    <p class="reveal d3" style="margin-top:20px;color:var(--fg3);font-size:13px">Substrate‑independent tier, measured against the real implementation. Propagation, partition, cross‑domain and zero‑egress metrics require the two‑domain SPIRE lab and are not shown here — no number is fabricated.</p>
+  </div>
+</section>
+
+<!-- ============ CONFORMANCE ============ -->
+<section class="section" id="conformance">
+  <div class="wrap">
+    <div class="grid-2" style="gap:56px;align-items:center">
+      <div class="reveal d2" style="order:2">
+        <div class="plain"><span class="pe">plain english</span><p>A public answer key of hostile cases — forged signatures, stripped algorithms, transplanted tokens. Any implementation, in any language, must get all 28 right or it is broken.</p></div>
+        <div class="card">
+        <div class="code"><span class="c"># language-neutral vectors · replay in any language</span>
+verdict     <span class="s">10 vectors</span>   accept · reject · inconclusive
+adversarial <span class="p">18 vectors</span>   alg=none · HS256‑confusion · transplant
+result      <span class="k">28 / 28 pass</span>  <span class="c"># a differential = a broken verifier</span></div>
+        </div>
+      </div>
+      <div style="order:1">
+        <div class="eyebrow reveal"><span class="ln"></span>Conformance</div>
+        <h2 class="h-2 reveal d1" style="margin-top:18px">Built to have other implementations.</h2>
+        <p class="lede reveal d2" style="margin-top:18px">Positive and adversarial vectors as static JSON. A Rust, Zig or Go verifier replays them and is caught the moment it diverges. Interop is the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAB ============ -->
+<section class="section" id="lab">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="ln"></span>Atlas Lab</div>
+    <h2 class="h-2 reveal d1" style="margin-top:18px;max-width:22ch">A real environment, not a simulation.</h2>
+    <p class="lede reveal d2" style="margin-top:18px">Two independent SPIRE domains, network fault injection, out‑of‑band packet capture. Benchmarks run anywhere; the substrate experiments run on a real host — and refuse to fabricate a result if it isn't up.</p>
+    <div class="plain reveal d2" style="margin-top:24px"><span class="pe">plain english</span><p>Each card below is one experiment on a physical test bench where we actually cut the network, actually revoke, and actually capture the packets. The codes (S4, INV7, AT13…) are the spec clauses and acceptance tests that pin it.</p></div>
+    <div class="grid-3 reveal d2" id="labGrid" style="margin-top:20px"></div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section class="finale">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal" style="justify-content:center"><span class="ln"></span>The short way<span class="ln" style="background:linear-gradient(270deg,var(--accent),transparent)"></span></div>
+    <h2 class="h-2 reveal d1" style="margin-top:20px">Trust that survives the network.</h2>
+    <div class="cta reveal d2">
+      <a class="pill" href="#verify">Run a verification →</a>
+      <a class="ghost" href="https://github.com/Raj-glitch-max/atlas/tree/main/rfc" target="_blank" rel="noopener" style="border:1px solid var(--line2);border-radius:99px;padding:9px 14px;color:var(--fg2)">Read the RFCs</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="wm">ATLAS</div>
+        <p>Offline‑verifiable delegation for SPIFFE workload identity. A narrow primitive, held to the standard of infrastructure.</p>
+      </div>
+      <div><h4>Primitive</h4><a href="#verify">Verification</a><a href="#partition">Revocation</a><a href="#conformance">Conformance</a><a href="#perf">TrustPerf</a></div>
+      <div><h4>Evidence</h4><a href="#lab">Atlas Lab</a><a href="https://github.com/Raj-glitch-max/atlas/blob/main/internal/verify/fuzz_test.go" target="_blank" rel="noopener">Fuzzing</a><a href="https://github.com/Raj-glitch-max/atlas/tree/main/tests/conformance" target="_blank" rel="noopener">Property tests</a><a href="/console.html">Audit log</a></div>
+      <div><h4>Project</h4><a href="https://github.com/Raj-glitch-max/atlas/tree/main/rfc" target="_blank" rel="noopener">RFCs</a><a href="https://github.com/Raj-glitch-max/atlas/blob/main/context/05_DECISION_LOG.md" target="_blank" rel="noopener">Decision log</a><a href="https://github.com/Raj-glitch-max/atlas/blob/main/context/01_GOVERNANCE.md" target="_blank" rel="noopener">Governance</a><a href="https://github.com/Raj-glitch-max/atlas/blob/main/context/06_GLOSSARY.md" target="_blank" rel="noopener">Glossary</a></div>
+    </div>
+    <div class="foot-legal"><span>domain‑b.test · verifying offline</span><span>R = 2s · ES256 · single‑hop</span></div>
+  </div>
+</footer>
+
+<!-- command palette -->
+<div class="pal-scrim" id="palScrim"><div class="pal">
+  <input id="palInput" placeholder="Search · run commands…" autocomplete="off"/>
+  <div class="list" id="palList"></div>
+</div></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
