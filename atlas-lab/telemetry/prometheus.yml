@@ -20,3 +20,5 @@ scrape_configs:
       - targets: ["localhost:9090"]
 
 # checkpoint: chore(style): tweak viewport styling attributes
+
+# checkpoint: chore(ui): simplify theme color definitions
