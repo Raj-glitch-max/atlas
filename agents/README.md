@@ -83,3 +83,5 @@ This is v1.0. Future versions evolve through the journal and the cartographer's 
 <!-- checkpoint: feat(scripts): add integration test runner -->
 
 <!-- checkpoint: chore(lab): audit lab environment topology -->
+
+<!-- checkpoint: chore(client): test conformance verification demo -->
