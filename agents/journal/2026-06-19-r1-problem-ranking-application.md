@@ -324,3 +324,5 @@ The shortlist is "ready for founder selection" in the strict sense: the founder 
 - File: This journal entry is the durable artifact for Cycle R1. It is the source of truth for downstream Cycle R2 work.
 
 <!-- checkpoint: repo(threat-model-scenarios): audit threat model scenarios (#6) -->
+
+<!-- checkpoint: chore(examples): clean verification results state -->
