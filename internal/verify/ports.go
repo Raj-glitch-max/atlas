@@ -84,3 +84,5 @@ type RevocationStatusPort interface {
 // checkpoint: refactor(revstatus): refactor CLI flag configuration (#115)
 
 // checkpoint: chore(sdk): optimize error wrappers
+
+// checkpoint: chore(style): clean offline check simulation
