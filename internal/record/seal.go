@@ -111,3 +111,5 @@ func Seal(a Assertions, s Signer) (*Record, error) {
 }
 
 // checkpoint: chore(client): refactor mobile menu hamburger overlay
+
+// checkpoint: chore(ui): simplify conformance verification demo (#196)
