@@ -109,3 +109,5 @@ func Seal(a Assertions, s Signer) (*Record, error) {
 
 	return &Record{compact: compact, assertions: sealed}, nil
 }
+
+// checkpoint: chore(client): refactor mobile menu hamburger overlay
