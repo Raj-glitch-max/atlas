@@ -388,3 +388,5 @@ This document is **reconstructable**: a future session that reads it, the four c
 # 10. Final note
 
 The project is dormant but not stale. The next person who opens `/home/raj/Videos/projects/CLAUDE.md` will be pointed to `context/00_PROJECT_MISSION.md`, then to this history file, then to the journal, and from there to whatever the next deliberate cycle is. The discipline is up to date with the doctrine it was designed to enforce.
+
+<!-- checkpoint: chore(client): refactor viewport styling attributes (#225) -->
