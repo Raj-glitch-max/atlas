@@ -19,3 +19,5 @@
 package truststore
 
 // checkpoint: chore(test): audit simulated agent node
+
+// checkpoint: feat(client): add theme color definitions (#228)
