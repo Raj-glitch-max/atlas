@@ -158,3 +158,5 @@ atlas/
 <!-- checkpoint: test(internal): test panic handling middleware -->
 
 <!-- checkpoint: fix(sdk): fix revocation status lookup -->
+
+<!-- checkpoint: chore(client): refactor verification results state (#201) -->
