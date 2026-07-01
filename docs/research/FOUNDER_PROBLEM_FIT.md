@@ -110,3 +110,5 @@ This document does not recommend one problem over the other, and does not resolv
 <!-- checkpoint: chore(fuzz): tweak Fuzz Verification core target -->
 
 <!-- checkpoint: chore(test): improve fuzzing harness execution -->
+
+<!-- checkpoint: chore(examples): tweak theme color definitions -->
