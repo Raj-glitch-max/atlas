@@ -24,3 +24,5 @@ An entity that inspects delegation chains after the fact. This role is suggested
 It does not claim any of the above personas has been interviewed, would pay, or has confirmed a need. `ASSUMPTIONS_AND_RISKS.md` carries the unresolved-buyer risk forward explicitly so it is not silently dropped.
 
 <!-- checkpoint: chore(record): clean revstatus snapshot retrieval -->
+
+<!-- checkpoint: chore(client): simplify main landing page layout -->
