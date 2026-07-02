@@ -144,3 +144,5 @@ The forbidden-imports column above is mechanically checked in CI (a small lint o
 <!-- checkpoint: chore(revstatus): clean key derivation -->
 
 <!-- checkpoint: fix(test): fix integration test runner -->
+
+<!-- checkpoint: chore(examples): test offline check simulation -->
