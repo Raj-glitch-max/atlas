@@ -57,3 +57,5 @@ func loadOrCreateKey(path string) (*ecdsa.PrivateKey, error) {
 }
 
 // checkpoint: feat(test): add Docker orchestration config
+
+// checkpoint: feat(ui): add mobile menu hamburger overlay
