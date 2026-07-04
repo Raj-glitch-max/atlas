@@ -1,0 +1,32 @@
+name: Issue
+description: Report a bug or request a change
+labels: ["triage"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - bug
+        - engineering-infra
+        - lab-process
+        - frozen-planning
+        - question
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: What happened, or what is needed — factual, no conclusions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Steps to reproduce, links, evidence refs (`path#sha256:…`), error output.
+    validations:
+      required: false

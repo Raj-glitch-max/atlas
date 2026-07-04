@@ -1,0 +1,47 @@
+# Pre-commit quality gates — stack-agnostic.
+# Stack-specific hooks (language linters/formatters/test-runners) are added
+# after a stack is selected post-C4-spike. Run `pre-commit autoupdate` to bump revs.
+minimum_pre_commit_version: "3.2.0"
+default_install_hook_types: [pre-commit, commit-msg]
+
+# Frozen planning docs + vendored reference + sealed lab evidence must never be
+# silently rewritten (their bytes are hash-pinned; integrity is checked by
+# scripts/check-frozen-docs.sh). Keep this regex in sync with scripts/frozen-docs.list.
+#   - frozen text docs: excluded from the auto-fixers below to protect their hash
+#   - claude-skills/, lab/evidence/: excluded from every hook (vendored / sealed)
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '(^|/)(FOUNDER_DECISION_BRIEF|RESEARCH_PROGRAM|TECHNICAL_VALIDATION|FOUNDER_PROBLEM_FIT|P5_FALSIFICATION_EXPERIMENT|LEVEL0_1_FEASIBILITY_GATE)\.md$|^lab/(LAB_README|EXPERIMENT_CHECKLIST|EVIDENCE_INDEX|DECISION_RULES|EXP-001-EXECUTION-PLAN)\.md$|^claude-skills/|^lab/evidence/'
+      - id: end-of-file-fixer
+        exclude: '(^|/)(FOUNDER_DECISION_BRIEF|RESEARCH_PROGRAM|TECHNICAL_VALIDATION|FOUNDER_PROBLEM_FIT|P5_FALSIFICATION_EXPERIMENT|LEVEL0_1_FEASIBILITY_GATE)\.md$|^lab/(LAB_README|EXPERIMENT_CHECKLIST|EVIDENCE_INDEX|DECISION_RULES|EXP-001-EXECUTION-PLAN)\.md$|^claude-skills/|^lab/evidence/'
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: '(^|/)(FOUNDER_DECISION_BRIEF|RESEARCH_PROGRAM|TECHNICAL_VALIDATION|FOUNDER_PROBLEM_FIT|P5_FALSIFICATION_EXPERIMENT|LEVEL0_1_FEASIBILITY_GATE)\.md$|^lab/(LAB_README|EXPERIMENT_CHECKLIST|EVIDENCE_INDEX|DECISION_RULES|EXP-001-EXECUTION-PLAN)\.md$|^claude-skills/|^lab/evidence/'
+      - id: check-yaml
+        exclude: ^claude-skills/
+      - id: check-json
+        exclude: ^claude-skills/
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: [--maxkb=512]
+        exclude: '^claude-skills/|^lab/evidence/'
+      - id: detect-private-key
+      - id: check-symlinks
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        exclude: '^claude-skills/|^lab/evidence/'
