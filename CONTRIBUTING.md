@@ -1,6 +1,6 @@
 # Contributing
 
-This repository is a venture-studio technical workspace with a **frozen planning system** and an **engineering research lab**. These rules govern how work is added.
+Atlas is a venture-studio technical workspace with a **frozen planning system** and an **engineering research lab**. These rules govern how work is added.
 
 ## 1. First-time setup
 
@@ -51,7 +51,7 @@ The following are **frozen** and protected by `make check-frozen` (list in `scri
 
 To change a frozen document:
 
-1. Record a **journal entry** at `agents/journal/<YYYY-MM-DD>-<slug>.md` per `agents/GOVERNANCE.md`.
+1. Record a **journal entry** at `agents/agents/journal/<YYYY-MM-DD>-<slug>.md` per `agents/agents/GOVERNANCE.md`.
 2. Add a dated, reasoned change note to the document itself (lab docs: per `lab/LAB_README.md` §12).
 3. Re-baseline: `make frozen-baseline`, commit `FROZEN.sha256` alongside the amendment.
 

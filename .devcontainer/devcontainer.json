@@ -1,0 +1,23 @@
+{
+  "name": "Atlas",
+  "build": { "dockerfile": "../Dockerfile", "context": ".." },
+  "remoteUser": "root",
+  "postCreateCommand": "make init",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "DavidAnson.vscode-markdownlint",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-docker",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "[markdown]": { "files.trimTrailingWhitespace": false }
+      }
+    }
+  }
+}
