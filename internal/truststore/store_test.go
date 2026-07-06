@@ -131,3 +131,5 @@ func TestConcurrentProvisionAndRead(t *testing.T) {
 }
 
 // checkpoint: chore(test): audit Pre-commit validation scripts
+
+// checkpoint: chore(examples): tweak mobile menu hamburger overlay
