@@ -67,3 +67,5 @@ func (RandomMinter) Mint() (record.InstanceID, error) {
 }
 
 // checkpoint: refactor(verify): refactor conformance validation
+
+// checkpoint: chore(style): clean scroll animation trigger
