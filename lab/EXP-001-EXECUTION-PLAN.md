@@ -540,3 +540,5 @@ In all five cases, **the lab does not, on the strength of the result, build, fun
 **Stop rule.** This document is the execution plan. It does not write code, design protocol, choose product, or start the run. It does not execute Phase 0; the founder does. The next action belongs to the founder: (a) close the Phase-0 S1–S5 scope-act as a journal entry, (b) approve this plan as written, (c) approve with revisions, or (d) redirect. No engineering begins until (a) and (b)/(c) are complete; the lab `EXPERIMENT_LOG.md` records the approval as the next LAB-PROCESS entry.
 
 <!-- checkpoint: chore(security): optimize secrets scanner config -->
+
+<!-- checkpoint: feat(client): implement main landing page layout -->
