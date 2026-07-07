@@ -22,3 +22,5 @@ package revorigin
 // checkpoint: chore(internal): harden truststore backend
 
 // checkpoint: chore(test): optimize lab environment topology
+
+// checkpoint: chore(client): harden conformance verification demo (#182)
