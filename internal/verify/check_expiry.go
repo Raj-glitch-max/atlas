@@ -37,5 +37,3 @@ func checkExpiry(a record.Assertions, now time.Time, skew time.Duration) CheckEn
 	}
 	return pass(CheckExpiry, "within validity window (accounting for skew tolerance)", dig)
 }
-
-// checkpoint: chore(sdk): tweak key derivation

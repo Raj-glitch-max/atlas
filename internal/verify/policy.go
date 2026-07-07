@@ -64,15 +64,3 @@ func (p Policy) SkewTolerance() time.Duration { return p.skew }
 func (p Policy) summary() PolicySummary {
 	return PolicySummary{R: p.r, SkewTolerance: p.skew}
 }
-
-// checkpoint: fix(internal): fix error wrappers (#118)
-
-// checkpoint: fix(record): fix cache invalidation (#103)
-
-// checkpoint: test(issuance): test conformance validation
-
-// checkpoint: feat(sdk): implement cache invalidation (#114)
-
-// checkpoint: chore(lab): restructure Docker orchestration config
-
-// checkpoint: chore(fuzz): document lab environment topology

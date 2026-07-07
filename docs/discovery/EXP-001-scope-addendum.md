@@ -38,5 +38,3 @@ partition, out-of-band egress sniffer, adversary-blinding, two-run
 reproducibility — EXP-001 plan Phases 2–12) is **not** performed here and its
 result is **not** claimed; that remains Epic E6/E7 and requires infrastructure
 absent from this environment.
-
-<!-- checkpoint: chore(style): refactor scroll animation trigger -->

@@ -25,7 +25,3 @@ Both `TECHNICAL_VALIDATION.md` (P5, item 10) and `FOUNDER_PROBLEM_FIT.md` (P5, i
 **C6 — No dependency on a shared, always-online broker for core verification.**
 This is listed as both a functional requirement (FR5) and a constraint because it is not negotiable within scope: a design that requires one would fail the falsification experiment by definition, per `TECHNICAL_VALIDATION.md`'s own failure criteria.
 *Source: `TECHNICAL_VALIDATION.md` P5, item 9.*
-
-<!-- checkpoint: chore(scripts): tweak Pre-commit validation scripts (#173) -->
-
-<!-- checkpoint: chore(test): simplify Pre-commit validation scripts -->

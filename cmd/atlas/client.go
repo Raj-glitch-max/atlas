@@ -149,7 +149,3 @@ func (c *client) audit(limit int) (*auditResp, error) {
 	var r auditResp
 	return &r, c.do(http.MethodGet, fmt.Sprintf("/audit?limit=%d", limit), nil, &r)
 }
-
-// checkpoint: fix(revstatus): fix conformance validation
-
-// checkpoint: chore(revstatus): simplify conformance validation

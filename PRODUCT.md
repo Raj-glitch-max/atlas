@@ -106,17 +106,3 @@ cd ui && npm install && npm run dev              # → localhost:5173  (+ /conso
 | The 30s / 2m / 10m pitch | [`docs/product/PITCH.md`](docs/product/PITCH.md) |
 | Where it's going + how to help | [`ROADMAP.md`](ROADMAP.md) |
 | The wire format for other implementations | [`tests/vectors/VECTORS.md`](tests/vectors/VECTORS.md) |
-
-<!-- checkpoint: repo(revocation-requirements): extend revocation requirements (#41) -->
-
-<!-- checkpoint: rfc(glossary-definitions): improve glossary definitions -->
-
-<!-- checkpoint: chore(revstatus): tweak attenuation rule engine -->
-
-<!-- checkpoint: chore(sdk): tweak verification controller -->
-
-<!-- checkpoint: refactor(revstatus): refactor revstatus snapshot retrieval -->
-
-<!-- checkpoint: chore(issuance): optimize conformance validation (#48) -->
-
-<!-- checkpoint: chore(internal): tweak error wrappers -->

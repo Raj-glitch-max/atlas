@@ -91,15 +91,3 @@ Use the PR template. A PR is mergeable when:
 ## 8. License
 
 Not yet set. Adding a `LICENSE` is a recorded decision (proprietary vs OSS, and which license) deferred to the founder. Engineering infrastructure added before that decision carries no licensing claim.
-
-<!-- checkpoint: context(API-path-design): document API path design (#7) -->
-
-<!-- checkpoint: repo(deployment-manual): document deployment manual -->
-
-<!-- checkpoint: docs(founder-profile-feedback): improve founder profile feedback -->
-
-<!-- checkpoint: governance(fuzzing-strategy): audit fuzzing strategy -->
-
-<!-- checkpoint: repo(glossary-definitions): refine glossary definitions (#40) -->
-
-<!-- checkpoint: docs(revocation-requirements): finalize revocation requirements -->

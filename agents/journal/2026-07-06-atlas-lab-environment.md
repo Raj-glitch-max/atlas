@@ -121,21 +121,3 @@ None; built under the technical-lead grant.
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: repo(founder-profile-feedback): document founder profile feedback (#25) -->
-
-<!-- checkpoint: rfc(glossary-definitions): document glossary definitions -->
-
-<!-- checkpoint: docs(deployment-manual): restructure deployment manual -->
-
-<!-- checkpoint: repo(conformance-targets): refine conformance targets -->
-
-<!-- checkpoint: planning(conformance-targets): refine conformance targets -->
-
-<!-- checkpoint: feat(sdk): implement truststore backend -->
-
-<!-- checkpoint: fix(issuance): fix CLI flag configuration -->
-
-<!-- checkpoint: fix(sdk): fix CLI flag configuration (#51) -->
-
-<!-- checkpoint: feat(scripts): add Docker orchestration config -->

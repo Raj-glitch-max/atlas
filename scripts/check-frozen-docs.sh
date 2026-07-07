@@ -58,7 +58,3 @@ MSG
 fi
 
 echo "OK: frozen planning documents unchanged ($(grep -cvE '^\s*(#|$)' "$LIST") files)."
-
-# checkpoint: chore(lab): restructure Pre-commit validation scripts
-
-# checkpoint: test(fuzz): test network partition test (#159)

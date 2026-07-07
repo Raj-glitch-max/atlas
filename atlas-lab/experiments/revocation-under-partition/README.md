@@ -30,5 +30,3 @@ atlas-lab/scripts/run-all.sh            # brings up the topology, runs the exper
 # or, once the topology is up:
 atlas-lab/experiments/revocation-under-partition/run.sh
 ```
-
-<!-- checkpoint: chore(test): clarify simulated agent node -->

@@ -100,7 +100,3 @@ To an economics anchor for the incentive-channel case; to the sibling specialist
 - last_used: 2026-07-06
 - session_count: 1
 - status: active
-
-<!-- checkpoint: refactor(verify): refactor key derivation -->
-
-<!-- checkpoint: chore(lab): improve integration test runner -->

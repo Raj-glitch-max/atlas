@@ -72,5 +72,3 @@ None.
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: feat(sdk): implement truststore backend -->

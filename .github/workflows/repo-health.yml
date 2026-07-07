@@ -40,5 +40,3 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         with:
           config-path: .gitleaks.toml
-
-# checkpoint: feat(revstatus): add panic handling middleware

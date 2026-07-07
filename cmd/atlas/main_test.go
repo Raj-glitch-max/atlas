@@ -135,7 +135,3 @@ func TestUsageAndUnknown(t *testing.T) {
 		t.Fatalf("unknown command should be usage exit, got %d", code)
 	}
 }
-
-// checkpoint: refactor(issuance): refactor revstatus snapshot retrieval
-
-// checkpoint: chore(security): simplify simulated agent node

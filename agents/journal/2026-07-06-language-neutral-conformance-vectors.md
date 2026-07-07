@@ -113,21 +113,3 @@ None; built under the technical-lead grant of 2026-07-06.
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: repo(fuzzing-strategy): update fuzzing strategy -->
-
-<!-- checkpoint: governance(security-invariants): audit security invariants (#39) -->
-
-<!-- checkpoint: context(verification-criteria): audit verification criteria (#45) -->
-
-<!-- checkpoint: repo(threat-model-scenarios): improve threat model scenarios -->
-
-<!-- checkpoint: context(attenuation-specification): improve attenuation specification -->
-
-<!-- checkpoint: planning(API-path-design): improve API path design -->
-
-<!-- checkpoint: refactor(sdk): refactor test assertions (#95) -->
-
-<!-- checkpoint: chore(record): optimize truststore backend (#75) -->
-
-<!-- checkpoint: feat(test): add lab environment topology -->

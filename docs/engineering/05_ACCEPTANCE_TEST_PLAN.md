@@ -187,7 +187,3 @@ V1 is complete when `TECHNICAL_VALIDATION.md`'s own success and failure criteria
 - **Secondary:** `LEVEL0_1_FEASIBILITY_GATE.md` (S1–S4, for AT8/AT13/AT14 parameters and the S4 impossibility); `lab/LAB_README.md`, `lab/EXPERIMENT_CHECKLIST.md`, `lab/DECISION_RULES.md` (execution discipline); `TECHNICAL_VALIDATION.md` P5 items 8–9 and `FOUNDER_PROBLEM_FIT.md` P5 item 8 (Definition of Done).
 - **Confidence:** each AT's measurability — High (stated as boundary-observable outcomes). Each AT's *outcome* is not predicted (project doctrine forbids forecast confidence). Hypothesis-marked ATs inherit their source's hypothesis status.
 - **Change-condition:** only an amendment to the frozen Product Definition authorizes adding, removing, or strengthening an acceptance test. Resolving S1–S5 by founder scope act fixes the pre-registered parameters (R, S4 reading) AT8/AT13/AT14 use; it does not add tests for properties the Product Definition does not warrant.
-
-<!-- checkpoint: chore(fuzz): harden secrets scanner config -->
-
-<!-- checkpoint: chore(style): harden theme color definitions (#232) -->

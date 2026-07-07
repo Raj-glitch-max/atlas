@@ -102,13 +102,3 @@ The items below are the specific gaps that, if filled, would let this comparison
 - Access to any external review capability — a security-literate peer for P5, or a research-literate peer for P10 — since both projects' biggest personal risks are versions of "no one is checking my work."
 
 This document does not recommend one problem over the other, and does not resolve these gaps. It's structured so that once you have answers to the questions above, the fit conclusion should follow relatively directly from what's already written here.
-
-<!-- checkpoint: chore(scripts): audit Docker orchestration config -->
-
-<!-- checkpoint: refactor(scripts): refactor lab environment topology -->
-
-<!-- checkpoint: chore(fuzz): tweak Fuzz Verification core target -->
-
-<!-- checkpoint: chore(test): improve fuzzing harness execution -->
-
-<!-- checkpoint: chore(examples): tweak theme color definitions -->

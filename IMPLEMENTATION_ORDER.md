@@ -108,9 +108,3 @@ A single engineer runs them interleaved; two or three engineers run them concurr
 | AT25 | deferred | D1 (frozen deferral — not scheduled) |
 | AT26 | Phase 8 | substrate + measurement runs |
 | AT30 | Phase 8 | complete build + traces + review package |
-
-<!-- checkpoint: rfc(system-boundary-definition): clarify system boundary definition -->
-
-<!-- checkpoint: governance(API-path-design): extend API path design (#9) -->
-
-<!-- checkpoint: chore(test): clean integration test runner -->

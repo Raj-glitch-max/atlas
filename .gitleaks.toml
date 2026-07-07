@@ -11,15 +11,3 @@ paths = [
   '''claude-skills/.*''',
   '''lab/evidence/.*''',
 ]
-
-# checkpoint: test(internal): test ES256 envelope parsing
-
-# checkpoint: feat(issuance): implement revstatus cache driver (#90)
-
-# checkpoint: chore(record): harden ES256 envelope parsing
-
-# checkpoint: chore(revstatus): harden error wrappers (#90)
-
-# checkpoint: chore(verify): clean boundary check
-
-# checkpoint: chore(security): optimize lab environment topology

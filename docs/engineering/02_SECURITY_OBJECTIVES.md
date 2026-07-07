@@ -97,7 +97,3 @@ The following are not security objectives because they are not traceable to the 
 `ASSUMPTIONS_AND_RISKS.md` (R1, R2, R6); `LEVEL0_1_FEASIBILITY_GATE.md` for S1/S4 (observability scope).
 - **Confidence:** SO1–SO3, SO5–SO7, SO8 — High (sourced to evidenced Product Definition items). SO4 — inherits NFR3's hypothesis status. Metrics and thresholds are engineering translations of the source; confidence in their *measurability* is High, in their *achievement* depends on V1.
 - **Change-condition:** only an amendment to the frozen Product Definition (per `CONTRIBUTING.md` §4) authorizes adding or strengthening an SO. Resolving S1–S5 adjusts R and the observability scope, not the SO set.
-
-<!-- checkpoint: chore(security): tweak lab environment topology -->
-
-<!-- checkpoint: chore(scripts): optimize secrets scanner config -->

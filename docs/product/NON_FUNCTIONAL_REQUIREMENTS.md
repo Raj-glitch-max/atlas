@@ -19,7 +19,3 @@ Each item is testable and traced. Items marked **[HYPOTHESIS]** carry a specific
 
 **NFR6.** The delegation record produced under FR6 shall be tamper-evident, such that any alteration of the record after creation is detectable by a verifier.
 *Evidence: implied directly by the core technical hypothesis's requirement that the chain of custody be "provable" (`TECHNICAL_VALIDATION.md`, P5, item 1) — a provable record that cannot detect tampering would not satisfy the hypothesis as stated.*
-
-<!-- checkpoint: test(record): test cache invalidation -->
-
-<!-- checkpoint: chore(internal): clean attenuation rule engine -->

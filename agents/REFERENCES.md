@@ -42,11 +42,3 @@ Items not on this list are **Remove**. Promoting anything from Remove requires f
 4. A Temporary that's been used but never produced a load-bearing observation goes to Remove after 12 months.
 5. The Maintainer (Cartographer per `GOVERNANCE.md` §7) re-audits this index quarterly.
 6. The folder's existence on disk does not constitute inclusion in `agents/`. Only items in this index are considered.
-
-<!-- checkpoint: chore(revstatus): harden test assertions -->
-
-<!-- checkpoint: chore(fuzz): tweak integration test runner (#133) -->
-
-<!-- checkpoint: chore(security): audit simulated agent node -->
-
-<!-- checkpoint: fix(scripts): fix lab environment topology (#142) -->

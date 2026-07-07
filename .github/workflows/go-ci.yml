@@ -43,5 +43,3 @@ jobs:
 
       - name: test
         run: go test ./...
-
-# checkpoint: chore(scripts): clarify Docker orchestration config

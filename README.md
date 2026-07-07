@@ -38,5 +38,3 @@ Toolchain: `git`, `python3` + `pre-commit`, `npx` (Node) for markdown lint, and 
 ### The frozen-planning rule
 
 The planning documents are frozen. `make check-frozen` verifies their SHA-256 hashes against `FROZEN.sha256` and is wired into CI. Editing a frozen doc without a journal entry and dated amendment breaks CI. See `CONTRIBUTING.md` §"Frozen planning documents."
-
-<!-- checkpoint: chore(record): optimize truststore backend (#57) -->

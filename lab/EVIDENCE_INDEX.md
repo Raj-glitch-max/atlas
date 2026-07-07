@@ -156,5 +156,3 @@ A conclusion whose supporting evidence has been destroyed (under retention rules
 - It is not a place to record interpretation. Interpretation is what `DECISION_RULES.md` permits, bounded by what pre-registration froze.
 
 The index is purely a registry and integrity spine. It tells a reader *what exists, where it is, and whether it is intact* — nothing more.
-
-<!-- checkpoint: chore(fuzz): harden fuzzing harness execution -->

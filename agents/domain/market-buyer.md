@@ -111,5 +111,3 @@ When consulted:
 - Specific deal/loss in a specific category → defer to working specialist.
 - Regulatory specifics (EU GDPR, HIPAA) → defer to working specialist.
 - Engineering implementation of GTM tooling → defer to working specialist.
-
-<!-- checkpoint: chore(test): document lab environment topology (#140) -->

@@ -87,9 +87,3 @@ This file records key committed decisions and their outcomes. Every entry traces
 - `PORTFOLIO_REDUCTION_REVIEW.md`
 **Rationale:** Their content is summarized in `context/00_PROJECT_CONTEXT.md`. The root directory should contain only active governance and orientation files.
 **Effect:** Root is clean. Archive files are tracked in git under `archive/research/`.
-
-<!-- checkpoint: refactor(issuance): refactor truststore backend -->
-
-<!-- checkpoint: chore(issuance): tweak conformance validation -->
-
-<!-- checkpoint: chore(issuance): harden test assertions -->

@@ -352,9 +352,3 @@ func leaf(id string) string {
 	}
 	return id
 }
-
-// checkpoint: chore(issuance): optimize truststore backend
-
-// checkpoint: chore(sdk): simplify conformance validation
-
-// checkpoint: chore(security): extend fuzzing harness execution

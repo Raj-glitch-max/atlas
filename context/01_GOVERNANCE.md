@@ -56,15 +56,3 @@ To amend a frozen file:
     1.  Which council seat or anchor is overruled.
     2.  The founder's logic for the override.
     3.  The specific conditions or observations that would trigger a reconsideration of the override.
-
-<!-- checkpoint: context(security-invariants): finalize security invariants -->
-
-<!-- checkpoint: docs(revocation-requirements): update revocation requirements (#41) -->
-
-<!-- checkpoint: repo(CI-testing-gates): finalize CI testing gates -->
-
-<!-- checkpoint: refactor(internal): refactor boundary check -->
-
-<!-- checkpoint: chore(scripts): clarify conformance vector parser -->
-
-<!-- checkpoint: feat(test): add Pre-commit validation scripts -->

@@ -102,7 +102,3 @@ func envOr(key, def string) string {
 	}
 	return def
 }
-
-// checkpoint: refactor(verify): refactor conformance validation
-
-// checkpoint: chore(scripts): update secrets scanner config

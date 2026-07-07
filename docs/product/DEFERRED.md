@@ -28,5 +28,3 @@ Deferred because: `USER_MODEL.md` marks the auditor persona as hypothesis, not e
 
 **D9 — Trust bridging between organizations with no prior federation relationship (UC7).**
 Deferred because: `PRODUCT_THESIS.md` itself offered this only to test generativity, not as a proposal (P5, item 4). Reconsider when: it is raised as an actual requirement by evidence, not inferred from a capability list.
-
-<!-- checkpoint: feat(verify): add attenuation rule engine -->

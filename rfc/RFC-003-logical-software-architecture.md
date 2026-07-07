@@ -463,9 +463,3 @@ Every claim here is checkable by direct reading against the frozen package plus 
 - **Confidence:** High that every module, rule, and contract traces to a frozen forcing item with no invention (§4; adversarial review item 4 is the self-check). High that the six-module decomposition isolates the spike-volatile region per AP12 (§6 shows all four outcomes land in M5/M6 realizations only). Medium that the one-artifact reading (presented unit = reconstruction record) survives the Record & Verifier Contract RFC — no frozen item forces separation, but the concrete format work could surface one; change-condition: that RFC finding a forcing item, which would split M1's artifact into presentable unit + record while preserving the 1:1 `produces` relation. Medium that the M5 answer-set granularity (three members + as-of) is sufficient for every spike composition — change-condition: EXP-001 surfacing a composition whose honest answer cannot be expressed in the set; the contract would then be amended *before* that composition is adopted, per the freeze discipline.
 - **Change-condition:** the module set, dependency rules, and port contracts change only by amendment to this RFC (once accepted, per `CONTRIBUTING.md` §4) driven by a frozen-package amendment or a founder scope act. Resolving S1–S4 sets M3's policy parameters; it changes no structure. The EXP-001 outcome selects M5/M6 realizations; it changes no contract.
 - **Freeze status of RFC-003:** not frozen. Draft, presented for founder review per the RFC-000 review path (Draft → Adversarially Reviewed → Accepted → Frozen). Eligible for the frozen set (DR10) only by a future, explicitly authorized act.
-
-<!-- checkpoint: planning(threat-model-scenarios): refine threat model scenarios -->
-
-<!-- checkpoint: chore(issuance): clean cache invalidation -->
-
-<!-- checkpoint: chore(record): clean panic handling middleware -->

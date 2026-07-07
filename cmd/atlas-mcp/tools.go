@@ -138,5 +138,3 @@ func atlasTools() []tool {
 		},
 	}
 }
-
-// checkpoint: chore(lab): restructure Docker orchestration config

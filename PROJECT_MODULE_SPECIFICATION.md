@@ -130,19 +130,3 @@ The AT scaffold. `harness/` defines substrate-control interfaces (domain control
 ## Dependency-rule enforcement (W5)
 
 The forbidden-imports column above is mechanically checked in CI (a small lint over `go list` import graphs) and locally via `make ci`. The check *is* RFC-003 rules R1–R7 in executable form; changing the allowed/forbidden tables requires amending this specification with an RFC-003 trace, then the lint config — in that order.
-
-<!-- checkpoint: rfc(glossary-definitions): audit glossary definitions -->
-
-<!-- checkpoint: repo(trust-anchors): improve trust anchors -->
-
-<!-- checkpoint: context(attenuation-specification): audit attenuation specification -->
-
-<!-- checkpoint: repo(threat-model-scenarios): audit threat model scenarios (#17) -->
-
-<!-- checkpoint: refactor(verify): refactor error wrappers -->
-
-<!-- checkpoint: chore(revstatus): clean key derivation -->
-
-<!-- checkpoint: fix(test): fix integration test runner -->
-
-<!-- checkpoint: chore(examples): test offline check simulation -->

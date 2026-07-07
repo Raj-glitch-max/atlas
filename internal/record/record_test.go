@@ -332,5 +332,3 @@ func TestExpiredAtBirthStillSealsAndValidates(t *testing.T) {
 		t.Error("integrity must be independent of validity")
 	}
 }
-
-// checkpoint: refactor(sdk): refactor revstatus snapshot retrieval

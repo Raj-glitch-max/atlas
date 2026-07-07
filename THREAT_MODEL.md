@@ -99,5 +99,3 @@ make ci                          # gates: conformance, adversarial vectors, prop
 go test ./internal/verify -run x -fuzz FuzzVerify -fuzztime 30s
 bash examples/unforgettable.sh   # the offline + revocation + tamper story, live
 ```
-
-<!-- checkpoint: chore(scripts): refine Docker orchestration config (#132) -->

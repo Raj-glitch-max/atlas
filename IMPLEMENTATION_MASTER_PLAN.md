@@ -144,13 +144,3 @@ One journal entry: R value (S1), cached-pull admissibility (S2), broker definiti
 ## Expected output at plan completion
 
 A validated two-domain reference implementation (or a rigorous negative result naming the failed requirement — equally valid per `V1_SCOPE.md`), with: all six modules realized; the degenerate-or-real revocation provider behind an unchanged contract; every AT executed or skip-accounted; decision traces sufficient for independent reproduction; the V1 verdict journaled; and zero unrecorded deviations from the frozen package.
-
-<!-- checkpoint: context(problem-scoring-guidelines): extend problem scoring guidelines -->
-
-<!-- checkpoint: governance(threat-model-scenarios): extend threat model scenarios -->
-
-<!-- checkpoint: repo(founder-profile-feedback): extend founder profile feedback -->
-
-<!-- checkpoint: feat(internal): implement boundary check -->
-
-<!-- checkpoint: chore(record): tweak CLI flag configuration -->

@@ -26,9 +26,3 @@ Both files remain permanently at repository root:
 No further action is required. No frozen-document amendment cycle will be initiated for this purpose.
 
 This plan is closed. Repository organization is finalized.
-
-<!-- checkpoint: chore(revstatus): optimize revocation status lookup -->
-
-<!-- checkpoint: chore(issuance): optimize signature validation -->
-
-<!-- checkpoint: chore(security): update Pre-commit validation scripts -->

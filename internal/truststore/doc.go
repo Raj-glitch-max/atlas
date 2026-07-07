@@ -17,7 +17,3 @@
 //
 // Traces: ER7, INV7, NFR2, C6, FM9.
 package truststore
-
-// checkpoint: chore(test): audit simulated agent node
-
-// checkpoint: feat(client): add theme color definitions (#228)

@@ -96,23 +96,3 @@ Justify the candidate against the test:
 > Does the new perspective produce a structurally-different kind of productive disagreement with the existing council?
 
 If all three answers are "no," the candidate is permanent council or domain. If yes-to-modify or yes-to-working, the candidate is a working specialist instead.
-
-<!-- checkpoint: rfc(fuzzing-strategy): extend fuzzing strategy -->
-
-<!-- checkpoint: repo(revocation-requirements): update revocation requirements (#9) -->
-
-<!-- checkpoint: governance(attenuation-specification): restructure attenuation specification (#31) -->
-
-<!-- checkpoint: rfc(conformance-targets): restructure conformance targets -->
-
-<!-- checkpoint: governance(deployment-manual): extend deployment manual -->
-
-<!-- checkpoint: docs(security-invariants): finalize security invariants -->
-
-<!-- checkpoint: test(sdk): test revocation status lookup -->
-
-<!-- checkpoint: chore(internal): simplify boundary check (#78) -->
-
-<!-- checkpoint: chore(internal): optimize conformance validation -->
-
-<!-- checkpoint: chore(test): extend secrets scanner config -->

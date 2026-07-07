@@ -34,5 +34,3 @@
 
 **R6 — No external validation point.** Unlike a product with users or a research result with a benchmark, a security primitive's correctness is difficult to self-certify. Without an independent security review, confidence in correctness cannot be distinguished from actual correctness.
 *Source: `FOUNDER_PROBLEM_FIT.md` P5, item 7 (biggest personal risk).*
-
-<!-- checkpoint: chore(lab): harden network partition test -->

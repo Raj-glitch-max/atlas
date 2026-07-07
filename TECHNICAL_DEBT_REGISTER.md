@@ -59,9 +59,3 @@ Repayment of any ED item requires a frozen-package amendment or founder scope ac
 | Post-V1 founder pass | TD-1, TD-2, TD-5 (scope acts); TD-7/TD-8/TD-9 (editing pass) |
 
 Unscheduled debt discovered during implementation is not silently absorbed: it gets a register entry and either a trigger or an escalation to the founder — the same rule as `ENGINEERING_DECISION_RECORD.md`'s closing rule.
-
-<!-- checkpoint: rfc(attenuation-specification): clarify attenuation specification -->
-
-<!-- checkpoint: refactor(stores): refactor attenuation rule engine -->
-
-<!-- checkpoint: test(test): test lab environment topology -->

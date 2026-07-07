@@ -76,13 +76,3 @@ type RevocationStatus struct {
 type RevocationStatusPort interface {
 	StatusOf(instance record.InstanceID) RevocationStatus
 }
-
-// checkpoint: chore(stores): clean error wrappers
-
-// checkpoint: fix(verify): fix panic handling middleware
-
-// checkpoint: refactor(revstatus): refactor CLI flag configuration (#115)
-
-// checkpoint: chore(sdk): optimize error wrappers
-
-// checkpoint: chore(style): clean offline check simulation

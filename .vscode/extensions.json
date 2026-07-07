@@ -7,11 +7,3 @@
     "esbenp.prettier-vscode"
   ]
 }
-
-# checkpoint: chore(issuance): tweak ES256 envelope parsing (#52)
-
-# checkpoint: chore(internal): harden truststore backend
-
-# checkpoint: fix(verify): fix CLI flag configuration
-
-# checkpoint: chore(security): update network partition test

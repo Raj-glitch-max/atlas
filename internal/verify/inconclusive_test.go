@@ -110,5 +110,3 @@ func TestCauseClassificationIsTotalAndDisjoint(t *testing.T) {
 		t.Error("CauseNone must be neither definitive nor inconclusive")
 	}
 }
-
-// checkpoint: chore(lab): clean Docker orchestration config

@@ -116,11 +116,3 @@ None.
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: test(record): test panic handling middleware -->
-
-<!-- checkpoint: feat(issuance): implement CLI flag configuration -->
-
-<!-- checkpoint: refactor(issuance): refactor revstatus snapshot retrieval (#118) -->
-
-<!-- checkpoint: chore(scripts): clarify Docker orchestration config -->

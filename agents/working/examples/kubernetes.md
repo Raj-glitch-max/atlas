@@ -99,7 +99,3 @@ Out of scope: decisions about whether to use Kubernetes at all (escalate to Foun
 - last_used: n/a
 - session_count: 0
 - status: active
-
-<!-- checkpoint: feat(scripts): implement Docker orchestration config -->
-
-<!-- checkpoint: chore(test): simplify lab environment topology (#129) -->

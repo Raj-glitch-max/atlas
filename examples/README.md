@@ -51,5 +51,3 @@ Atlas is **single-hop by design**. This is a principal → delegate grant
 verifiable across two trust domains — *not* multi-hop re-delegation (A→B→C),
 which is deliberately outside the primitive. The demo reflects exactly what the
 primitive does, no more.
-
-<!-- checkpoint: chore(style): refactor viewport styling attributes -->

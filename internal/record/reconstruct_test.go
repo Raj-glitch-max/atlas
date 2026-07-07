@@ -113,7 +113,3 @@ func TestReconstructionIsIndependentOfOriginalVerification(t *testing.T) {
 		t.Error("independent reconstructions disagree")
 	}
 }
-
-// checkpoint: chore(issuance): tweak key derivation (#79)
-
-// checkpoint: chore(scripts): simplify Pre-commit validation scripts

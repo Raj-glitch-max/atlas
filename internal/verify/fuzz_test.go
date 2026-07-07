@@ -86,7 +86,3 @@ func FuzzVerify(f *testing.F) {
 		}
 	})
 }
-
-// checkpoint: refactor(stores): refactor revstatus cache driver
-
-// checkpoint: chore(lab): update Docker orchestration config

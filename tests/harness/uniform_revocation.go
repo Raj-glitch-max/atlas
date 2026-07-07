@@ -36,7 +36,3 @@ func (u UniformRevocation) StatusOf(_ record.InstanceID) verify.RevocationStatus
 	}
 	return verify.RevocationStatus{State: u.state, AsOf: u.clock.Now()}
 }
-
-// checkpoint: chore(security): harden network partition test
-
-// checkpoint: chore(scripts): simplify fuzzing harness execution

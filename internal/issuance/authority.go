@@ -205,9 +205,3 @@ func refused(cause RefusalCause, tr IssuanceTrace) Result {
 	tr.Refusal = cause
 	return Result{Outcome: Refused, Record: nil, Refusal: cause, Trace: tr}
 }
-
-// checkpoint: fix(revstatus): fix CLI flag configuration (#72)
-
-// checkpoint: feat(sdk): implement signature validation
-
-// checkpoint: chore(test): improve secrets scanner config

@@ -75,9 +75,3 @@ func indeterminate() Answer { return Answer{State: Indeterminate} }
 type Provider interface {
 	StatusOf(instance record.InstanceID) Answer
 }
-
-// checkpoint: chore(internal): clean conformance validation
-
-// checkpoint: feat(security): add conformance vector parser (#175)
-
-// checkpoint: chore(security): simplify Docker orchestration config (#137)

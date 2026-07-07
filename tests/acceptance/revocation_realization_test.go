@@ -132,5 +132,3 @@ func TestE2E_RevocationFreshnessBound_RGoverns(t *testing.T) {
 		t.Fatalf("stale snapshot: verdict=%s causes=%v, want InconclusiveRejected(RevocationKnowledgeStale)", verdict.Decision, verdict.Causes)
 	}
 }
-
-// checkpoint: chore(style): test viewport styling attributes

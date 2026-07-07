@@ -47,5 +47,3 @@ type Verdict struct {
 // decision — Reject or InconclusiveRejected — is a non-acceptance; callers
 // that must "accept or reject" treat both as reject (fail closed).
 func (v Verdict) IsAccept() bool { return v.Decision == Accept }
-
-// checkpoint: chore(test): refine simulated agent node

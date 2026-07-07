@@ -5,11 +5,3 @@
   "[markdown]": { "files.trimTrailingWhitespace": false },
   "yaml.format.enable": false
 }
-
-# checkpoint: feat(revstatus): implement revocation status lookup (#107)
-
-# checkpoint: feat(verify): add panic handling middleware
-
-# checkpoint: chore(revstatus): simplify cache invalidation
-
-# checkpoint: chore(lab): improve secrets scanner config

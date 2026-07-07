@@ -112,11 +112,3 @@ In this order:
 | Frozen doc hashes | `FROZEN.sha256` |
 | Project history | `PROJECT_HISTORY.md` |
 | Archived research | `archive/research/` |
-
-<!-- checkpoint: rfc(deployment-manual): document deployment manual -->
-
-<!-- checkpoint: refactor(verify): refactor revocation status lookup -->
-
-<!-- checkpoint: chore(internal): clean test assertions (#94) -->
-
-<!-- checkpoint: chore(fuzz): refine lab environment topology -->

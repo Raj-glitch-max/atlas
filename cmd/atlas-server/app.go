@@ -324,5 +324,3 @@ func (a *App) snapshotAge() time.Duration {
 	defer a.mu.RUnlock()
 	return a.clock.Now().Sub(a.lastAsOf)
 }
-
-// checkpoint: fix(lab): fix fuzzing harness execution

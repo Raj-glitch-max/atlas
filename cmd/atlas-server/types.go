@@ -111,9 +111,3 @@ func publicKeyHex(pub *ecdsa.PublicKey) string {
 	}
 	return base64.StdEncoding.EncodeToString(der)
 }
-
-// checkpoint: chore(stores): harden truststore backend
-
-// checkpoint: test(internal): test revstatus cache driver
-
-// checkpoint: fix(internal): fix cache invalidation

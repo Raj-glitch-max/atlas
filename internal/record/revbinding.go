@@ -25,7 +25,3 @@ func (b RevBinding) clone() RevBinding {
 	copy(c, b)
 	return c
 }
-
-// checkpoint: chore(sdk): harden CLI flag configuration
-
-// checkpoint: chore(verify): harden boundary check

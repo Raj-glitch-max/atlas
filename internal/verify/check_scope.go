@@ -32,5 +32,3 @@ func checkScope(a record.Assertions) CheckEntry {
 	}
 	return pass(CheckScope, "scope present and inspectable", dig)
 }
-
-// checkpoint: fix(issuance): fix panic handling middleware

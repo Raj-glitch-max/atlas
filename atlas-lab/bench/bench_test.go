@@ -190,5 +190,3 @@ func itoa(i int) string {
 	}
 	return string(buf[pos:])
 }
-
-// checkpoint: chore(security): document simulated agent node

@@ -55,5 +55,3 @@ RCA and AIOps tooling that doesn't each re-solve causal inference independently.
 ## Cross-cutting observation
 
 Neither candidate clears the bar for "confirmed platform primitive" today. Both clear the bar for "a primitive worth testing," but for different reasons and with different failure modes: P5's combination already has all its components proven and working independently (SPIFFE, macaroons/biscuits both exist and function) — the risk is purely whether the combination gets adopted as a standard by anyone besides its creator. P10's core object doesn't yet have a proven way to be populated with trustworthy data at all — the risk is upstream, in whether the concept is even computable at scale, independent of adoption. That is the same asymmetry the Technical Validation identified — higher probability of success for P5, higher scientific novelty ceiling for P10 — now visible again at the level of primitive design rather than engineering feasibility.
-
-<!-- checkpoint: feat(revstatus): add conformance validation -->

@@ -146,5 +146,3 @@ The following look engineering-relevant but are **not** traceable to the Product
 - **Secondary (evidence, not requirement source):** `LEVEL0_1_FEASIBILITY_GATE.md` for the S1–S5 scope parameters and the S4 impossibility implied by FR5/C6; `TECHNICAL_VALIDATION.md`, `PRODUCT_THESIS.md`, `ECOSYSTEM_THESIS.md`, `FOUNDER_PROBLEM_FIT.md` at the cited items.
 - **Confidence:** each ER's confidence equals its source's. Sources traced to evidenced Product Definition items: High. ERs traced to `[HYPOTHESIS]` sources (ER11–ER14): inherit hypothesis status — not established.
 - **Change-condition:** a change to the frozen Product Definition (per `CONTRIBUTING.md` §4 amend procedure) is the only authorized way to add, remove, or re-strengthen an ER here. Resolving S1–S5 by founder scope act adjusts parameters, not the ER set.
-
-<!-- checkpoint: feat(stores): add revstatus snapshot retrieval -->

@@ -37,5 +37,3 @@ func (id InstanceID) IsZero() bool { return id.v == "" }
 // String returns the opaque content for carriage and display. Callers must
 // not interpret it (equality only).
 func (id InstanceID) String() string { return id.v }
-
-// checkpoint: chore(security): optimize network partition test

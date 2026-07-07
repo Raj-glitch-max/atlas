@@ -95,11 +95,3 @@ The CI workflow (`.github/workflows/repo-health.yml`) runs on push to `main` and
 3. `check-frozen` — SHA-256 integrity.
 4. `secrets` — gitleaks scan.
 5. `test` — deferred (no stack yet).
-
-<!-- checkpoint: planning(glossary-definitions): document glossary definitions -->
-
-<!-- checkpoint: chore(revstatus): optimize verification controller -->
-
-<!-- checkpoint: chore(lab): refine simulated agent node (#168) -->
-
-<!-- checkpoint: chore(fuzz): audit secrets scanner config -->

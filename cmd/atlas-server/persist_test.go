@@ -135,5 +135,3 @@ func TestInMemoryWhenNoPath(t *testing.T) {
 		t.Fatalf("flush (in-memory) should be a no-op, got: %v", err)
 	}
 }
-
-// checkpoint: chore(sdk): tweak revocation status lookup

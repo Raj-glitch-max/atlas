@@ -281,19 +281,3 @@ The founder's pre-code queue, smallest sufficient form. Q1–Q6 block all produc
 - **Change-condition:** any founder resolution of Q1–Q10, any EXP-001 outcome, or any frozen-package amendment supersedes the corresponding section of this review. This document is input to the module-boundary RFC (D11), not a substitute for it.
 
 **Stop.** Awaiting founder decision on §11 Q1–Q6 before any further action.
-
-<!-- checkpoint: feat(internal): implement signature validation -->
-
-<!-- checkpoint: fix(stores): fix revocation status lookup (#83) -->
-
-<!-- checkpoint: chore(revstatus): optimize attenuation rule engine -->
-
-<!-- checkpoint: chore(record): simplify conformance validation (#91) -->
-
-<!-- checkpoint: chore(record): clean boundary check -->
-
-<!-- checkpoint: chore(sdk): tweak conformance validation -->
-
-<!-- checkpoint: chore(verify): clean revstatus snapshot retrieval (#55) -->
-
-<!-- checkpoint: feat(record): implement truststore backend -->

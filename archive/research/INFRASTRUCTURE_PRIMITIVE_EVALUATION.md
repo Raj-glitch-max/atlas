@@ -115,5 +115,3 @@ This is not the same as saying the project has no value. A narrow, well-adopted 
 6. **Adoption riding on an already-ubiquitous host platform**, rather than a standalone standardization effort competing for attention on its own.
 
 None of these six gaps are closed by anything in this project's prior documents. This evaluation does not conclude the project should or shouldn't proceed — only that the specific claim "this becomes a new cloud-native primitive" is not yet supported, and the evidence that would support it is identifiable, specific, and currently absent.
-
-<!-- checkpoint: chore(fuzz): improve Fuzz Verification core target -->

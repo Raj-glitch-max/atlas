@@ -19,7 +19,3 @@
 ## Frozen-doc impact
 
 <!-- If any file in FROZEN.sha256 changed: link the journal entry and the dated amendment, and run `make frozen-baseline`. Else: "none." -->
-
-<!-- checkpoint: chore(issuance): clean attenuation rule engine -->
-
-<!-- checkpoint: chore(fuzz): update fuzzing harness execution -->

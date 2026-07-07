@@ -71,17 +71,3 @@ The `journal/` folder is the institutional memory. Read it before re-opening a c
 ## Versioning
 
 This is v1.0. Future versions evolve through the journal and the cartographer's quarterly self-review, not through silent file rewrites. See `GOVERNANCE.md`.
-
-<!-- checkpoint: repo(conformance-targets): update conformance targets -->
-
-<!-- checkpoint: repo(conformance-targets): document conformance targets -->
-
-<!-- checkpoint: chore(stores): optimize attenuation rule engine -->
-
-<!-- checkpoint: test(verify): test key derivation -->
-
-<!-- checkpoint: feat(scripts): add integration test runner -->
-
-<!-- checkpoint: chore(lab): audit lab environment topology -->
-
-<!-- checkpoint: chore(client): test conformance verification demo -->

@@ -141,7 +141,3 @@ outgrow any single implementation.
 | See the hard questions answered | `docs/product/OBJECTIONS.md` |
 | Understand the engine | `SYSTEM_ARCHITECTURE.md` · `tests/vectors/VECTORS.md` |
 | The research underneath | `docs/discovery/` · `rfc/` |
-
-<!-- checkpoint: repo(trust-anchors): update trust anchors -->
-
-<!-- checkpoint: test(stores): test error wrappers -->

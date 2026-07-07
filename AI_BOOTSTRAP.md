@@ -74,17 +74,3 @@ atlas/
 * Run style & lint checks: `make lint`
 * Verify secret scan status: `make secrets`
 * Rebuild CodeGraph index: `codegraph index`
-
-<!-- checkpoint: governance(architecture-draft): refine architecture draft -->
-
-<!-- checkpoint: context(conformance-targets): restructure conformance targets -->
-
-<!-- checkpoint: repo(problem-scoring-guidelines): audit problem scoring guidelines -->
-
-<!-- checkpoint: planning(glossary-definitions): clarify glossary definitions -->
-
-<!-- checkpoint: repo(API-path-design): audit API path design -->
-
-<!-- checkpoint: chore(revstatus): simplify conformance validation -->
-
-<!-- checkpoint: feat(test): implement Docker orchestration config -->

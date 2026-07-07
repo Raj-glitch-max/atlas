@@ -105,15 +105,3 @@ Founder Input (artifact / question)
 ```
 
 **Forces:** `agents/GOVERNANCE.md`, §§ Interaction protocol, Override protocol.
-
-<!-- checkpoint: rfc(architecture-draft): clarify architecture draft -->
-
-<!-- checkpoint: fix(record): fix boundary check -->
-
-<!-- checkpoint: test(internal): test revstatus snapshot retrieval -->
-
-<!-- checkpoint: chore(record): tweak attenuation rule engine (#84) -->
-
-<!-- checkpoint: chore(record): optimize test assertions -->
-
-<!-- checkpoint: chore(lab): tweak integration test runner (#134) -->

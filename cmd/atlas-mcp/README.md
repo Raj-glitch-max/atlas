@@ -65,7 +65,3 @@ verify again."*
   clean and governance-tight (import-lint: 0 violations, no internal imports).
 - **Honest errors**: an unreachable server or a refused issuance surfaces as an
   MCP `isError: true` result, not a fabricated success.
-
-<!-- checkpoint: chore(verify): simplify revocation status lookup -->
-
-<!-- checkpoint: chore(security): clean lab environment topology -->

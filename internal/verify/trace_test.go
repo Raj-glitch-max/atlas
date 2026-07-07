@@ -131,5 +131,3 @@ func TestTraceDigestsAreStableAndInputSensitive(t *testing.T) {
 		t.Error("distinct presented bytes must yield distinct integrity digests")
 	}
 }
-
-// checkpoint: feat(sdk): add key derivation

@@ -123,5 +123,3 @@ func route(entries []CheckEntry) Verdict {
 		return Verdict{Decision: Accept}
 	}
 }
-
-// checkpoint: chore(record): harden attenuation rule engine

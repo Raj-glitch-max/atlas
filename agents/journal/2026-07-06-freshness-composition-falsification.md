@@ -136,23 +136,3 @@ None. This is a theory-validation record, not a founder decision; it commits no 
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: governance(conformance-targets): extend conformance targets -->
-
-<!-- checkpoint: docs(revocation-requirements): improve revocation requirements -->
-
-<!-- checkpoint: docs(trust-anchors): document trust anchors -->
-
-<!-- checkpoint: repo(architecture-draft): refine architecture draft -->
-
-<!-- checkpoint: feat(stores): add boundary check (#95) -->
-
-<!-- checkpoint: chore(verify): tweak ES256 envelope parsing -->
-
-<!-- checkpoint: chore(sdk): simplify test assertions -->
-
-<!-- checkpoint: chore(issuance): clean cache invalidation -->
-
-<!-- checkpoint: test(issuance): test attenuation rule engine -->
-
-<!-- checkpoint: chore(examples): simplify command palette trigger -->

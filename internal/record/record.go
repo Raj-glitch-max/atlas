@@ -95,7 +95,3 @@ func (o Outcome) String() string {
 	}
 	return "Altered"
 }
-
-// checkpoint: chore(test): document lab environment topology
-
-// checkpoint: chore(ui): clean mobile menu hamburger overlay (#193)

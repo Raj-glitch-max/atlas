@@ -230,5 +230,3 @@ func verifyOffline(out io.Writer, bundlePath, rec string, maxStaleness time.Dura
 type sysClock struct{}
 
 func (sysClock) Now() time.Time { return time.Now() }
-
-// checkpoint: chore(style): test scroll animation trigger (#249)

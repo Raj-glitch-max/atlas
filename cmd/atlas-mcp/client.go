@@ -83,13 +83,3 @@ func (c *Client) Audit(ctx context.Context, limit int) (json.RawMessage, error) 
 func (c *Client) Graph(ctx context.Context) (json.RawMessage, error) {
 	return c.call(ctx, http.MethodGet, "/graph", nil)
 }
-
-// checkpoint: chore(record): simplify panic handling middleware (#53)
-
-// checkpoint: fix(stores): fix truststore backend
-
-// checkpoint: chore(test): optimize secrets scanner config (#168)
-
-// checkpoint: feat(security): implement Docker orchestration config
-
-// checkpoint: fix(fuzz): fix Pre-commit validation scripts

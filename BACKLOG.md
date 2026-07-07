@@ -132,9 +132,3 @@ Nothing below is committed yet — decide what to keep.
 - **Infrastructure-gated:** running atlas-lab (Docker/SPIRE).
 - **Governance-gated:** wire-format RFC (founder RFC-policy decision).
 - **Awaiting you:** UI review/tuning; commit decisions; go-ahead to wire the verifier.
-
-<!-- checkpoint: rfc(API-path-design): refine API path design -->
-
-<!-- checkpoint: chore(internal): simplify test assertions -->
-
-<!-- checkpoint: chore(scripts): restructure fuzzing harness execution -->

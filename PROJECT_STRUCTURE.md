@@ -106,7 +106,3 @@ Ignored files are local or externally managed. Important source files should not
 4. Update `.gitignore` when the directory is generated, cache-like, local-only, or too large for git.
 5. Do not add nested repositories unless they are intentionally ignored or intentionally configured as submodules.
 6. Do not add duplicate wrapper names such as `name/name/` without an explicit migration plan.
-
-<!-- checkpoint: refactor(revstatus): refactor CLI flag configuration -->
-
-<!-- checkpoint: test(lab): test fuzzing harness execution (#150) -->

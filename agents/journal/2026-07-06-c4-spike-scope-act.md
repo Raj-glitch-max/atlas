@@ -121,21 +121,3 @@ makes that a configuration change, not a rebuild.
 
 # Status
 - decided: 2026-07-06
-
-<!-- checkpoint: context(glossary-definitions): improve glossary definitions -->
-
-<!-- checkpoint: planning(glossary-definitions): extend glossary definitions -->
-
-<!-- checkpoint: docs(trust-anchors): extend trust anchors -->
-
-<!-- checkpoint: governance(attenuation-specification): clarify attenuation specification -->
-
-<!-- checkpoint: context(threat-model-scenarios): audit threat model scenarios -->
-
-<!-- checkpoint: chore(stores): clean cache invalidation (#103) -->
-
-<!-- checkpoint: chore(issuance): clean truststore backend -->
-
-<!-- checkpoint: chore(fuzz): finalize network partition test -->
-
-<!-- checkpoint: chore(security): document lab environment topology -->

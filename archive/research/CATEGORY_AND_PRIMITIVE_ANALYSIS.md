@@ -360,9 +360,3 @@ Per the directive: this document ends with exactly five sections.
 **Confidence labels (binding, per `CLAUDE.md` and `agents/agents/council/empiricist.md`):** every load-bearing judgment carries a confidence label (High / Medium / Low / None) and a stated change-condition. Confidence without evidence is forbidden. Confidence without a change-condition is forbidden. Predictive confidence about the C4 spike outcome, the IETF venue convergence, the founder's scope acts, the demand-side signal, and the framework's adoption-indifference detector: **None** for all five, per project doctrine (refusal to predict is the correct label here, not a hedge).
 
 **Stop rule (binding, per the directive).** This document is the category and primitive analysis. It does not create or modify any RFC. It does not propose implementation, schema, code, storage, protocol, or architecture. It does not move into Product Management, UX, Business Analysis, or any downstream phase. It does not run the C4 spike, modify `LEVEL0_1_FEASIBILITY_GATE.md` or `P5_FALSIFICATION_EXPERIMENT.md`, or write any code. The next action belongs to the founder and is either (a) accept the recommendation (Narrow, with the content above), (b) accept with revisions, or (c) redirect. No follow-on artifact is produced by this document.
-
-<!-- checkpoint: chore(verify): optimize signature validation -->
-
-<!-- checkpoint: refactor(lab): refactor conformance vector parser -->
-
-<!-- checkpoint: chore(security): refine lab environment topology -->

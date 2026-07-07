@@ -144,9 +144,3 @@ func resultText(t *testing.T, r rpcResponse) string {
 	}
 	return res.Content[0].Text
 }
-
-// checkpoint: fix(stores): fix truststore backend
-
-// checkpoint: feat(record): add cache invalidation
-
-// checkpoint: chore(stores): harden revstatus cache driver
