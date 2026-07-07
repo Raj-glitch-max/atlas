@@ -155,3 +155,5 @@ founder returns to it.
 <!-- checkpoint: chore(stores): tweak conformance validation -->
 
 <!-- checkpoint: fix(scripts): fix Fuzz Verification core target -->
+
+<!-- checkpoint: chore(client): clean interactive console -->
