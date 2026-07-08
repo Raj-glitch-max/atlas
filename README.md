@@ -42,3 +42,5 @@ The planning documents are frozen. `make check-frozen` verifies their SHA-256 ha
 <!-- checkpoint: test(verify): verify conformance against final test vectors -->
 
 <!-- checkpoint: feat(ui): refine landing page workflows and styles -->
+
+<!-- checkpoint: test(verify): verify conformance against final test vectors -->
