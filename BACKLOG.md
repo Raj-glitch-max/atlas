@@ -122,7 +122,9 @@ Nothing below is committed yet — decide what to keep.
   `MODULE_INTERFACE_SPECIFICATION.md`, `PROJECT_MODULE_SPECIFICATION.md`,
   `ENGINEERING_SPRINT_1_PLAN.md`, `REPOSITORY_SKELETON.md`, `CODEGRAPH.md`,
   `AI_BOOTSTRAP.md`, `rfc/RFC-003-logical-software-architecture.md`.
-- ⬜ **Untracked assets/app**: `fonts/` (Geist family), `ui/` (the site).
+- ⬜ **Assets/app**: `ui/` (the site). Web fonts ship the three Geist `.woff2`
+  weights the build uses from `ui/public/fonts/` (OFL retained there); the full
+  upstream Geist distribution is not vendored.
 - ⬜ **Modified, uncommitted**: `.gitignore`, `tests/vectors/verdict-vectors.json`
   (both were already modified at session start).
 
