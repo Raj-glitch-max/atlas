@@ -48,3 +48,5 @@ The planning documents are frozen. `make check-frozen` verifies their SHA-256 ha
 <!-- checkpoint: docs(frozen): capture final hashes for frozen documentation -->
 
 <!-- checkpoint: chore(release): prepare v0.1-dev release candidate -->
+
+<!-- checkpoint: chore(cleanup): remove development check-lines and format code -->
