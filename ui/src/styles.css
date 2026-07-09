@@ -141,6 +141,13 @@ html.anim .reveal{opacity:0;transform:translateY(26px);filter:blur(7px)}
 html.anim .reveal.in{opacity:1;transform:none;filter:blur(0)}
 .reveal.d1{transition-delay:.06s}.reveal.d2{transition-delay:.12s}.reveal.d3{transition-delay:.18s}.reveal.d4{transition-delay:.24s}
 
+/* section headings reveal as a clean mask-wipe (clip-path) instead of the
+   generic blur-rise — sharper and more editorial for display type. Negative
+   insets at rest guarantee no descender/ascender clipping. */
+.h-2.reveal{transition:clip-path .95s var(--spring),opacity .7s var(--ease),transform .9s var(--spring)}
+html.anim .h-2.reveal{filter:none;transform:translateY(9px);clip-path:inset(0 0 108% 0)}
+html.anim .h-2.reveal.in{clip-path:inset(-18% 0 -18% 0);transform:none}
+
 /* cards — hairline, no drop shadows for structure */
 .card{background:var(--s1);border:1px solid var(--line);border-radius:var(--r2);overflow:hidden;
   transition:border-color .2s var(--ease),background .2s var(--ease),transform .2s var(--spring)}
@@ -440,8 +447,9 @@ html.anim .metrics.reveal.in .spk circle{opacity:1;transition:opacity .4s var(--
 
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
-  .reveal{opacity:1;transform:none;filter:none}
+  .reveal{opacity:1;transform:none;filter:none;clip-path:none}
   html.anim .reveal{opacity:1;transform:none;filter:none}
+  html.anim .h-2.reveal{clip-path:none;transform:none}
   #spot{display:none}
   .finale .glow{animation:none}
   .hero h1 em::after{transform:scaleX(1)}
