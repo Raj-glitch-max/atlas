@@ -36,7 +36,14 @@ jobs:
       - name: frozen-docs integrity
         run: bash scripts/check-frozen-docs.sh
 
+      # Run the gitleaks CLI directly (same as `make secrets`), not the
+      # gitleaks-action wrapper — the wrapper now requires a paid GITLEAKS_LICENSE
+      # and fails the build when its license-check API call is rate-limited. The
+      # tool itself is free; this is deterministic and needs no secret.
       - name: secret scan
-        uses: gitleaks/gitleaks-action@v2
-        with:
-          config-path: .gitleaks.toml
+        env:
+          GITLEAKS_VERSION: "8.18.4"
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks detect --redact --no-banner --config .gitleaks.toml --source .

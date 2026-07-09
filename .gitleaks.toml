@@ -6,8 +6,12 @@ title = "Engineering Foundation — secret scan"
 useDefault = true
 
 [allowlist]
-description = "Ignore vendored reference skills and sealed lab evidence"
+description = "Ignore vendored reference skills, sealed lab evidence, and public conformance test vectors"
 paths = [
   '''claude-skills/.*''',
   '''lab/evidence/.*''',
+  # Conformance/adversarial vectors are public interop test data — signed test
+  # records (JWS/JWT) over test claims, no real keys. They are meant to be
+  # replayed by any implementation, not secrets.
+  '''tests/vectors/.*''',
 ]
