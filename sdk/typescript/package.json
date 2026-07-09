@@ -1,0 +1,22 @@
+{
+  "name": "@atlas/sdk",
+  "version": "0.1.0-dev",
+  "description": "Zero-dependency TypeScript client for the Atlas Server — offline-verifiable, attenuable delegation for SPIFFE workload identity.",
+  "type": "module",
+  "main": "atlas.ts",
+  "types": "atlas.ts",
+  "exports": {
+    ".": "./atlas.ts"
+  },
+  "files": ["atlas.ts", "README.md"],
+  "scripts": {
+    "example": "node --experimental-strip-types example.ts",
+    "smoke": "node --experimental-strip-types smoke_test.ts"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "keywords": ["atlas", "spiffe", "delegation", "capability", "authorization", "offline-verification"],
+  "license": "Apache-2.0",
+  "dependencies": {}
+}
