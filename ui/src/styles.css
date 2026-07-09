@@ -349,12 +349,17 @@ body.ready .hero .wrap>*:nth-child(3){transition-delay:.28s}
 body.ready .hero .wrap>*:nth-child(4){transition-delay:.40s}
 body.ready .hero .wrap>*:nth-child(5){transition-delay:.52s}
 
-/* nav links — active state + sliding underline */
+/* nav links — hover underline + a single glowing indicator that glides to the
+   active section (built by scroll.js as progressive enhancement) */
+.nav .links{position:relative}
 .nav .links a{position:relative}
 .nav .links a::after{content:"";position:absolute;left:11px;right:11px;bottom:3px;height:1px;background:var(--accent);
-  transform:scaleX(0);transform-origin:0;transition:transform .25s var(--ease);opacity:.85}
-.nav .links a:hover::after,.nav .links a.active::after{transform:scaleX(1)}
+  transform:scaleX(0);transform-origin:0;transition:transform .25s var(--ease);opacity:.55}
+.nav .links a:hover::after{transform:scaleX(1)}
 .nav .links a.active{color:var(--fg)}
+.nav-ind{position:absolute;bottom:2px;left:0;height:2px;width:0;border-radius:2px;opacity:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--accent2),var(--accent));box-shadow:0 0 10px rgba(125,211,252,.6);
+  transition:transform .38s var(--spring),width .38s var(--spring),opacity .3s var(--ease)}
 
 /* standalone cards — lift + pointer-tracking glow */
 .card{position:relative;will-change:transform}

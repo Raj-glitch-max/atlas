@@ -58,14 +58,19 @@ export function initScroll(hero) {
     ScrollTrigger.create({ trigger: el, start: "top 90%", once: true, onEnter: () => el.classList.add("in") });
   });
 
-  /* ---------- active-section nav ---------- */
+  /* ---------- active-section nav + sliding indicator ---------- */
+  const navLinks = document.querySelector(".nav .links");
+  let navInd = null, activeLink = null;
+  if (navLinks) { navInd = document.createElement("span"); navInd.className = "nav-ind"; navLinks.appendChild(navInd); }
+  const moveInd = (a) => { if (!navInd || !a) return; navInd.style.transform = `translateX(${a.offsetLeft}px)`; navInd.style.width = a.offsetWidth + "px"; navInd.style.opacity = "1"; };
   document.querySelectorAll(".nav .links a").forEach((a) => {
     const sec = document.querySelector(a.getAttribute("href")); if (!sec) return;
     ScrollTrigger.create({
       trigger: sec, start: "top 45%", end: "bottom 45%",
-      onToggle: (self) => { if (self.isActive) { document.querySelectorAll(".nav .links a").forEach((x) => x.classList.remove("active")); a.classList.add("active"); } },
+      onToggle: (self) => { if (self.isActive) { document.querySelectorAll(".nav .links a").forEach((x) => x.classList.remove("active")); a.classList.add("active"); activeLink = a; moveInd(a); } },
     });
   });
+  addEventListener("resize", () => moveInd(activeLink), { passive: true });
 
   /* ---------- metric count-up ---------- */
   document.querySelectorAll(".metric .n[data-to]").forEach((el) => {
