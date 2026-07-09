@@ -49,6 +49,8 @@ body{
 @keyframes drift1{to{transform:translate(10vmax,8vmax) scale(1.15)}}
 @keyframes drift2{to{transform:translate(-9vmax,10vmax) scale(1.1)}}
 @keyframes drift3{to{transform:translate(8vmax,-9vmax) scale(1.2)}}
+/* pause the aurora while the mobile menu is open so taps repaint cheaply */
+html.mnav-lock .aurora span{animation-play-state:paused}
 ::selection{background:rgba(125,211,252,.24);color:#fff}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -99,7 +101,7 @@ img,canvas{display:block;max-width:100%}
 .mbtn span:nth-child(2){top:22px}
 .mbtn.x span:nth-child(1){top:18px;transform:rotate(45deg)}
 .mbtn.x span:nth-child(2){top:18px;transform:rotate(-45deg)}
-.mnav{position:fixed;inset:0;z-index:58;background:rgba(7,8,10,.96);backdrop-filter:blur(18px);
+.mnav{position:fixed;inset:0;z-index:58;background:#07080a;
   display:flex;flex-direction:column;justify-content:center;padding:var(--nav) 26px 26px;
   opacity:0;transition:opacity .3s var(--ease)}
 .mnav.open{opacity:1}

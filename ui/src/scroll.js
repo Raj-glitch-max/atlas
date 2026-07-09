@@ -63,8 +63,13 @@ export function initScroll(hero) {
   let navInd = null, activeLink = null;
   if (navLinks) { navInd = document.createElement("span"); navInd.className = "nav-ind"; navLinks.appendChild(navInd); }
   const moveInd = (a) => { if (!navInd || !a) return; navInd.style.transform = `translateX(${a.offsetLeft}px)`; navInd.style.width = a.offsetWidth + "px"; navInd.style.opacity = "1"; };
-  document.querySelectorAll(".nav .links a").forEach((a) => {
-    const sec = document.querySelector(a.getAttribute("href")); if (!sec) return;
+  // Only in-page anchors get a section trigger — links to other pages (e.g.
+  // Console -> /console.html) are not valid CSS selectors and must be skipped,
+  // or querySelector throws and aborts the whole scroll enhancement.
+  document.querySelectorAll('.nav .links a[href^="#"]').forEach((a) => {
+    const href = a.getAttribute("href");
+    if (!href || href.length < 2) return;
+    const sec = document.querySelector(href); if (!sec) return;
     ScrollTrigger.create({
       trigger: sec, start: "top 45%", end: "bottom 45%",
       onToggle: (self) => { if (self.isActive) { document.querySelectorAll(".nav .links a").forEach((x) => x.classList.remove("active")); a.classList.add("active"); activeLink = a; moveInd(a); } },
