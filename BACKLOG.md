@@ -13,12 +13,15 @@ scroll-progress rail, active-nav, count-up, sparkline draw-in, cursor
 spotlight, filmic grain, real Geist fonts, mobile responsive, reduced-motion
 fallback, boot failsafe. Runs at `http://localhost:5173/` (`cd ui && npm run dev`).
 
+- ✅ **Committed `ui/` to git** — the site is tracked and on `main`; a later
+  art-direction pass added atmospheric depth, mask-wipe heading reveals, a
+  scroll-reactive hero, magnetic CTAs, and a sliding nav indicator.
+- ✅ **Wired the real Go verifier** — the verify console runs live against
+  `cmd/atlas-server` (real verdict / trace / latency), with the scripted demo
+  as the offline fallback. The badge flips to `live · domain-a.test` when the
+  server is up.
 - ⬜ **Your visual review + tuning** — motion speed / density / camera-beat
   intensity; anything that feels off at desktop **and** narrow widths.
-- ⬜ **Commit `ui/` to git** — currently fully untracked (see §C).
-- ⬜ **Wire the real Go verifier** — *explicitly deferred; the named next step.*
-  Small local bridge (e.g. a tiny Go HTTP endpoint wrapping `internal/verify`)
-  so the pipeline/verdict fire on **real** verdicts instead of scripted data.
 - ⬜ (optional) Deeper 3D: WebGL bloom pass · force-directed cluster separation ·
   procedural "ice/crystal" nodes (Igloo-style).
 - ⬜ (optional) Third cinematic: key rotation / trust-bundle refresh.
@@ -87,9 +90,21 @@ green. Run: `go run ./cmd/atlas-server` (→ 127.0.0.1:8080).
 - ✅ **Latency histogram** in `/metrics` (`atlas_verify_latency_seconds_*`).
 - ✅ **Python SDK** (`sdk/python`) — zero-dep client + example + smoke test.
 - ✅ **Product overview** — `PRODUCT.md`.
-- ⬜ **Remaining:** gRPC · published TS/Go SDKs · config file (YAML) + hot
-  reload · non-root/read-only container hardening · TLS · durable DB backend
-  behind the `Store` seam.
+- ✅ **TypeScript SDK** (`sdk/typescript`) — zero-dep client mirroring the
+  Python SDK; runs on Node 22 type-stripping. Live smoke: issue → verify Accept
+  → revoke → verify Reject (`RevokedObservable`) against the real engine.
+- ✅ **Rate limiting** — per-IP token bucket on `/issue` + `/revoke`
+  (`-rate-limit` req/min); read-only + probe endpoints never limited. Unit-tested;
+  live-verified (burst passes, then 429).
+- ✅ **CORS origin pinning** — `-allow-origin` / `$ATLAS_ALLOW_ORIGIN` replaces
+  the dev `*`; live-verified.
+- ✅ **Readiness probe** — `/readyz` (distinct from `/health` liveness) reports
+  ready only when a fresh signed snapshot is held; fails closed (503) otherwise.
+- ✅ **Container hardening** — distroless `:nonroot`, `read_only` rootfs +
+  writable `/data`, `cap_drop: ALL`, `no-new-privileges`; `docker compose
+  config` valid.
+- ⬜ **Remaining:** gRPC · published TS/Go SDK packages (npm/proxy) · config
+  file (YAML) + hot reload · TLS · durable DB backend behind the `Store` seam.
 
 ## B. Atlas engineering  (from earlier in the session)
 
