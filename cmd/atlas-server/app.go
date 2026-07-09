@@ -72,22 +72,27 @@ type Config struct {
 	KeyPath   string   // authority key file ("" => ephemeral)
 	APIKey    string   // optional bearer token guarding mutating endpoints
 	Grant     []string // scopes a principal may delegate ("" => default set)
+
+	AllowOrigin  string // CORS Access-Control-Allow-Origin ("" => "*", dev default)
+	RateLimitRPM int    // per-IP requests/min on mutating endpoints (0 => off)
 }
 
 // App is the server's composition root and in-process state.
 type App struct {
-	clock     Clock
-	domain    spiffeid.TrustDomain
-	keyID     string
-	pubKeyHex string
-	apiKey    string
-	authority *issuance.Authority
-	trust     *truststore.Store
-	publisher *revstatus.Publisher
-	provider  *revstatus.SignedSetProvider
-	policy    verify.Policy
-	store     *Store
-	revWindow time.Duration
+	clock       Clock
+	domain      spiffeid.TrustDomain
+	keyID       string
+	pubKeyHex   string
+	apiKey      string
+	authority   *issuance.Authority
+	trust       *truststore.Store
+	publisher   *revstatus.Publisher
+	provider    *revstatus.SignedSetProvider
+	policy      verify.Policy
+	store       *Store
+	revWindow   time.Duration
+	allowOrigin string
+	limiter     *rateLimiter
 
 	mu       sync.RWMutex // guards revoked set + provider ingest vs. verify reads
 	revoked  map[string]record.InstanceID
@@ -144,12 +149,20 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 	if err := store.Load(); err != nil {
 		return nil, fmt.Errorf("load store %q: %w", cfg.StorePath, err)
 	}
+	allowOrigin := cfg.AllowOrigin
+	if allowOrigin == "" {
+		allowOrigin = "*"
+	}
+	var limiter *rateLimiter
+	if cfg.RateLimitRPM > 0 {
+		limiter = newRateLimiter(cfg.RateLimitRPM, clock)
+	}
 	app := &App{
 		clock: clock, domain: td, keyID: keyID, apiKey: cfg.APIKey,
 		pubKeyHex: publicKeyHex(&key.PublicKey),
 		authority: authority, trust: trust, publisher: publisher, provider: provider,
 		policy: policy, store: store, revWindow: 2 * time.Second,
-		revoked: map[string]record.InstanceID{},
+		revoked: map[string]record.InstanceID{}, allowOrigin: allowOrigin, limiter: limiter,
 	}
 	// Rebuild the revoked set from any persisted revoked delegations.
 	for _, instStr := range store.RevokedInstances() {

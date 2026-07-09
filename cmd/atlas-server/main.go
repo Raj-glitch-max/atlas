@@ -21,6 +21,8 @@ func main() {
 	keyPath := flag.String("key", "", "path to the authority key (PEM); created if absent. Needed for records to survive restarts")
 	apiKey := flag.String("api-key", envOr("ATLAS_API_KEY", ""), "if set, /issue and /revoke require Authorization: Bearer <key>")
 	grant := flag.String("grant", "", "comma-separated scopes a principal may delegate (default: a built-in demo set)")
+	allowOrigin := flag.String("allow-origin", envOr("ATLAS_ALLOW_ORIGIN", ""), "CORS allowed origin for browser clients (default: * — pin to your UI origin in production)")
+	rateLimit := flag.Int("rate-limit", 0, "per-IP requests/min on /issue and /revoke (0 = unlimited)")
 	flag.Parse()
 
 	var grantSet []string
@@ -31,9 +33,18 @@ func main() {
 			}
 		}
 	}
-	app, err := NewApp(Config{Domain: *domain, StorePath: *store, KeyPath: *keyPath, APIKey: *apiKey, Grant: grantSet}, systemClock{})
+	app, err := NewApp(Config{
+		Domain: *domain, StorePath: *store, KeyPath: *keyPath, APIKey: *apiKey, Grant: grantSet,
+		AllowOrigin: *allowOrigin, RateLimitRPM: *rateLimit,
+	}, systemClock{})
 	if err != nil {
 		log.Fatalf("atlas-server: %v", err)
+	}
+	if *allowOrigin != "" {
+		log.Printf("atlas-server: CORS pinned to origin %s", *allowOrigin)
+	}
+	if *rateLimit > 0 {
+		log.Printf("atlas-server: mutating endpoints rate-limited to %d req/min per IP", *rateLimit)
 	}
 	if *store != "" {
 		log.Printf("atlas-server: durable store at %s", *store)

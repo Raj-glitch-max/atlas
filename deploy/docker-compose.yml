@@ -9,14 +9,28 @@ services:
       context: ..
       dockerfile: deploy/Dockerfile
     # Durable state + authority key persist on the named volume, so records
-    # survive restarts. Set ATLAS_API_KEY to guard mutating endpoints.
-    command: ["-addr", "0.0.0.0:8087", "-store", "/data/state.json", "-key", "/data/authority.key", "-trust-domain", "domain-a.test"]
+    # survive restarts. Set ATLAS_API_KEY to guard mutating endpoints, and
+    # ATLAS_ALLOW_ORIGIN to pin CORS to your UI origin.
+    command: ["-addr", "0.0.0.0:8087", "-store", "/data/state.json", "-key", "/data/authority.key", "-trust-domain", "domain-a.test", "-rate-limit", "600"]
     environment:
       - ATLAS_API_KEY=${ATLAS_API_KEY:-}
+      - ATLAS_ALLOW_ORIGIN=${ATLAS_ALLOW_ORIGIN:-*}
     ports:
       - "8087:8087"
     volumes:
       - atlas-data:/data
+    # Hardening: unprivileged user, read-only root filesystem (only the /data
+    # volume + a small tmpfs are writable), no capabilities, no privilege
+    # escalation. The store writes its atomic temp file inside /data, so a
+    # read-only root does not break durability.
+    user: "65532:65532"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     restart: unless-stopped
 
   prometheus:

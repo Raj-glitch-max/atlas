@@ -16,24 +16,28 @@ import (
 func (a *App) Router() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", a.handleHealth)
+	mux.HandleFunc("/readyz", a.handleReady)
 	mux.HandleFunc("/version", a.handleVersion)
-	mux.HandleFunc("/issue", a.only(http.MethodPost, a.requireAuth(a.handleIssue)))
+	mux.HandleFunc("/issue", a.only(http.MethodPost, a.limit(a.requireAuth(a.handleIssue))))
 	mux.HandleFunc("/verify", a.only(http.MethodPost, a.handleVerify))
-	mux.HandleFunc("/revoke", a.only(http.MethodPost, a.requireAuth(a.handleRevoke)))
+	mux.HandleFunc("/revoke", a.only(http.MethodPost, a.limit(a.requireAuth(a.handleRevoke))))
 	mux.HandleFunc("/delegations", a.only(http.MethodGet, a.handleDelegations))
 	mux.HandleFunc("/audit", a.only(http.MethodGet, a.handleAudit))
 	mux.HandleFunc("/graph", a.only(http.MethodGet, a.handleGraph))
 	mux.HandleFunc("/stats", a.only(http.MethodGet, a.handleStats))
 	mux.HandleFunc("/bundle", a.only(http.MethodGet, a.handleBundle))
 	mux.HandleFunc("/metrics", a.only(http.MethodGet, a.handleMetrics))
-	return cors(mux)
+	return a.cors(mux)
 }
 
 // ---- middleware ----
 
-func cors(next http.Handler) http.Handler {
+func (a *App) cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", a.allowOrigin)
+		if a.allowOrigin != "*" {
+			w.Header().Add("Vary", "Origin")
+		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 		if r.Method == http.MethodOptions {
@@ -96,6 +100,30 @@ func decode(r *http.Request, v any) *apiError {
 
 func (a *App) handleHealth(w http.ResponseWriter, _ *http.Request) {
 	writeJSON(w, 200, map[string]any{"status": "ok", "time": a.clock.Now().UTC()})
+}
+
+// handleReady is the orchestrator readiness probe (distinct from /health's
+// liveness): it reports ready only when the engine can actually answer — a
+// signed revocation snapshot is held and is within the freshness bound R.
+// Kubernetes/Nomad route traffic on this, so it fails closed (503) while
+// warming up or if the snapshot has aged out.
+func (a *App) handleReady(w http.ResponseWriter, _ *http.Request) {
+	a.mu.RLock()
+	haveSnapshot := !a.lastAsOf.IsZero()
+	a.mu.RUnlock()
+	age := a.snapshotAge()
+	ready := haveSnapshot && age <= a.revWindow
+	body := map[string]any{
+		"ready":             ready,
+		"snapshotAgeSecond": age.Seconds(),
+		"revocationR":       a.revWindow.String(),
+	}
+	if !ready {
+		body["reason"] = "no fresh revocation snapshot yet"
+		writeJSON(w, http.StatusServiceUnavailable, body)
+		return
+	}
+	writeJSON(w, 200, body)
 }
 
 func (a *App) handleVersion(w http.ResponseWriter, _ *http.Request) {
