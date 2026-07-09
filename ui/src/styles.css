@@ -25,7 +25,16 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0; background:var(--bg); color:var(--fg2);
+  margin:0; color:var(--fg2);
+  /* atmospheric depth — the two trust-domain temperatures (ice / steel) bled
+     into the near-black so the field reads as a lit volume, not flat paint.
+     Fixed so it stays put while content scrolls over it. */
+  background:
+    radial-gradient(52% 42% at 7% 3%, rgba(56,189,248,.06), transparent 62%),
+    radial-gradient(46% 44% at 97% 20%, rgba(150,162,205,.05), transparent 60%),
+    radial-gradient(70% 55% at 50% 128%, rgba(56,189,248,.05), transparent 62%),
+    var(--bg);
+  background-attachment:fixed;
   font-family:var(--sans); font-size:15px; line-height:1.6; letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   font-feature-settings:"calt","kern","liga","ss03","cv01";
@@ -67,9 +76,10 @@ img,canvas{display:block;max-width:100%}
 .nav .cmdk:hover{border-color:var(--line2);background:var(--s2)}
 .nav .cmdk svg{width:14px;height:14px}
 .kbd{font-family:var(--mono);font-size:10.5px;color:var(--fg3);border:1px solid var(--line2);border-radius:4px;padding:1px 5px;background:rgba(0,0,0,.35)}
-.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#06080b;font-weight:600;font-size:13.5px;
-  padding:8px 15px;border-radius:99px;transition:transform .18s var(--ease),box-shadow .18s var(--ease),filter .18s}
-.pill:hover{filter:brightness(.94);box-shadow:0 8px 30px rgba(255,255,255,.14)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#ffffff,#e9eef4);color:#06080b;font-weight:600;font-size:13.5px;
+  padding:8px 15px;border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 4px 16px rgba(0,0,0,.35);
+  transition:transform .22s var(--spring),box-shadow .22s var(--ease),filter .18s}
+.pill:hover{filter:brightness(1.02);box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 10px 34px rgba(125,211,252,.22),0 4px 16px rgba(0,0,0,.4);transform:translateY(-1px)}
 .pill:active{transform:translateY(1px)}
 .pill.sm{padding:7px 13px;font-size:13px}
 
@@ -101,17 +111,18 @@ html.mnav-lock,html.mnav-lock body{overflow:hidden}
 .section{padding:var(--sect) 0;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--accent)}
-.eyebrow .ln{width:24px;height:1px;background:linear-gradient(90deg,var(--accent),transparent)}
+.eyebrow .ln{width:28px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);
+  box-shadow:0 0 8px rgba(125,211,252,.4)}
 /* editorial section index — auto-numbered 01…N, dim before the accent label */
 body{counter-reset:sec}
 .section{counter-increment:sec}
 .section .eyebrow::before{content:counter(sec,decimal-leading-zero);color:var(--fg4);
   font-variant-numeric:tabular-nums;letter-spacing:.04em}
-h1,h2,h3{color:var(--fg);letter-spacing:-.03em;text-wrap:balance;margin:0;font-weight:600}
-.h-display{font-size:clamp(40px,7vw,78px);line-height:1.02;font-weight:620}
-.h-2{font-size:clamp(30px,4.4vw,50px);line-height:1.05}
-.h-3{font-size:22px;line-height:1.2}
-.lede{color:var(--fg3);font-size:clamp(16px,1.7vw,19px);line-height:1.6;max-width:56ch}
+h1,h2,h3{color:var(--fg);letter-spacing:-.03em;text-wrap:balance;margin:0;font-weight:600;font-optical-sizing:auto}
+.h-display{font-size:clamp(42px,7.3vw,86px);line-height:.98;font-weight:640;letter-spacing:-.045em}
+.h-2{font-size:clamp(31px,4.5vw,52px);line-height:1.04;letter-spacing:-.038em}
+.h-3{font-size:22px;line-height:1.2;letter-spacing:-.02em}
+.lede{color:var(--fg3);font-size:clamp(16px,1.7vw,19px);line-height:1.62;max-width:56ch}
 .muted{color:var(--fg4)}
 .accent{color:var(--accent)}
 
@@ -122,9 +133,9 @@ h1,h2,h3{color:var(--fg);letter-spacing:-.03em;text-wrap:balance;margin:0;font-w
 
 /* reveal-on-scroll — hidden ONLY when JS has enabled animation (html.anim);
    if JS fails or is disabled, content stays fully visible. */
-.reveal{transition:opacity .7s var(--ease),transform .7s var(--spring)}
-html.anim .reveal{opacity:0;transform:translateY(22px)}
-html.anim .reveal.in{opacity:1;transform:none}
+.reveal{transition:opacity .8s var(--ease),transform .9s var(--spring),filter .8s var(--ease)}
+html.anim .reveal{opacity:0;transform:translateY(26px);filter:blur(7px)}
+html.anim .reveal.in{opacity:1;transform:none;filter:blur(0)}
 .reveal.d1{transition-delay:.06s}.reveal.d2{transition-delay:.12s}.reveal.d3{transition-delay:.18s}.reveal.d4{transition-delay:.24s}
 
 /* cards — hairline, no drop shadows for structure */
@@ -132,6 +143,13 @@ html.anim .reveal.in{opacity:1;transform:none}
   transition:border-color .2s var(--ease),background .2s var(--ease),transform .2s var(--spring)}
 .card:hover{border-color:var(--line2);background:var(--s2)}
 .card-pad{padding:22px}
+/* card gradient-edge — a hairline of accent light traces the border on hover.
+   Scoped :not(.feat) so it never collides with feature cards' top-accent ::after. */
+.card:not(.feat)::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(140deg,rgba(125,211,252,.5),transparent 40%,transparent 60%,rgba(150,162,205,.32));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s var(--ease)}
+.card:not(.feat):hover::after{opacity:1}
 
 /* ---------------- hero ---------------- */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;
@@ -261,8 +279,11 @@ body.ready .hero h1 em::after{transform:scaleX(1);transition:transform 1.15s var
 
 /* final CTA */
 .finale{position:relative;text-align:center;padding:140px 0;overflow:hidden}
-.finale .glow{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:640px;height:340px;
-  background:radial-gradient(closest-side,rgba(125,211,252,.16),transparent);filter:blur(20px);pointer-events:none}
+.finale .glow{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:720px;height:380px;max-width:120vw;
+  background:radial-gradient(closest-side,rgba(125,211,252,.18),transparent 72%),
+             radial-gradient(closest-side,rgba(150,162,205,.10) 40%,transparent 72%);
+  filter:blur(26px);pointer-events:none;animation:aurora 9s var(--ease) infinite alternate}
+@keyframes aurora{from{opacity:.72;transform:translate(-52%,-50%) scale(.98)}to{opacity:1;transform:translate(-48%,-50%) scale(1.04)}}
 .finale h2{margin:0 auto;max-width:16ch}
 .finale .cta{display:flex;justify-content:center;gap:16px;margin-top:32px;position:relative}
 
@@ -416,8 +437,11 @@ html.anim .metrics.reveal.in .spk circle{opacity:1;transition:opacity .4s var(--
 
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
-  .reveal{opacity:1;transform:none}
+  .reveal{opacity:1;transform:none;filter:none}
+  html.anim .reveal{opacity:1;transform:none;filter:none}
   #spot{display:none}
+  .finale .glow{animation:none}
+  .hero h1 em::after{transform:scaleX(1)}
   .card:hover{transform:none}
   .key:hover{transform:none}
   .foot-grid a:hover{transform:none}

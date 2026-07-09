@@ -85,6 +85,24 @@ export function initScroll(hero) {
     }, { passive: true });
   });
 
+  /* ---------- magnetic primary CTAs (fine pointers only) ----------
+     A subtle pull toward the cursor on the solid pill buttons — the kind of
+     micro-interaction that reads as "considered", kept small (≤7px) and eased
+     so it never feels floaty or gimmicky. */
+  if (matchMedia("(pointer:fine)").matches) {
+    document.querySelectorAll(".pill").forEach((btn) => {
+      let raf = 0;
+      const to = (x, y) => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => gsap.to(btn, { x, y, duration: 0.5, ease: "power3.out" })); };
+      btn.addEventListener("pointermove", (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const my = (e.clientY - (r.top + r.height / 2)) / r.height;
+        to(mx * 14, my * 10);
+      });
+      btn.addEventListener("pointerleave", () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "power3.out" }));
+    });
+  }
+
   /* ---------- auto-run the verify cinematic once in view ---------- */
   const cns = document.querySelector("#verify .console");
   if (cns) ScrollTrigger.create({ trigger: cns, start: "top 65%", once: true, onEnter: () => setTimeout(runVerify, 350) });
