@@ -55,4 +55,5 @@ venv/
 /atlas-issue
 /atlas-verify
 /atlas-revoke
+/atlas-gate
 *.test

@@ -4,9 +4,39 @@ This file is loaded by every new AI session. It tells you the current task state
 
 ---
 
-## 1. Where We Are Right Now
+## 0. Current State (updated 2026-07-09)
 
-**Pipeline position:** The system is in a **dormant, governed state** after completing the R1 Problem Ranking Cycle.
+Two tracks run in this repo; keep them distinct.
+
+**Engineering track — BUILT and green.** The Atlas primitive is implemented, not
+just planned. The six RFC-003 modules under `internal/` (record, issuance,
+verify, truststore, revstatus, revorigin) are done and tested. Product surfaces
+exist and work end-to-end: `cmd/atlas-server` (HTTP API + durable store + auth +
+TLS + rate-limit + metrics), `cmd/atlas` (CLI incl. offline verify + scope gate),
+`cmd/atlas-mcp` (agent tools), zero-dep SDKs in Python/TypeScript/Go
+(`sdk/`), a reference authorization gate (`examples/atlas-gate`), and the
+operator console + site (`ui/`). Assurance: 28 conformance vectors, fuzzing,
+property tests, benchmarks, import-lint (R1–R7), frozen-doc integrity. `make ci`
+is the full gate and passes. **`README.md` and `ROADMAP.md` are the accurate,
+current source of truth for the engineering track** — read them for what's done
+and what's next (N1–N7 / L1–L5).
+
+**The real remaining bottleneck** is the two-domain SPIRE substrate spike
+(Epic E6 / EXP-001 in `lab/` + `atlas-lab/`): the link-level zero-egress packet
+proof and partition/propagation measurements. It needs real Docker + SPIRE +
+network isolation and cannot run in a sandbox; the scripts refuse to fabricate a
+result. The highest-value code items that remain (proof-of-possession binding,
+key rotation) touch the frozen kernel and require the `CONTRIBUTING.md §4`
+amendment process — a founder act, not an autonomous one.
+
+The sections below describe the **reasoning-framework track** (`agents/`), which
+is separately governed and was last active at the R1 Problem-Ranking cycle.
+
+---
+
+## 1. Where We Are Right Now (reasoning-framework track)
+
+**Pipeline position:** The `agents/` reasoning framework is in a **dormant, governed state** after completing the R1 Problem Ranking Cycle.
 
 | Stage | Status |
 |---|---|
