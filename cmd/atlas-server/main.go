@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -15,15 +16,26 @@ import (
 const version = "0.1.0-dev"
 
 func main() {
-	addr := flag.String("addr", "127.0.0.1:8087", "listen address")
-	domain := flag.String("trust-domain", "domain-a.test", "server trust domain (issued principals must belong to it)")
-	store := flag.String("store", "", "path to a durable state file (default: in-memory only)")
-	keyPath := flag.String("key", "", "path to the authority key (PEM); created if absent. Needed for records to survive restarts")
+	// Every flag falls back to an ATLAS_* environment variable, so the same
+	// binary is configured by flags in dev and by env in a container/orchestrator
+	// (precedence: an explicitly-set flag wins over env, which wins over default).
+	addr := flag.String("addr", envOr("ATLAS_ADDR", "127.0.0.1:8087"), "listen address")
+	domain := flag.String("trust-domain", envOr("ATLAS_TRUST_DOMAIN", "domain-a.test"), "server trust domain (issued principals must belong to it)")
+	store := flag.String("store", envOr("ATLAS_STORE", ""), "path to a durable state file (default: in-memory only)")
+	keyPath := flag.String("key", envOr("ATLAS_KEY", ""), "path to the authority key (PEM); created if absent. Needed for records to survive restarts")
 	apiKey := flag.String("api-key", envOr("ATLAS_API_KEY", ""), "if set, /issue and /revoke require Authorization: Bearer <key>")
-	grant := flag.String("grant", "", "comma-separated scopes a principal may delegate (default: a built-in demo set)")
+	grant := flag.String("grant", envOr("ATLAS_GRANT", ""), "comma-separated scopes a principal may delegate (default: a built-in demo set)")
 	allowOrigin := flag.String("allow-origin", envOr("ATLAS_ALLOW_ORIGIN", ""), "CORS allowed origin for browser clients (default: * — pin to your UI origin in production)")
-	rateLimit := flag.Int("rate-limit", 0, "per-IP requests/min on /issue and /revoke (0 = unlimited)")
+	rateLimit := flag.Int("rate-limit", envInt("ATLAS_RATE_LIMIT", 0), "per-IP requests/min on /issue and /revoke (0 = unlimited)")
+	tlsCert := flag.String("tls-cert", envOr("ATLAS_TLS_CERT", ""), "path to a TLS certificate (PEM); enables HTTPS when set with -tls-key")
+	tlsKey := flag.String("tls-key", envOr("ATLAS_TLS_KEY", ""), "path to the TLS private key (PEM)")
+	logReq := flag.Bool("log-requests", envBool("ATLAS_LOG_REQUESTS", true), "emit a structured access log line per request")
+	logVerbose := flag.Bool("log-verbose", envBool("ATLAS_LOG_VERBOSE", false), "also log health/readyz/metrics probe traffic")
 	flag.Parse()
+
+	if (*tlsCert == "") != (*tlsKey == "") {
+		log.Fatal("atlas-server: -tls-cert and -tls-key must be provided together")
+	}
 
 	var grantSet []string
 	if *grant != "" {
@@ -36,6 +48,7 @@ func main() {
 	app, err := NewApp(Config{
 		Domain: *domain, StorePath: *store, KeyPath: *keyPath, APIKey: *apiKey, Grant: grantSet,
 		AllowOrigin: *allowOrigin, RateLimitRPM: *rateLimit,
+		LogRequests: *logReq, LogVerbose: *logVerbose,
 	}, systemClock{})
 	if err != nil {
 		log.Fatalf("atlas-server: %v", err)
@@ -85,9 +98,20 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
+	useTLS := *tlsCert != ""
 	go func() {
-		log.Printf("atlas-server %s listening on http://%s  (trust domain %s, R=%s)", version, *addr, *domain, app.revWindow)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		scheme := "http"
+		if useTLS {
+			scheme = "https"
+		}
+		log.Printf("atlas-server %s listening on %s://%s  (trust domain %s, R=%s)", version, scheme, *addr, *domain, app.revWindow)
+		var err error
+		if useTLS {
+			err = srv.ListenAndServeTLS(*tlsCert, *tlsKey)
+		} else {
+			err = srv.ListenAndServe()
+		}
+		if err != nil && err != http.ErrServerClosed {
 			log.Fatalf("atlas-server: %v", err)
 		}
 	}()
@@ -110,6 +134,24 @@ func main() {
 func envOr(key, def string) string {
 	if v := os.Getenv(key); v != "" {
 		return v
+	}
+	return def
+}
+
+func envInt(key string, def int) int {
+	if v := os.Getenv(key); v != "" {
+		if n, err := strconv.Atoi(v); err == nil {
+			return n
+		}
+	}
+	return def
+}
+
+func envBool(key string, def bool) bool {
+	if v := os.Getenv(key); v != "" {
+		if b, err := strconv.ParseBool(v); err == nil {
+			return b
+		}
 	}
 	return def
 }

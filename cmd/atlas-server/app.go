@@ -75,6 +75,8 @@ type Config struct {
 
 	AllowOrigin  string // CORS Access-Control-Allow-Origin ("" => "*", dev default)
 	RateLimitRPM int    // per-IP requests/min on mutating endpoints (0 => off)
+	LogRequests  bool   // emit a structured access log line per request
+	LogVerbose   bool   // also log noisy probe/scrape endpoints
 }
 
 // App is the server's composition root and in-process state.
@@ -93,6 +95,8 @@ type App struct {
 	revWindow   time.Duration
 	allowOrigin string
 	limiter     *rateLimiter
+	logRequests bool
+	logVerbose  bool
 
 	mu       sync.RWMutex // guards revoked set + provider ingest vs. verify reads
 	revoked  map[string]record.InstanceID
@@ -163,6 +167,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 		authority: authority, trust: trust, publisher: publisher, provider: provider,
 		policy: policy, store: store, revWindow: 2 * time.Second,
 		revoked: map[string]record.InstanceID{}, allowOrigin: allowOrigin, limiter: limiter,
+		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
 	}
 	// Rebuild the revoked set from any persisted revoked delegations.
 	for _, instStr := range store.RevokedInstances() {

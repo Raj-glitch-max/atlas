@@ -27,7 +27,7 @@ func (a *App) Router() http.Handler {
 	mux.HandleFunc("/stats", a.only(http.MethodGet, a.handleStats))
 	mux.HandleFunc("/bundle", a.only(http.MethodGet, a.handleBundle))
 	mux.HandleFunc("/metrics", a.only(http.MethodGet, a.handleMetrics))
-	return a.cors(mux)
+	return a.accessLog(a.cors(mux))
 }
 
 // ---- middleware ----
