@@ -32,13 +32,15 @@ export async function initHero(canvas) {
   const host = canvas.parentElement;
   let W = host.clientWidth, H = host.clientHeight;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
+  // Transparent canvas: the constellation floats over the CSS aurora behind it
+  // (a colored nebula) instead of an opaque black clear.
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.8));
   renderer.setSize(W, H, false);
-  renderer.setClearColor(0x07080a, 1);
+  renderer.setClearColor(0x07080a, 0);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x07080a, 0.115);
+  scene.fog = new THREE.FogExp2(0x07080a, 0.10);
   const camera = new THREE.PerspectiveCamera(52, W / H, 0.1, 100);
   camera.position.set(0, 0, 6.4);
 

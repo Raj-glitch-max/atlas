@@ -14,7 +14,9 @@
   --line:rgba(255,255,255,.06); --line2:rgba(255,255,255,.10); --line3:rgba(255,255,255,.16);
   --fg:#F5F7FA; --fg2:#C3CAD6; --fg3:#8A93A3; --fg4:#5A626F; --fg5:#39404B;
   --accent:#7DD3FC; --accent2:#38BDF8; --accent-deep:#0d2735;
+  --violet:#A78BFA; --violet2:#8B5CF6; --teal:#2DD4BF; --magenta:#F0ABFC;
   --steel:#AEB9CC; --good:#4ADE80; --warn:#FACC15; --bad:#FB7185;
+  --grad:linear-gradient(90deg,var(--accent),var(--violet));
   --sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
   --pixel:"Geist Pixel","Geist Mono",monospace;
@@ -24,22 +26,29 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html{background:var(--bg)}
 body{
-  margin:0; color:var(--fg2);
-  /* atmospheric depth — the two trust-domain temperatures (ice / steel) bled
-     into the near-black so the field reads as a lit volume, not flat paint.
-     Fixed so it stays put while content scrolls over it. */
-  background:
-    radial-gradient(52% 42% at 7% 3%, rgba(56,189,248,.06), transparent 62%),
-    radial-gradient(46% 44% at 97% 20%, rgba(150,162,205,.05), transparent 60%),
-    radial-gradient(70% 55% at 50% 128%, rgba(56,189,248,.05), transparent 62%),
-    var(--bg);
-  background-attachment:fixed;
+  margin:0; color:var(--fg2); background:transparent;
   font-family:var(--sans); font-size:15px; line-height:1.6; letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   font-feature-settings:"calt","kern","liga","ss03","cv01";
   overflow-x:hidden;
 }
+
+/* ---------------- aurora background ----------------
+   A living, colored nebula behind the whole UI. Fixed, blurred, slowly
+   drifting — visible depth and colour instead of flat near-black. Sits below
+   all content (z:-1) and above the html base; content surfaces (cards) stay
+   opaque over it, so text contrast is preserved. */
+.aurora{position:fixed;inset:-20vmax;z-index:-1;pointer-events:none;overflow:hidden;filter:blur(60px) saturate(1.15)}
+.aurora span{position:absolute;border-radius:50%;mix-blend-mode:screen;opacity:.5;will-change:transform}
+.aurora .a1{width:52vmax;height:52vmax;left:-6vmax;top:-8vmax;background:radial-gradient(closest-side,rgba(56,189,248,.9),transparent 70%);animation:drift1 26s var(--ease) infinite alternate}
+.aurora .a2{width:46vmax;height:46vmax;right:-8vmax;top:2vmax;background:radial-gradient(closest-side,rgba(139,92,246,.85),transparent 70%);animation:drift2 32s var(--ease) infinite alternate}
+.aurora .a3{width:40vmax;height:40vmax;left:24vmax;bottom:-10vmax;background:radial-gradient(closest-side,rgba(45,212,191,.7),transparent 70%);animation:drift3 30s var(--ease) infinite alternate}
+.aurora .a4{width:34vmax;height:34vmax;right:16vmax;bottom:-6vmax;background:radial-gradient(closest-side,rgba(240,171,252,.6),transparent 70%);animation:drift1 38s var(--ease) infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(10vmax,8vmax) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-9vmax,10vmax) scale(1.1)}}
+@keyframes drift3{to{transform:translate(8vmax,-9vmax) scale(1.2)}}
 ::selection{background:rgba(125,211,252,.24);color:#fff}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -111,8 +120,8 @@ html.mnav-lock,html.mnav-lock body{overflow:hidden}
 .section{padding:var(--sect) 0;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--accent)}
-.eyebrow .ln{width:28px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);
-  box-shadow:0 0 8px rgba(125,211,252,.4)}
+.eyebrow .ln{width:28px;height:2px;border-radius:2px;background:var(--grad);
+  box-shadow:0 0 10px rgba(139,92,246,.5)}
 /* the accent line extends itself as each section scrolls into view */
 html.anim .eyebrow.reveal .ln{width:0;transition:width .7s var(--spring) .15s}
 html.anim .eyebrow.reveal.in .ln{width:28px}
@@ -163,13 +172,13 @@ html.anim .h-2.reveal.in{clip-path:inset(-18% 0 -18% 0);transform:none}
 
 /* ---------------- hero ---------------- */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;
-  /* fallback ground shown before WebGL loads / under reduced-motion — never flat black */
-  background:radial-gradient(120% 90% at 62% 40%,#0e141c 0%,#0a0d13 45%,var(--bg) 100%)}
+  /* transparent so the aurora shows through; a faint wash keeps depth before WebGL loads */
+  background:radial-gradient(120% 90% at 62% 40%,rgba(20,26,40,.35) 0%,transparent 60%)}
 #field{position:absolute;inset:0;z-index:0}
 .hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(90deg,rgba(7,8,10,.58) 0%,rgba(7,8,10,.24) 38%,transparent 62%),
-             radial-gradient(90% 70% at 50% 42%,transparent 42%,rgba(7,8,10,.55) 100%),
-             linear-gradient(180deg,transparent 55%,var(--bg) 100%)}
+  /* darken the headline side just enough for contrast; let colour live on the right */
+  background:linear-gradient(90deg,rgba(7,8,10,.62) 0%,rgba(7,8,10,.28) 40%,transparent 66%),
+             linear-gradient(180deg,transparent 62%,var(--bg) 100%)}
 .hero .wrap{position:relative;z-index:2;width:100%}
 .hero .chip{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line2);border-radius:99px;
   padding:5px 11px 5px 6px;font-size:12.5px;color:var(--fg2);background:rgba(12,14,18,.6);backdrop-filter:blur(6px)}
@@ -178,8 +187,8 @@ html.anim .h-2.reveal.in{clip-path:inset(-18% 0 -18% 0);transform:none}
 .hero h1 em{font-style:normal;color:var(--accent);position:relative}
 /* signature underline — draws itself once the hero settles (echoes the trust-path pulse) */
 .hero h1 em::after{content:"";position:absolute;left:0;right:.02em;bottom:.02em;height:3px;border-radius:3px;
-  background:linear-gradient(90deg,var(--accent2),var(--accent) 60%,transparent);
-  transform:scaleX(0);transform-origin:0 50%;box-shadow:0 0 12px rgba(125,211,252,.35)}
+  background:linear-gradient(90deg,var(--accent),var(--violet) 85%,transparent);
+  transform:scaleX(0);transform-origin:0 50%;box-shadow:0 0 14px rgba(139,92,246,.45)}
 body.ready .hero h1 em::after{transform:scaleX(1);transition:transform 1.15s var(--spring) .75s}
 .hero .lede{margin:22px 0 0}
 .hero .cta{display:flex;align-items:center;gap:16px;margin-top:34px}
@@ -331,7 +340,7 @@ html.lenis,html.lenis body{height:auto}
 
 /* scroll-progress rail (top) */
 #progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:70;transform-origin:0 50%;transform:scaleX(0);
-  background:linear-gradient(90deg,var(--accent2),var(--accent));box-shadow:0 0 12px rgba(125,211,252,.5);pointer-events:none;will-change:transform}
+  background:linear-gradient(90deg,var(--accent),var(--violet),var(--magenta));box-shadow:0 0 12px rgba(139,92,246,.55);pointer-events:none;will-change:transform}
 
 /* cursor spotlight — subtle, dark-friendly */
 #spot{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .6s var(--ease);mix-blend-mode:screen;
@@ -358,7 +367,7 @@ body.ready .hero .wrap>*:nth-child(5){transition-delay:.52s}
 .nav .links a:hover::after{transform:scaleX(1)}
 .nav .links a.active{color:var(--fg)}
 .nav-ind{position:absolute;bottom:2px;left:0;height:2px;width:0;border-radius:2px;opacity:0;pointer-events:none;
-  background:linear-gradient(90deg,var(--accent2),var(--accent));box-shadow:0 0 10px rgba(125,211,252,.6);
+  background:var(--grad);box-shadow:0 0 10px rgba(139,92,246,.6);
   transition:transform .38s var(--spring),width .38s var(--spring),opacity .3s var(--ease)}
 
 /* standalone cards — lift + pointer-tracking glow */
@@ -457,6 +466,7 @@ html.anim .metrics.reveal.in .spk circle{opacity:1;transition:opacity .4s var(--
   html.anim .h-2.reveal{clip-path:none;transform:none}
   #spot{display:none}
   .finale .glow{animation:none}
+  .aurora span{animation:none}
   .hero h1 em::after{transform:scaleX(1)}
   .card:hover{transform:none}
   .key:hover{transform:none}
