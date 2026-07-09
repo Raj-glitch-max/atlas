@@ -113,6 +113,9 @@ html.mnav-lock,html.mnav-lock body{overflow:hidden}
   text-transform:uppercase;color:var(--accent)}
 .eyebrow .ln{width:28px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);
   box-shadow:0 0 8px rgba(125,211,252,.4)}
+/* the accent line extends itself as each section scrolls into view */
+html.anim .eyebrow.reveal .ln{width:0;transition:width .7s var(--spring) .15s}
+html.anim .eyebrow.reveal.in .ln{width:28px}
 /* editorial section index — auto-numbered 01…N, dim before the accent label */
 body{counter-reset:sec}
 .section{counter-increment:sec}

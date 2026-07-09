@@ -135,7 +135,7 @@ export async function initHero(canvas) {
   const onMove = (e) => { pointer.x = e.clientX / innerWidth - 0.5; pointer.y = e.clientY / innerHeight - 0.5; };
   addEventListener("pointermove", onMove, { passive: true });
 
-  let scroll = 0, running = true, raf = 0, last = performance.now();
+  let scroll = 0, scrollVel = 0, running = true, raf = 0, last = performance.now();
   const clock = new THREE.Clock();
 
   function resize() {
@@ -155,10 +155,14 @@ export async function initHero(canvas) {
     const el = clock.getElapsedTime();
     uniforms.uTime.value = el;
 
-    // ambient rotation + pointer parallax (eased)
+    // ambient rotation + pointer parallax (eased) + a subtle banking roll that
+    // reacts to scroll velocity, decaying each frame — makes the field feel like
+    // a physical volume responding to the scroll, not a static backdrop.
     pointer.ex += (pointer.x - pointer.ex) * 0.05; pointer.ey += (pointer.y - pointer.ey) * 0.05;
+    scrollVel *= 0.9;
     group.rotation.y = Math.sin(el * 0.06) * 0.22 + pointer.ex * 0.5 - scroll * 0.35;
     group.rotation.x = pointer.ey * 0.28 + scroll * 0.18;
+    group.rotation.z = Math.max(-0.22, Math.min(0.22, scrollVel * 5.0));
 
     // camera beat: dolly in + drop as the hero scrolls away
     camera.position.z = 6.4 - scroll * 2.4;
@@ -178,7 +182,7 @@ export async function initHero(canvas) {
   else { renderer.render(scene, camera); running = false; } // one static frame
 
   return {
-    setScroll(p) { scroll = Math.max(0, Math.min(1, p)); if (reduce) renderer.render(scene, camera); },
+    setScroll(p) { const np = Math.max(0, Math.min(1, p)); scrollVel += (np - scroll); scroll = np; if (reduce) renderer.render(scene, camera); },
     pause() { if (running) { running = false; cancelAnimationFrame(raf); } },
     resume() { if (!running && !reduce) { running = true; last = performance.now(); frame(); } },
     dispose() { this.pause(); removeEventListener("pointermove", onMove); removeEventListener("resize", resize); renderer.dispose(); },
