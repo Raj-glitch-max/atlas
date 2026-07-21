@@ -19,6 +19,14 @@ replacement for OAuth/SPIFFE. See [`WHY.md`](WHY.md) and
 > either tested or explicitly labelled as deferred/hypothesis — see
 > [`LIMITATIONS.md`](LIMITATIONS.md).
 
+**New here?** Start with [`START_HERE.md`](START_HERE.md) — a zero-prior-knowledge
+reading path that takes you from "what problem does this solve" to reading the
+verification core, in order, with what to take away from each file.
+
+**License:** [Apache-2.0](LICENSE) · **Security:** [`SECURITY.md`](SECURITY.md) ·
+**Governance:** [`GOVERNANCE.md`](GOVERNANCE.md) · **Maintainers:** [`MAINTAINERS.md`](MAINTAINERS.md) ·
+**Conduct:** [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
+
 ## Quickstart
 
 ```sh
@@ -54,7 +62,7 @@ bash examples/unforgettable.sh
   scope, verifying offline.
 - **Operator console + product site** (`ui/`) — a live operator surface and a
   marketing site (Vite + Three.js + GSAP); see [`ui/README.md`](ui/README.md).
-- **Assurance** — 28 conformance vectors (18 adversarial) in `tests/vectors`,
+- **Assurance** — 30 conformance vectors (20 adversarial) in `tests/vectors`,
   coverage-guided fuzzing, property tests, published microbenchmarks + a latency
   histogram, an import-boundary lint (dependency rules R1–R7), and frozen-doc
   integrity.
@@ -108,3 +116,28 @@ journal entry breaks the build — by design. See `CONTRIBUTING.md`
 `go` (module `github.com/Raj-glitch-max/atlas`), plus `python3` + `pre-commit`
 and `npx` (Node) for the lint gates; optionally `docker` + `gitleaks`. Run
 `make help` for all targets.
+
+## Contributing & governance
+
+Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the
+workflow (including the frozen-planning rule), [`GOVERNANCE.md`](GOVERNANCE.md)
+for how decisions are made, and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for
+community expectations. Maintainers are listed in
+[`MAINTAINERS.md`](MAINTAINERS.md); code ownership is in
+[`.github/CODEOWNERS`](.github/CODEOWNERS).
+
+Design decisions are recorded, not remembered: see
+[`ENGINEERING_DECISION_RECORD.md`](ENGINEERING_DECISION_RECORD.md) (ADRs) and the
+dated decision memory in [`agents/journal/`](agents/journal/).
+
+## Security
+
+Found a vulnerability? **Do not open a public issue.** Follow the private
+disclosure process in [`SECURITY.md`](SECURITY.md). What Atlas defends (and how
+each claim is proven) is in [`THREAT_MODEL.md`](THREAT_MODEL.md); what it does
+**not** defend is in [`LIMITATIONS.md`](LIMITATIONS.md).
+
+## License
+
+Atlas is licensed under the [Apache License 2.0](LICENSE). See
+[`NOTICE`](NOTICE) for attribution and third-party dependency licenses.

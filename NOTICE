@@ -1,0 +1,12 @@
+Atlas
+Copyright 2026 The Atlas Authors
+
+This product includes software developed as part of the Atlas project
+(https://github.com/Raj-glitch-max/atlas).
+
+Licensed under the Apache License, Version 2.0. See the LICENSE file for terms.
+
+This software depends on third-party components under their own licenses:
+  - github.com/go-jose/go-jose/v3      (Apache-2.0)
+  - github.com/spiffe/go-spiffe/v2     (Apache-2.0)
+  - golang.org/x/crypto                (BSD-3-Clause)

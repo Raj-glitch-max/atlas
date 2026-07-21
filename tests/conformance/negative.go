@@ -146,6 +146,10 @@ func EmitNegativeVectors() (VectorFile, error) {
 			`{"sub":"spiffe://domain-a.test/principal","act":{"sub":"spiffe://domain-a.test/delegate"},"scope":["write:audit","read:orders"],"exp":1800003600,"iat":1800000000,"atl_ins":"inst-x"}`},
 		{"authentic-nonspiffe-sub", "authentic signature, principal is not a SPIFFE ID",
 			`{"sub":"https://example.test/p","act":{"sub":"spiffe://domain-a.test/delegate"},"scope":["read:orders"],"exp":1800003600,"iat":1800000000,"atl_ins":"inst-x"}`},
+		{"authentic-duplicate-scope-key", "authentic signature, payload repeats the scope member name (last-wins vs first-wins differential)",
+			`{"sub":"spiffe://domain-a.test/principal","act":{"sub":"spiffe://domain-a.test/delegate"},"scope":["read:orders"],"scope":["read:orders","write:audit"],"exp":1800003600,"iat":1800000000,"atl_ins":"inst-x"}`},
+		{"authentic-duplicate-sub-key", "authentic signature, payload repeats the principal member name (last-wins would accept the wrong principal)",
+			`{"sub":"spiffe://domain-a.test/principal","sub":"spiffe://domain-a.test/evil","act":{"sub":"spiffe://domain-a.test/delegate"},"scope":["read:orders"],"exp":1800003600,"iat":1800000000,"atl_ins":"inst-x"}`},
 	}
 	for _, a := range authentic {
 		rec, err := k.signES256([]byte(a.payload))

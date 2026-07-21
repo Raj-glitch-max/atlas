@@ -13,9 +13,11 @@ package record
 // atl_rvb (revocation binding, base64url, AD-015, omitted when absent).
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"sort"
 	"time"
 
@@ -118,6 +120,20 @@ func encodeClaims(a Assertions) ([]byte, error) {
 // append-only across versions (interface-spec universal rule 5), so an
 // older reader must not reject a newer issuer's authentic record.
 func decodeClaims(payload []byte) (Assertions, error) {
+	// Duplicate JSON member names are rejected before decoding. RFC 8259 §4
+	// permits them but leaves resolution undefined; Go's encoding/json takes
+	// last-wins, so an authentic payload carrying `"scope":[...]` twice would
+	// decode to one reading here and could decode to a different reading in a
+	// first-wins reimplementation — over the SAME signed bytes. That is a
+	// verifier differential (the Frankencerts failure class) and, because
+	// `scope` is the security-bearing claim, a latent attenuation hazard. This
+	// is the same "authentic signature is necessary but not sufficient" refusal
+	// the decode already applies to malformed authentic payloads (AD-024); a
+	// duplicate member name is malformed issuance output, so the record is
+	// Altered. Strictly fail-closed: it can only reject, never accept.
+	if err := rejectDuplicateKeys(payload); err != nil {
+		return Assertions{}, fmt.Errorf("record: payload has duplicate JSON member names: %w", err)
+	}
 	var claims payloadClaims
 	if err := json.Unmarshal(payload, &claims); err != nil {
 		return Assertions{}, fmt.Errorf("record: payload not valid JSON: %w", err)
@@ -157,6 +173,66 @@ func decodeClaims(payload []byte) (Assertions, error) {
 		Instance:          instance,
 		RevocationBinding: binding,
 	}, nil
+}
+
+// rejectDuplicateKeys returns an error if any JSON object in the payload — at
+// any nesting depth — carries the same member name twice. It walks the token
+// stream (encoding/json does not reject duplicates itself) and tracks, per open
+// object, the names already seen. Arrays are traversed but their elements carry
+// no names to collide. Any malformed JSON surfaces as the decoder's own error;
+// the caller treats every non-nil return as Altered.
+func rejectDuplicateKeys(payload []byte) error {
+	dec := json.NewDecoder(bytes.NewReader(payload))
+	// One frame per open container. For objects, seen holds the member names
+	// already read and awaitKey toggles between the name and value positions.
+	type frame struct {
+		isObject bool
+		seen     map[string]struct{}
+		awaitKey bool
+	}
+	var stack []*frame
+
+	// valueDone records that the current position consumed one value, so the
+	// enclosing object next expects a member name again.
+	valueDone := func() {
+		if n := len(stack); n > 0 && stack[n-1].isObject {
+			stack[n-1].awaitKey = true
+		}
+	}
+
+	for {
+		tok, err := dec.Token()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+		if delim, ok := tok.(json.Delim); ok {
+			switch delim {
+			case '{':
+				stack = append(stack, &frame{isObject: true, seen: map[string]struct{}{}, awaitKey: true})
+			case '[':
+				stack = append(stack, &frame{isObject: false})
+			case '}', ']':
+				stack = stack[:len(stack)-1]
+				valueDone() // the container just closed was itself a value
+			}
+			continue
+		}
+		// A scalar token. Inside an object at a name position it is a member
+		// name (JSON guarantees a string); otherwise it is a value.
+		if n := len(stack); n > 0 && stack[n-1].isObject && stack[n-1].awaitKey {
+			name, _ := tok.(string)
+			if _, dup := stack[n-1].seen[name]; dup {
+				return fmt.Errorf("duplicate member name %q", name)
+			}
+			stack[n-1].seen[name] = struct{}{}
+			stack[n-1].awaitKey = false
+			continue
+		}
+		valueDone()
+	}
 }
 
 // isCompactJWS enforces the compact serialization shape — exactly three

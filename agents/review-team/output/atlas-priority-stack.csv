@@ -1,0 +1,16 @@
+id,tier,category,claim,owner,effort_hours,blocked_by,contributing_agents,un_defer_trigger
+S1,2,maturity,"LICENSE (Apache-2.0) is absent; code is legally un-adoptable and CNCF Sandbox is blocked",12_engineering_manager_cncf,1,,"EM-1",
+S2,2,maturity,"Repo governance files absent: CODE_OF_CONDUCT, MAINTAINERS, CODEOWNERS, GOVERNANCE",12_engineering_manager_cncf,3,,"EM-2;EM-6",
+S3,2,security,"SECURITY.md has no disclosure SLA, supported-versions table, or CVE process",04_security_engineer,1,,"EM-3;SEC-11",
+S4,2,docs,"Top-level claims contradict LIMITATIONS: context sheet says 'delegation chains', SDK count wrong, benchmarks unqualified",11_technical_writer,2,,"PE-6;TW-2;EM-10",
+S5,3,docs,"No normative wire-format spec; byte layout deferred to a future mechanism-RFC",11_technical_writer,12,,"TW-1;TEST-3",
+S6,3,protocol-evolution,"Record carries no protocol version field and there is no crit mechanism for a future mandatory-to-understand field",01_principal_engineer,8,,"PE-2;PE-3;CRYPTO-4",
+S7,4,ops,"Two-domain SPIRE substrate proof (E6/E7) authored but unrun; offline claim is by-construction, not demonstrated at link level",06_devops_sre,120,,"SRE-1;ARCH-2",
+S8,4,product,"Zero users; beachhead unnamed; every downstream product claim is an unvalidated hypothesis",10_product_manager,60,,"PM-1;UXR-1;EM-9",
+S9,5,test,"No differential-in-CI across the 3 SDKs; duplicate-JSON-key handling unspecified (Go last-wins) risks cross-impl divergence",07_conformance_testing,20,,"TEST-1;TEST-2;CRYPTO-9",
+S10,5,security,"Releases unsigned; no SLSA provenance; go-jose not gated by govulncheck in CI",06_devops_sre,20,,"CRYPTO-12;EM-7",
+S11,5,ops,"Server is dev-grade: no TLS termination, no rate-limit hardening, JSON-file store, single-node",06_devops_sre,80,S7,"SRE-4",a real deployment exists to harden
+S12,6,product,"No 'atlas explain'; Reject/Inconclusive human explanation is not yet a product surface",08_product_designer,40,,"PD-1;UXR-2",first real user hits a confusing verdict
+S13,7,product,"Multi-hop delegation (A->B->C) deferred by design (DEFERRED D3-D4)",10_product_manager,0,,"SEC-4;ARCH-3",a named user needs re-delegation
+S14,7,product,"8-framework matrix, marketplace, Terraform/Helm deferred",10_product_manager,0,S8,"PM-2",a real deployment or integration user exists
+S15,7,security,"Proof-of-possession / holder binding for within-window replay (LIMITATIONS 3) roadmapped, not shipped",04_security_engineer,0,S8,"SEC-5",replay becomes a live threat for an actual user

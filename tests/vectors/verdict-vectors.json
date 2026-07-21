@@ -5,7 +5,7 @@
     {
       "name": "accept: valid, fresh not-revoked, in-window",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -15,8 +15,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -37,7 +37,7 @@
     {
       "name": "reject: expired",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -47,8 +47,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -71,7 +71,7 @@
     {
       "name": "reject: integrity (tampered byte)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInOjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInOjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -81,8 +81,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -104,7 +104,7 @@
     {
       "name": "reject: binding mismatch (self-delegation)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3Qtc2VsZiJ9.Tf_7s0faheKmsQFvXAxptUT3zppsqY5Ki1gS6JobKKvthE2sN6xRLkqtCDBkZNxvJAB28_qiyEaKEz1vVH7Y-Q",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3Qtc2VsZiJ9.LYh6mp47o2V5MUbVVnldkROt553nS-2j8A4RZVm4sthV4Ci71xg2Uv0ClPCp03YSAzBO7ISrofmkQL7azwXPxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -114,8 +114,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -138,7 +138,7 @@
     {
       "name": "reject: observably revoked",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -148,8 +148,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -172,7 +172,7 @@
     {
       "name": "inconclusive: trust material absent",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": []
@@ -196,7 +196,7 @@
     {
       "name": "inconclusive: revocation indeterminate (degenerate)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -206,8 +206,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -229,7 +229,7 @@
     {
       "name": "inconclusive: revocation knowledge stale (\u003e R)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -239,8 +239,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -263,7 +263,7 @@
     {
       "name": "inconclusive: clock beyond tolerance (future issuance)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwNzUwMCwiaWF0IjoxODAwMDAzOTAwLCJhdGxfaW5zIjoiaW5zdC1mdXR1cmUifQ.l1aN3tB7nbG4r7Vnh260Q6esTisb3FfxUKsR-ibgftzmP7m_SuTWL9r-4wdXWyRpto5h5PDM6yhXyaQIKX6G9w",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwNzUwMCwiaWF0IjoxODAwMDAzOTAwLCJhdGxfaW5zIjoiaW5zdC1mdXR1cmUifQ.n6ScwIr4mQvGJ032DTIlm91hv8xOtpJUpkvB0GWLHVbqXB615oi9TTvKAQFaQ61ob5n-mVKd6eh6ik3yy6YmMw",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -273,8 +273,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },
@@ -297,7 +297,7 @@
     {
       "name": "precedence: definitive dominates inconclusive (expired + indeterminate)",
       "description": "reference verdict for the corpus scenario of the same name",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7mdXkSPDKm30f6jF6v9YBzPV4b9I2JKHFFpWjY4jaySrTx6cRy45T8uWUi7KXEcfNQg76aMj4g7zOU0ac7VqJg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.VQWBX9LbTViWVCIVOhNQ97PHGJ8jucfnE9vI8cVtUj5W9SEaZDXWDEw2HS75zpVwNro2AJMHhp-_wzwkoFGtxg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -307,8 +307,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "DXznNYMA9CuAobZRUuWoQgoPoWb_duEPdyMPouyRmFY",
-            "y": "pstZDLAVL2fd6dWqkjLrBMT7KVu1IWtqd8Q6P2rhOOk"
+            "x": "4IHLJDuRE3WWmiLnmNcjQSjK7rUC4pJJDQU3blARMAY",
+            "y": "m5QRwR26narS-U7yjExUbFf8ePLG0rvPfyDhFbBCZ38"
           }
         ]
       },

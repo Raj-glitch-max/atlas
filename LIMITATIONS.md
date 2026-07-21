@@ -76,6 +76,12 @@ until one has, treat Atlas as pre-production for high-stakes use.
 
 ## 10. Young ecosystem
 
-One reference implementation (Go), one SDK (Python), no published TS/Rust
-SDKs yet, no independent implementations yet — the 28-vector conformance
-suite exists precisely so those can appear and provably agree.
+One reference implementation of the **verification core** (Go, `internal/`).
+Client SDKs ship for **Go, Python, and TypeScript** (`sdk/`), but these are thin
+clients that mirror the server API — they are *not* independent re-implementations
+of the verifier, and no independent verifier implementation (Rust/Zig/…) exists
+yet. That distinction matters: the 28-vector language-neutral conformance suite
+(`tests/vectors`) exists precisely so that independent verifiers can appear and
+be shown to agree, byte-for-byte, before anyone relies on them. Until a second
+verifier passes the suite, cross-implementation agreement is a design goal, not a
+demonstrated fact (see the review stack item on differential-in-CI).
