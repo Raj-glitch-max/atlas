@@ -44,7 +44,7 @@ Scope is optional; `!` marks a breaking change. Multi-line messages are fine; on
 
 The following are **frozen** and protected by `make check-frozen` (list in `scripts/frozen-docs.list`, baseline in `FROZEN.sha256`):
 
-- `docs/research/FOUNDER_DECISION_BRIEF.md`, `docs/research/RESEARCH_PROGRAM.md`, `docs/research/TECHNICAL_VALIDATION.md`, `docs/research/FOUNDER_PROBLEM_FIT.md`, `P5_FALSIFICATION_EXPERIMENT.md`, `LEVEL0_1_FEASIBILITY_GATE.md`
+- `docs/research/FOUNDER_DECISION_BRIEF.md`, `docs/research/RESEARCH_PROGRAM.md`, `docs/research/TECHNICAL_VALIDATION.md`, `docs/research/FOUNDER_PROBLEM_FIT.md`, `docs/planning/P5_FALSIFICATION_EXPERIMENT.md`, `docs/planning/LEVEL0_1_FEASIBILITY_GATE.md`
 - `docs/product/PRODUCT_DEFINITION.md` (and the nine cross-referenced specs in `docs/product/`)
 - `docs/engineering/01_ENGINEERING_REQUIREMENTS.md` (and the four sibling specs in `docs/engineering/`)
 - `lab/LAB_README.md`, `lab/EXPERIMENT_CHECKLIST.md`, `lab/EVIDENCE_INDEX.md`, `lab/DECISION_RULES.md`, `lab/EXP-001-EXECUTION-PLAN.md`
