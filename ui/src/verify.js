@@ -193,7 +193,7 @@ function finalizeLive() {
 function onVerified() {
   verdict("accept", "All five checks passed · single‑hop · two‑domain."); $("#mSnap").textContent = "2s old";
   const el = $("#mLat"), t0 = performance.now();
-  (function tk(n) { let k = Math.min(1, (n - t0) / 560); el.textContent = Math.round(94 * k) + "µs"; if (k < 1 && !reduce) requestAnimationFrame(tk); else el.textContent = "94µs"; })(performance.now());
+  (function tk(n) { let k = Math.min(1, (n - t0) / 560); el.textContent = Math.round(116 * k) + "µs"; if (k < 1 && !reduce) requestAnimationFrame(tk); else el.textContent = "116µs"; })(performance.now());
   setTimeout(() => { V.active = false; $$("#runBtn,#revBtn").forEach((b) => (b.disabled = false)); }, reduce ? 10 : 700);
 }
 export function runRevocation() {
@@ -201,13 +201,13 @@ export function runRevocation() {
   if (live) return void runRevocationLive();
   REV.active = true; REV.reject = false; REV.t0 = performance.now();
   $$("#runBtn,#revBtn").forEach((b) => (b.disabled = true)); resetPipe();
-  if (reduce) { ["01", "02", "03", "04"].forEach((n) => setStg(n, "pass", "PASS")); setStg("05", "reject", "REVOKED"); verdict("reject", "Revocation observable after recovery · RevokedObservable."); $("#mLat").textContent = "91µs"; $("#mSnap").textContent = "fresh"; REV.reject = true; REV.active = false; $$("#runBtn,#revBtn").forEach((b) => (b.disabled = false)); return; }
+  if (reduce) { ["01", "02", "03", "04"].forEach((n) => setStg(n, "pass", "PASS")); setStg("05", "reject", "REVOKED"); verdict("reject", "Revocation observable after recovery · RevokedObservable."); $("#mLat").textContent = "119µs"; $("#mSnap").textContent = "fresh"; REV.reject = true; REV.active = false; $$("#runBtn,#revBtn").forEach((b) => (b.disabled = false)); return; }
   verdict("run", "Relying party severed from issuer — partition active…", "PARTITIONED"); $("#mLat").textContent = "—"; $("#mSnap").textContent = "—";
   ["01", "02", "03", "04"].forEach((n, i) => setTimeout(() => setStg(n, "pass", "PASS"), 250 + i * 170));
   setTimeout(() => setStg("05", "wait", "WAIT"), 1060);
-  setTimeout(() => { verdict("inconc", "Revocation performed during the partition — not observable (S4). Failing closed."); $("#mLat").textContent = "88µs"; $("#mSnap").textContent = "stale"; }, 1600);
+  setTimeout(() => { verdict("inconc", "Revocation performed during the partition — not observable (S4). Failing closed."); $("#mLat").textContent = "112µs"; $("#mSnap").textContent = "stale"; }, 1600);
   setTimeout(() => verdict("run", "Partition recovered · fresh snapshot propagating…", "RECOVERING"), 2150);
-  setTimeout(() => { setStg("05", "reject", "REVOKED"); verdict("reject", "Revocation now observable · RevokedObservable."); $("#mLat").textContent = "91µs"; $("#mSnap").textContent = "fresh"; }, 3100);
+  setTimeout(() => { setStg("05", "reject", "REVOKED"); verdict("reject", "Revocation now observable · RevokedObservable."); $("#mLat").textContent = "119µs"; $("#mSnap").textContent = "fresh"; }, 3100);
   setTimeout(() => { REV.active = false; $$("#runBtn,#revBtn").forEach((b) => (b.disabled = false)); }, 3900);
 }
 

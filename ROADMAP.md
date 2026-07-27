@@ -14,7 +14,7 @@ is open. The live, granular task list is `BACKLOG.md`.
 - **Product surfaces** — server (HTTP API + durable store + auth + metrics),
   CLI (`atlas delegate/verify/revoke/bundle/inspect/…`, incl. **offline**
   verify), MCP agent tools, Python SDK, operator console.
-- **Assurance** — 28 conformance vectors (18 adversarial), coverage-guided
+- **Assurance** — 30 conformance vectors (20 adversarial), coverage-guided
   fuzzing, property tests, published microbenchmarks + latency histogram,
   import-boundary lint, frozen-doc integrity.
 - **The unforgettable demo** — `examples/unforgettable.sh` (offline verify +

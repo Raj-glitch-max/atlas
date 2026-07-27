@@ -38,7 +38,7 @@ delegate, or a bundle courier — can silently alter the answer.
 |---|---|---|---|
 | C1 | A record altered in any way is rejected (**INV8**) | ES256 over the full payload; alg pinned; `typ` pinned | 256+-mutation corpus (`internal/record`), fuzzer (`FuzzVerify`, 821k execs), adversarial vectors 1–18 |
 | C2 | A delegate can never hold more scope than its principal (**INV2**) | Strict proper-subset check at issuance; scope covered by signature | issuance tests; `OverScope` refusal live in every demo |
-| C3 | Forged/garbage/confused records never verify | Closed algorithm set (no `alg=none`, no HS256 confusion), kid pinning, structural checks | `negative-vectors.json` (18 adversarial vectors; generation fails if any is accepted) |
+| C3 | Forged/garbage/confused records never verify | Closed algorithm set (no `alg=none`, no HS256 confusion), kid pinning, structural checks | `negative-vectors.json` (20 adversarial vectors; generation fails if any is accepted) |
 | C4 | Expiry is enforced within a declared skew (**INV3**) | Clock port + ±30s tolerance, boundary-tested | expiry boundary tests, conformance vectors |
 | C5 | A revoked delegation is rejected once the revocation is observable (**INV4**) | Signed revoked-set snapshots, monotone adoption | E2E tests; `examples/unforgettable.sh` steps 5–6 |
 | C6 | Verification needs no live authority (**INV7**) | All inputs local: trust material + snapshot + clock | offline CLI verify with the server dead; (link-level packet proof: atlas-lab, pending real host) |
@@ -78,7 +78,7 @@ delegate, or a bundle courier — can silently alter the answer.
 - **A2** gets exactly S until exactly T, or until revocation is observable —
   nothing else. Within-window replay of a valid record is **not prevented**
   (FM8, carried openly; see LIMITATIONS §3).
-- **A3** gets rejections. All 18 adversarial constructions are refused; the
+- **A3** gets rejections. All 20 adversarial constructions are refused; the
   fuzzer has never produced a silent acceptance.
 - **A4** gets refused (C8) or delivers honestly.
 - **A5** can verify records (public by design) and read state; cannot mint or

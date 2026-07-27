@@ -78,8 +78,10 @@ server is down it shows a "start the server" panel. For a guarded server, set
 
 ## Data
 
-Demo-mode figures mirror the real implementation (94µs verify, 403-byte proof,
-R = 2s, the five checks, `RevokedObservable` / `RevocationKnowledgeStale`).
-Live mode shows actual server results.
+Demo-mode figures mirror the real implementation (verify p50 ~116µs, 403-byte
+proof, R = 2s, the five checks, `RevokedObservable` /
+`RevocationKnowledgeStale`) and are sourced from `docs/BENCHMARKS.md` —
+regenerate with `bash scripts/run-benchmarks.sh`. Live mode shows actual
+server results.
 
 Additive; not part of the frozen Atlas primitive.

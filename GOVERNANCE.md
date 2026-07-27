@@ -15,7 +15,7 @@ convenience:
   sugar lives in the SDK/CLI layer, never in the verification core.
 - **Judgment is recorded, not remembered.** Every architecturally significant or
   irreversible decision produces an entry in
-  [`ENGINEERING_DECISION_RECORD.md`](ENGINEERING_DECISION_RECORD.md) (ADRs) and,
+  [`docs/planning/ENGINEERING_DECISION_RECORD.md`](docs/planning/ENGINEERING_DECISION_RECORD.md) (ADRs) and,
   where it concerns the reasoning framework or a freeze act, a dated journal
   entry under [`agents/journal/`](agents/journal/). Planning documents listed in
   [`scripts/frozen-docs.list`](scripts/frozen-docs.list) are hash-pinned; amending

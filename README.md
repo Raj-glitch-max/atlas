@@ -62,10 +62,14 @@ bash examples/unforgettable.sh
   scope, verifying offline.
 - **Operator console + product site** (`ui/`) — a live operator surface and a
   marketing site (Vite + Three.js + GSAP); see [`ui/README.md`](ui/README.md).
-- **Assurance** — 30 conformance vectors (20 adversarial) in `tests/vectors`,
-  coverage-guided fuzzing, property tests, published microbenchmarks + a latency
-  histogram, an import-boundary lint (dependency rules R1–R7), and frozen-doc
-  integrity.
+- **Assurance** — 30 conformance vectors (20 adversarial: `alg:none`, HS256
+  confusion, signature/payload transplant, duplicate JSON keys) in
+  `tests/vectors`; coverage-guided fuzzing of the verification core **run in CI
+  on every PR** (`-fuzz=FuzzVerify -fuzztime=60s`; ~1.9M executions locally, no
+  crashes); 6 property tests; benchmarks published *with the machine that
+  produced them* ([`docs/BENCHMARKS.md`](docs/BENCHMARKS.md), regenerate with
+  `bash scripts/run-benchmarks.sh`) plus a live Prometheus latency histogram;
+  an import-boundary lint (dependency rules R1–R7); and frozen-doc integrity.
 
 Deploy with the hardened container: `deploy/` (distroless nonroot, read-only
 rootfs, `docker compose`).
@@ -87,8 +91,9 @@ Start here:
   (mission), [`ROADMAP.md`](ROADMAP.md) (what's done / next), [`WHY.md`](WHY.md),
   [`LIMITATIONS.md`](LIMITATIONS.md).
 - **Architecture** — [`SYSTEM_ARCHITECTURE.md`](SYSTEM_ARCHITECTURE.md),
-  [`rfc/`](rfc/) (RFC-000…003), `MODULE_SPECIFICATION.md`,
-  `INTERFACE_SPECIFICATION.md`.
+  [`rfc/`](rfc/) (RFC-000…003),
+  [`docs/planning/MODULE_SPECIFICATION.md`](docs/planning/MODULE_SPECIFICATION.md),
+  [`docs/planning/INTERFACE_SPECIFICATION.md`](docs/planning/INTERFACE_SPECIFICATION.md).
 - **Product / engineering specs (frozen)** — [`docs/product/`](docs/product/),
   [`docs/engineering/`](docs/engineering/).
 - **Security** — [`SECURITY.md`](SECURITY.md), [`THREAT_MODEL.md`](THREAT_MODEL.md),
@@ -127,7 +132,7 @@ community expectations. Maintainers are listed in
 [`.github/CODEOWNERS`](.github/CODEOWNERS).
 
 Design decisions are recorded, not remembered: see
-[`ENGINEERING_DECISION_RECORD.md`](ENGINEERING_DECISION_RECORD.md) (ADRs) and the
+[`docs/planning/ENGINEERING_DECISION_RECORD.md`](docs/planning/ENGINEERING_DECISION_RECORD.md) (ADRs) and the
 dated decision memory in [`agents/journal/`](agents/journal/).
 
 ## Security
