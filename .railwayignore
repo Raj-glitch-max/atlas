@@ -23,11 +23,15 @@ archive/
 lab/
 JUNK_DOCS_MD/
 
-atlas-server
-atlas-gate
+# Root-anchored (leading /) ON PURPOSE: a bare `atlas-server` also matches
+# the cmd/atlas-server SOURCE DIRECTORY, which broke the Railway build with
+# "stat /src/cmd/atlas-server: directory not found". These entries are meant
+# to exclude stray built binaries at the repo root, never source packages.
+/atlas-server
+/atlas-gate
 *.test
 *.out
 *.pem
 *.key
-state.json
-atlas-state.json
+/state.json
+/atlas-state.json
