@@ -5,7 +5,7 @@
     "dockerfilePath": "deploy/Dockerfile"
   },
   "deploy": {
-    "startCommand": "atlas-server -store /data/state.json -key /data/authority.key -rate-limit 120 -log-requests=true",
+    "startCommand": "atlas-server -store /data/state.json -key /data/authority.key -rate-limit 120 -trust-proxy -log-requests=true",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 30,
     "restartPolicyType": "ON_FAILURE",

@@ -58,6 +58,6 @@ func (a *App) accessLog(next http.Handler) http.Handler {
 		next.ServeHTTP(rec, r)
 		log.Printf("atlas access: %d %s %s %s %s %db",
 			rec.status, r.Method, r.URL.Path,
-			time.Since(start).Round(time.Microsecond), clientIP(r), rec.bytes)
+			time.Since(start).Round(time.Microsecond), clientIP(r, a.trustProxy), rec.bytes)
 	})
 }

@@ -29,7 +29,20 @@ Then set the environment. **Do this before pointing the UI at it:**
 railway variables --set ATLAS_ALLOW_ORIGIN=https://<your-pages-domain>
 railway variables --set ATLAS_TRUST_DOMAIN=domain-a.test
 railway variables --set ATLAS_RATE_LIMIT=120
+railway variables --set ATLAS_TRUST_PROXY=true
 ```
+
+**`ATLAS_TRUST_PROXY` is not optional on a PaaS.** Every request reaches the
+container from the platform's proxy, so the server sees one identical source
+address for every visitor on earth. Without this flag, `ATLAS_RATE_LIMIT=120`
+stops being "120 per visitor" and becomes "120 for the entire internet" — one
+enthusiastic visitor or a single crawler locks everyone out, and the demo looks
+broken. With it, the client is taken from `X-Forwarded-For`.
+
+Do **not** set it if you ever expose the server directly without a proxy in
+front: `X-Forwarded-For` is client-supplied, so trusting it there lets anyone
+evade the limit by rotating a header. Rate limiting here is an availability
+backstop, never a security control.
 
 Add a **volume mounted at `/data`** in the Railway dashboard. Without it the
 authority key is regenerated on every restart, which invalidates every
