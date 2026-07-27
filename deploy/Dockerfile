@@ -22,6 +22,14 @@ COPY --from=build --chown=65532:65532 /data /data
 USER 65532:65532
 EXPOSE 8087
 VOLUME ["/data"]
+
+# PORT (not -addr) selects the listen port, so the same image runs unchanged on
+# a PaaS that assigns a port at runtime (Railway, Render, Cloud Run all inject
+# PORT). The server binds 0.0.0.0 whenever PORT is set; this default keeps local
+# `docker run -p 8087:8087` working. Passing -addr explicitly would WIN over
+# PORT and silently make the container unreachable on those platforms.
+ENV PORT=8087
+
 # Durable by default inside the container: state + key live on the /data volume.
 ENTRYPOINT ["atlas-server"]
-CMD ["-addr", "0.0.0.0:8087", "-store", "/data/state.json", "-key", "/data/authority.key"]
+CMD ["-store", "/data/state.json", "-key", "/data/authority.key"]
