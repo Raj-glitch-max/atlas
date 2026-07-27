@@ -106,9 +106,12 @@ $(go test ./atlas-lab/bench -run=XXX -bench='BenchmarkProofSize' -benchtime=1x 2
 EOF
 }
 
+# Go's benchmark header pads the `cpu:` line with trailing spaces, which trips
+# the trailing-whitespace pre-commit hook. Strip it so regenerating the report
+# is idempotent against `make lint` and never produces a spurious diff.
 if [ -n "$OUT" ]; then
-  report > "$OUT"
+  report | sed 's/[[:space:]]*$//' > "$OUT"
   echo "wrote $OUT"
 else
-  report
+  report | sed 's/[[:space:]]*$//'
 fi

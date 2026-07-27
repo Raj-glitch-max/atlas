@@ -74,7 +74,7 @@ the token that makes delegation deployable between agents:
   semantics (what exactly can be claimed when the network is split — and what
   cannot),
 - a **runtime**: server, CLI, agent tools (MCP), SDK, audit, metrics,
-- a **conformance suite** — 28 language-neutral test vectors, including 18
+- a **conformance suite** — 30 language-neutral test vectors, including 20
   adversarial ones — so independent implementations provably agree,
 - fuzzing, property tests, and benchmarks published, not promised.
 
@@ -131,13 +131,60 @@ outgrow any single implementation.
 
 ---
 
+## Q11 · How is it actually put together?
+
+Four ways in, one engine. Every surface composes the same kernel through public
+APIs only — the import lint enforces it (0 violations).
+
+```text
+                    ┌────────────────────────────┐
+   humans  ──CLI──▶ │                            │
+   humans  ──UI───▶ │   atlas-server (:8087)     │──▶  internal/ (the engine)
+   agents  ──MCP──▶ │   API · store · audit      │      issue · verify · revoke
+   apps    ──SDK──▶ │                            │
+                    └────────────────────────────┘
+```
+
+| Surface | Path | What it is |
+|---|---|---|
+| **Server** | `cmd/atlas-server` | HTTP API over the real engine: `POST /issue /verify /revoke`, `GET /health /readyz /version /delegations /audit /graph /stats /bundle /metrics`. Durable store + authority key, audit log, optional bearer auth, pinned CORS, per-IP rate limiting, TLS, Prometheus metrics. |
+| **CLI** | `cmd/atlas` | `delegate · verify · bundle · inspect · revoke · delegations · graph · audit · doctor · version`. Offline verification (`verify --offline --bundle …`) and the `--require-scope` authorization gate. Script-friendly exit codes. |
+| **MCP** | `cmd/atlas-mcp` | Atlas as **agent tools** over the Model Context Protocol (`atlas_issue/verify/revoke/delegations/graph/audit`). Register with Claude: `claude mcp add atlas -- ./atlas-mcp`. |
+| **SDKs** | `sdk/` | Zero-dependency clients for **Go, Python, and TypeScript**, each mirroring the same API. |
+| **Gate** | `examples/atlas-gate` | A deployable reverse proxy that admits a request only if it carries a capability granting the required scope — verified offline. |
+| **UI** | `ui/` | Product site with a live verify console, plus an **operator console** (`/console.html`) — delegations, audit, graph, metrics. |
+| **Deploy** | `deploy/` | Distroless nonroot image, read-only rootfs, + compose (server + Prometheus + Grafana). |
+
+## Q12 · How do I run it right now?
+
+```bash
+# 1. the whole thesis in 60 seconds — self-contained, builds and cleans up
+bash examples/unforgettable.sh
+
+# 2. or drive it yourself
+go run ./cmd/atlas-server -store ./atlas-state.json -key ./authority.key   # → :8087
+go run ./cmd/atlas doctor
+REC=$(go run ./cmd/atlas delegate -q \
+  --principal spiffe://domain-a.test/workload/payments-api \
+  --delegate  spiffe://domain-b.test/agent/booking-worker \
+  --scope read:orders,write:audit)
+echo "$REC" | go run ./cmd/atlas verify -     # ACCEPT
+echo "$REC" | go run ./cmd/atlas inspect -    # decode claims, no verification
+
+# 3. the UI
+cd ui && npm install && npm run dev           # → localhost:5173  (+ /console.html)
+```
+
+---
+
 ## Where to go next
 
 | You want to… | Go to |
 |---|---|
-| **See it save a real workflow** | `docs/product/AGENT_WORKFLOWS.md` · `bash examples/ship-a-landing-page.sh` |
-| **Try it in 5 minutes** | `PRODUCT.md` → quickstart, or `bash examples/unforgettable.sh` |
-| Read what can go wrong | `THREAT_MODEL.md` · `LIMITATIONS.md` |
-| See the hard questions answered | `docs/product/OBJECTIONS.md` |
-| Understand the engine | `SYSTEM_ARCHITECTURE.md` · `tests/vectors/VECTORS.md` |
-| The research underneath | `docs/discovery/` · `rfc/` |
+| **See it save a real workflow** | [`AGENT_WORKFLOWS.md`](AGENT_WORKFLOWS.md) · `bash examples/ship-a-landing-page.sh` |
+| **Try it in 5 minutes** | Q12 above, or `bash examples/unforgettable.sh` |
+| Read what can go wrong | [`../architecture/THREAT_MODEL.md`](../architecture/THREAT_MODEL.md) · [`../../LIMITATIONS.md`](../../LIMITATIONS.md) |
+| See the hard questions answered | [`OBJECTIONS.md`](OBJECTIONS.md) |
+| Understand the engine | [`../architecture/SYSTEM_ARCHITECTURE.md`](../architecture/SYSTEM_ARCHITECTURE.md) · [`../../tests/vectors/VECTORS.md`](../../tests/vectors/VECTORS.md) |
+| Verify the performance claims | [`../BENCHMARKS.md`](../BENCHMARKS.md) |
+| The research underneath | [`../discovery/`](../discovery/) · [`../../rfc/`](../../rfc/) |

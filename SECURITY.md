@@ -4,7 +4,7 @@ Atlas is an offline-verifiable cryptographic delegation runtime. A verification
 library that gets security wrong fails silently, so we take reports seriously and
 respond on a stated timeline.
 
-Read this alongside [`THREAT_MODEL.md`](THREAT_MODEL.md) (what Atlas defends and
+Read this alongside [`THREAT_MODEL.md`](docs/architecture/THREAT_MODEL.md) (what Atlas defends and
 how each claim is proven) and [`LIMITATIONS.md`](LIMITATIONS.md) (what Atlas does
 **not** defend, stated plainly). Neither is a substitute for reporting something
 new.
@@ -40,7 +40,7 @@ useful thing you can send.
 | Fix or mitigation plan communicated | within **30 days** of a confirmed report |
 | Public disclosure | coordinated with you, after a fix is available |
 
-Atlas has a single maintainer today (see [`MAINTAINERS.md`](MAINTAINERS.md)), so
+Atlas has a single maintainer today (see [`MAINTAINERS.md`](.github/MAINTAINERS.md)), so
 these are honest targets rather than a staffed guarantee. We will keep you
 informed if a timeline slips.
 
@@ -56,7 +56,7 @@ There is no paid bug-bounty program at this time.
 
 ## What we consider in scope
 
-In scope — anything that breaks a claim in [`THREAT_MODEL.md`](THREAT_MODEL.md):
+In scope — anything that breaks a claim in [`THREAT_MODEL.md`](docs/architecture/THREAT_MODEL.md):
 
 - A record that verifies but should be rejected (silent acceptance) — the worst
   class, always high severity.

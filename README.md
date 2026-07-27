@@ -1,78 +1,111 @@
 # Atlas
 
-**Offline-verifiable, attenuable delegation for SPIFFE workload identity.**
+**Hand one agent's authority to another without handing over a secret — and
+verify it in ~116µs with the issuer offline.**
 
-When one workload — or one AI agent — needs another to act with its authority,
-Atlas lets you hand off a **scoped, expiring, revocable capability** instead of a
-shared secret. The receiving side verifies it in microseconds from locally-held
-trust material — **no call to the issuer**, even when the network to it is gone —
-and a revocation is enforced independently, failing closed when freshness can't
-be proven.
+Atlas issues a **scoped, expiring, revocable capability** instead of a shared
+key. The receiving side verifies it from locally-held trust material — **no call
+to the issuer, even when the network to it is gone** — and a revocation is
+enforced independently, failing closed when freshness can't be proven.
 
-Atlas is a **narrow primitive**: single-hop, across two trust domains, a
-companion to SPIFFE (never a replacement). It is closest in design space to
-Biscuit / UCAN. It is **not** a policy engine, an identity provider, or a
-replacement for OAuth/SPIFFE. See [`WHY.md`](WHY.md) and
-[`LIMITATIONS.md`](LIMITATIONS.md) for the honest boundaries.
+## See it work
 
-> Status: **v0.1-dev**, a reference implementation. Every claim in this repo is
-> either tested or explicitly labelled as deferred/hypothesis — see
-> [`LIMITATIONS.md`](LIMITATIONS.md).
+```console
+$ bash examples/unforgettable.sh
 
-**New here?** Start with [`START_HERE.md`](START_HERE.md) — a zero-prior-knowledge
-reading path that takes you from "what problem does this solve" to reading the
-verification core, in order, with what to take away from each file.
+1 · an agent gets a scoped capability
+   issued  spiffe://domain-a.test/workload/payments-api → spiffe://domain-b.test/agent/booking-worker
+   scope   read:orders, write:audit
 
-**License:** [Apache-2.0](LICENSE) · **Security:** [`SECURITY.md`](SECURITY.md) ·
-**Governance:** [`GOVERNANCE.md`](GOVERNANCE.md) · **Maintainers:** [`MAINTAINERS.md`](MAINTAINERS.md) ·
-**Conduct:** [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)
+3 · THE SERVER DIES — no issuer, no network
+   server: UNREACHABLE (connection refused)
+
+4 · verify OFFLINE — still answers, in microseconds
+   ACCEPT  (offline · 319µs · snapshot age 38ms / budget 10m0s)
+     identity_binding   Pass  ·  integrity  Pass  ·  expiry  Pass
+     scope_integrity    Pass  ·  revocation_status  Pass
+
+6 · the revoked capability — rejected, OFFLINE
+   REJECT  (offline · 240µs)  RevokedObservable
+
+7 · staleness is YOUR policy — an old snapshot fails CLOSED, never open
+   INCONCLUSIVE  (offline · 197µs · age 1.017s / budget 500ms)  RevocationKnowledgeStale
+
+8 · a tampered bundle (revocation stripped) is REFUSED outright
+   offline verify: REFUSING bundle — revstatus: revoked-set signature does not verify
+```
+
+That is real output from the real engine — no mocks, no scripted text. The
+script is self-contained: it builds, runs its own server on a temp store, kills
+it mid-demo, and cleans up. **One command, ~60 seconds:**
+
+```sh
+bash examples/unforgettable.sh
+```
 
 ## Quickstart
 
 ```sh
-# build & run the full local gate (build + vet + tests + lints + frozen-doc + import rules)
-make ci
-
-# run the server, then verify a capability end-to-end
-go run ./cmd/atlas-server                       # → http://127.0.0.1:8087
-go run ./cmd/atlas doctor                        # confirm it's up
-
-# the headline demo — offline verify, revoke, tamper-refusal, all live:
-bash examples/unforgettable.sh
+make ci                                   # build + vet + tests + lints + frozen-doc + import rules
+go run ./cmd/atlas-server                 # → http://127.0.0.1:8087
+go run ./cmd/atlas doctor                 # confirm it's up
 ```
 
-## What's built (all tested; run `make ci`)
+## What Atlas is not
+
+A **narrow primitive**: single-hop, across two trust domains, a companion to
+SPIFFE and never a replacement. Closest in design space to Biscuit / UCAN. It is
+**not** a policy engine, **not** an identity provider, and **not** a replacement
+for OAuth or SPIFFE.
+
+If you have one agent talking to one service, use an API key. If your
+permissions are static and long-lived, use your IAM. Atlas earns its complexity
+only when delegation actually exists — see
+[`LIMITATIONS.md`](LIMITATIONS.md) for the full, deliberately unflattering list.
+
+> **Status: v0.1-dev**, a reference implementation. Every claim here is either
+> tested or labelled deferred. No third-party security audit has been done.
+
+## What's built
 
 - **The engine** (`internal/`) — the six RFC-003 modules: record (M1), issuance
-  (M2), verification (M3, the conformance definition), truststore (M4),
+  (M2), verification (M3, *the conformance definition*), truststore (M4),
   revocation status (M5), revocation origin (M6). Five ordered checks, an
-  unconditional decision trace, fail-closed on stale/indeterminate knowledge.
+  unconditional decision trace, fail-closed on stale or indeterminate knowledge.
 - **Server** (`cmd/atlas-server`) — HTTP JSON API over the real engine
   (`/issue /verify /revoke /delegations /audit /graph /stats /bundle /metrics`,
   plus `/health` and `/readyz`), durable file store, optional bearer auth,
-  configurable CORS, per-IP rate limiting, TLS, Prometheus metrics, access logs.
-- **CLI** (`cmd/atlas`) — `issue · verify · revoke · delegations · graph · audit
-  · doctor · version · inspect · bundle`, including **offline** verification
-  (`verify --offline --bundle …`) and the `--require-scope` authorization gate.
+  pinned CORS, per-IP rate limiting, TLS, Prometheus metrics, access logs.
+- **CLI** (`cmd/atlas`) — `delegate · verify · revoke · delegations · graph ·
+  audit · doctor · version · inspect · bundle`, including **offline**
+  verification (`verify --offline --bundle …`) and the `--require-scope`
+  authorization gate.
 - **MCP server** (`cmd/atlas-mcp`) — Atlas as agent tools over MCP stdio.
-- **SDKs** — zero-dependency clients in [Python](sdk/python), [TypeScript](sdk/typescript),
-  and [Go](sdk/go), each mirroring the same API.
-- **Reference gate** (`examples/atlas-gate`) — a deployable reverse-proxy that
-  admits a request only if it carries a valid capability granting the required
-  scope, verifying offline.
-- **Operator console + product site** (`ui/`) — a live operator surface and a
-  marketing site (Vite + Three.js + GSAP); see [`ui/README.md`](ui/README.md).
-- **Assurance** — 30 conformance vectors (20 adversarial: `alg:none`, HS256
-  confusion, signature/payload transplant, duplicate JSON keys) in
-  `tests/vectors`; coverage-guided fuzzing of the verification core **run in CI
-  on every PR** (`-fuzz=FuzzVerify -fuzztime=60s`; ~1.9M executions locally, no
-  crashes); 6 property tests; benchmarks published *with the machine that
-  produced them* ([`docs/BENCHMARKS.md`](docs/BENCHMARKS.md), regenerate with
-  `bash scripts/run-benchmarks.sh`) plus a live Prometheus latency histogram;
-  an import-boundary lint (dependency rules R1–R7); and frozen-doc integrity.
+- **SDKs** — zero-dependency clients in [Go](sdk/go), [Python](sdk/python), and
+  [TypeScript](sdk/typescript), each mirroring the same API.
+- **Reference gate** (`examples/atlas-gate`) — a deployable reverse proxy that
+  admits a request only if it carries a capability granting the required scope,
+  verified offline.
+- **Operator console + site** (`ui/`) — see [`ui/README.md`](ui/README.md).
 
 Deploy with the hardened container: `deploy/` (distroless nonroot, read-only
 rootfs, `docker compose`).
+
+## Can you verify the claims?
+
+That's the point — every number below is something you can re-derive.
+
+| Claim | Check it yourself |
+|---|---|
+| The engine passes its conformance suite | `go test ./tests/...` — 30 vectors, 20 adversarial (`alg:none`, HS256 confusion, signature/payload transplant, duplicate JSON keys) |
+| The verifier never accepts garbage | `go test ./internal/verify -run=XXX -fuzz=FuzzVerify -fuzztime=60s` — runs in CI on every PR; ~1.9M executions, zero silent acceptances |
+| Verify is ~116µs (p50) | `bash scripts/run-benchmarks.sh` — prints the CPU, Go version and iteration counts *alongside* the numbers ([`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)) |
+| Module boundaries hold | `make importlint` — dependency rules R1–R7, 21 packages, 0 violations |
+| It works end to end | `bash examples/unforgettable.sh` |
+
+Measured on a Ryzen 5 5600H, Go 1.22.11, chain depth 1 — in-process engine, not
+end-to-end server latency (that's ~2-3x, and exported live as the
+`atlas_verify_latency_seconds` Prometheus histogram).
 
 ## Runnable examples
 
@@ -82,67 +115,41 @@ rootfs, `docker compose`).
 | [`examples/ship-a-landing-page.sh`](examples/ship-a-landing-page.sh) | multi-tool agent workflow: least privilege, blast-radius containment |
 | [`examples/agent-capability-demo.sh`](examples/agent-capability-demo.sh) | single-hop grant, attenuation, offline verify, revocation |
 
-## Documentation map
+## Documentation
 
-The planning corpus is extensive and partly **frozen** (hash-pinned; see below).
-Start here:
+**New here?** [`docs/guides/START_HERE.md`](docs/guides/START_HERE.md) is a
+zero-prior-knowledge reading path from "what problem does this solve" to reading
+the verification core, in order.
 
-- **Orientation** — [`context/00_PROJECT_CONTEXT.md`](context/00_PROJECT_CONTEXT.md)
-  (mission), [`ROADMAP.md`](ROADMAP.md) (what's done / next), [`WHY.md`](WHY.md),
-  [`LIMITATIONS.md`](LIMITATIONS.md).
-- **Architecture** — [`SYSTEM_ARCHITECTURE.md`](SYSTEM_ARCHITECTURE.md),
-  [`rfc/`](rfc/) (RFC-000…003),
-  [`docs/planning/MODULE_SPECIFICATION.md`](docs/planning/MODULE_SPECIFICATION.md),
-  [`docs/planning/INTERFACE_SPECIFICATION.md`](docs/planning/INTERFACE_SPECIFICATION.md).
-- **Product / engineering specs (frozen)** — [`docs/product/`](docs/product/),
-  [`docs/engineering/`](docs/engineering/).
-- **Security** — [`SECURITY.md`](SECURITY.md), [`THREAT_MODEL.md`](THREAT_MODEL.md),
-  `docs/engineering/02_SECURITY_OBJECTIVES.md`.
-- **Governance** — [`CONTRIBUTING.md`](CONTRIBUTING.md),
-  [`DEVELOPMENT_RULES.md`](DEVELOPMENT_RULES.md),
-  [`context/01_GOVERNANCE.md`](context/01_GOVERNANCE.md), and the
-  reasoning framework in [`agents/`](agents/).
-- **Substrate lab** — [`lab/`](lab/) and [`atlas-lab/`](atlas-lab/) (the
-  two-domain SPIRE experiment environment).
-- **Backlog / debt / risk** — [`BACKLOG.md`](BACKLOG.md),
-  [`TECHNICAL_DEBT_REGISTER.md`](TECHNICAL_DEBT_REGISTER.md),
-  [`RISK_REGISTER.md`](RISK_REGISTER.md).
+| | |
+|---|---|
+| Why it exists, and why not OAuth/JWT/Biscuit | [`docs/product/WHY.md`](docs/product/WHY.md) |
+| What it deliberately does **not** do | [`LIMITATIONS.md`](LIMITATIONS.md) |
+| What it defends, and the test proving each claim | [`docs/architecture/THREAT_MODEL.md`](docs/architecture/THREAT_MODEL.md) |
+| The engine's design | [`docs/architecture/SYSTEM_ARCHITECTURE.md`](docs/architecture/SYSTEM_ARCHITECTURE.md) · [`rfc/`](rfc/) |
+| The wire format, for other implementations | [`tests/vectors/VECTORS.md`](tests/vectors/VECTORS.md) |
+| The hard questions, pre-answered | [`docs/product/OBJECTIONS.md`](docs/product/OBJECTIONS.md) |
+| Where it's going | [`ROADMAP.md`](ROADMAP.md) |
+| Performance, with methodology | [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md) |
 
-## The frozen-planning rule
+## Contributing
 
-The planning documents in [`scripts/frozen-docs.list`](scripts/frozen-docs.list)
-are frozen: `make check-frozen` verifies their SHA-256 hashes against
-`FROZEN.sha256` and is wired into CI. Editing one without a dated amendment and a
-journal entry breaks the build — by design. See `CONTRIBUTING.md`
-§"Frozen planning documents."
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) — it's the single process document
+(setup, layout, branches, commits, review, and the frozen-planning rule).
+Governance is in [`.github/GOVERNANCE.md`](.github/GOVERNANCE.md), maintainers in
+[`.github/MAINTAINERS.md`](.github/MAINTAINERS.md), conduct in
+[`.github/CODE_OF_CONDUCT.md`](.github/CODE_OF_CONDUCT.md).
 
-## Toolchain
-
-`go` (module `github.com/Raj-glitch-max/atlas`), plus `python3` + `pre-commit`
-and `npx` (Node) for the lint gates; optionally `docker` + `gitleaks`. Run
-`make help` for all targets.
-
-## Contributing & governance
-
-Contributions are welcome. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the
-workflow (including the frozen-planning rule), [`GOVERNANCE.md`](GOVERNANCE.md)
-for how decisions are made, and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for
-community expectations. Maintainers are listed in
-[`MAINTAINERS.md`](MAINTAINERS.md); code ownership is in
-[`.github/CODEOWNERS`](.github/CODEOWNERS).
-
-Design decisions are recorded, not remembered: see
-[`docs/planning/ENGINEERING_DECISION_RECORD.md`](docs/planning/ENGINEERING_DECISION_RECORD.md) (ADRs) and the
-dated decision memory in [`agents/journal/`](agents/journal/).
+Some planning documents are hash-pinned and verified by `make check-frozen`.
+Editing one without the amendment process breaks the build, by design —
+`CONTRIBUTING.md` §6.
 
 ## Security
 
 Found a vulnerability? **Do not open a public issue.** Follow the private
-disclosure process in [`SECURITY.md`](SECURITY.md). What Atlas defends (and how
-each claim is proven) is in [`THREAT_MODEL.md`](THREAT_MODEL.md); what it does
-**not** defend is in [`LIMITATIONS.md`](LIMITATIONS.md).
+disclosure process in [`SECURITY.md`](SECURITY.md).
 
 ## License
 
-Atlas is licensed under the [Apache License 2.0](LICENSE). See
-[`NOTICE`](NOTICE) for attribution and third-party dependency licenses.
+[Apache-2.0](LICENSE). See [`NOTICE`](NOTICE) for attribution and third-party
+dependency licenses.

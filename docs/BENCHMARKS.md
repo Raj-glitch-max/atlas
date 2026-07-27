@@ -48,7 +48,7 @@ default `ns/op` is a *mean* and is suppressed in these rows.
 goos: linux
 goarch: amd64
 pkg: github.com/Raj-glitch-max/atlas/atlas-lab/bench
-cpu: AMD Ryzen 5 5600H with Radeon Graphics         
+cpu: AMD Ryzen 5 5600H with Radeon Graphics
 BenchmarkLatencyVerifyAccept-12         	    2000	       126.8 p50-µs	       185.2 p90-µs	       254.3 p99-µs
 BenchmarkLatencyVerifyAccept-12         	    2000	       123.2 p50-µs	       175.0 p90-µs	       212.5 p99-µs
 BenchmarkLatencyVerifyAccept-12         	    2000	       129.2 p50-µs	       205.1 p90-µs	       280.6 p99-µs
@@ -72,7 +72,7 @@ BenchmarkLatencyValidateIntegrity-12    	    2000	       109.0 p50-µs	       14
 goos: linux
 goarch: amd64
 pkg: github.com/Raj-glitch-max/atlas/atlas-lab/bench
-cpu: AMD Ryzen 5 5600H with Radeon Graphics         
+cpu: AMD Ryzen 5 5600H with Radeon Graphics
 BenchmarkIssue-12                    	    2000	     39041 ns/op	    9072 B/op	     115 allocs/op
 BenchmarkIssue-12                    	    2000	     39675 ns/op	    9069 B/op	     115 allocs/op
 BenchmarkIssue-12                    	    2000	     46889 ns/op	    9071 B/op	     115 allocs/op
