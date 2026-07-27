@@ -27,6 +27,8 @@ func (a *App) Router() http.Handler {
 	mux.HandleFunc("/stats", a.only(http.MethodGet, a.handleStats))
 	mux.HandleFunc("/bundle", a.only(http.MethodGet, a.handleBundle))
 	mux.HandleFunc("/metrics", a.only(http.MethodGet, a.handleMetrics))
+	mux.HandleFunc("/activity", a.only(http.MethodGet, a.handleActivity))
+	mux.HandleFunc("/session", a.only(http.MethodPost, a.handleSession))
 	return a.accessLog(a.cors(mux))
 }
 
@@ -39,7 +41,7 @@ func (a *App) cors(next http.Handler) http.Handler {
 			w.Header().Add("Vary", "Origin")
 		}
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, "+sessionHeader)
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)
 			return
@@ -108,10 +110,10 @@ func (a *App) handleHealth(w http.ResponseWriter, _ *http.Request) {
 // Kubernetes/Nomad route traffic on this, so it fails closed (503) while
 // warming up or if the snapshot has aged out.
 func (a *App) handleReady(w http.ResponseWriter, _ *http.Request) {
-	a.mu.RLock()
-	haveSnapshot := !a.lastAsOf.IsZero()
-	a.mu.RUnlock()
-	age := a.snapshotAge()
+	a.def.mu.RLock()
+	haveSnapshot := !a.def.lastAsOf.IsZero()
+	a.def.mu.RUnlock()
+	age := a.snapshotAge(a.def)
 	ready := haveSnapshot && age <= a.revWindow
 	body := map[string]any{
 		"ready":             ready,
@@ -157,7 +159,7 @@ func (a *App) handleIssue(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, badRequest("principal, delegate, and a non-empty scope are required"))
 		return
 	}
-	res, e := a.Issue(req.Principal, req.Delegate, req.Scope, time.Duration(req.TTLSeconds)*time.Second)
+	res, e := a.Issue(a.sessionFor(r), req.Principal, req.Delegate, req.Scope, time.Duration(req.TTLSeconds)*time.Second)
 	if e != nil {
 		writeErr(w, e)
 		return
@@ -179,7 +181,7 @@ func (a *App) handleVerify(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, badRequest("record is required"))
 		return
 	}
-	writeJSON(w, 200, a.Verify(req.Record))
+	writeJSON(w, 200, a.Verify(a.sessionFor(r), req.Record))
 }
 
 type revokeReq struct {
@@ -196,15 +198,15 @@ func (a *App) handleRevoke(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, badRequest("instance is required"))
 		return
 	}
-	if e := a.Revoke(req.Instance); e != nil {
+	if e := a.Revoke(a.sessionFor(r), req.Instance); e != nil {
 		writeErr(w, e)
 		return
 	}
 	writeJSON(w, 200, map[string]any{"revoked": true, "instance": req.Instance, "asOf": a.clock.Now().UTC()})
 }
 
-func (a *App) handleDelegations(w http.ResponseWriter, _ *http.Request) {
-	writeJSON(w, 200, map[string]any{"delegations": a.store.Delegations()})
+func (a *App) handleDelegations(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, 200, map[string]any{"delegations": a.sessionFor(r).store.Delegations()})
 }
 
 func (a *App) handleAudit(w http.ResponseWriter, r *http.Request) {
@@ -214,17 +216,18 @@ func (a *App) handleAudit(w http.ResponseWriter, r *http.Request) {
 			limit = n
 		}
 	}
-	writeJSON(w, 200, map[string]any{"events": a.store.AuditLog(limit)})
+	writeJSON(w, 200, map[string]any{"events": a.sessionFor(r).store.AuditLog(limit)})
 }
 
-func (a *App) handleGraph(w http.ResponseWriter, _ *http.Request) {
-	writeJSON(w, 200, a.store.Graph())
+func (a *App) handleGraph(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, 200, a.sessionFor(r).store.Graph())
 }
 
 // handleStats is a JSON metrics view for dashboards (the counters plus derived
 // figures), complementing the Prometheus /metrics.
-func (a *App) handleStats(w http.ResponseWriter, _ *http.Request) {
-	m := a.store.Snapshot()
+func (a *App) handleStats(w http.ResponseWriter, r *http.Request) {
+	sess := a.sessionFor(r)
+	m := sess.store.Snapshot()
 	writeJSON(w, 200, map[string]any{
 		"issued":            m.Issued,
 		"revoked":           m.Revoked,
@@ -232,8 +235,8 @@ func (a *App) handleStats(w http.ResponseWriter, _ *http.Request) {
 		"accept":            m.Accept,
 		"reject":            m.Reject,
 		"inconclusive":      m.Inconclusive,
-		"delegations":       len(a.store.Delegations()),
-		"snapshotAgeSecond": a.snapshotAge().Seconds(),
+		"delegations":       len(sess.store.Delegations()),
+		"snapshotAgeSecond": a.snapshotAge(sess).Seconds(),
 		"trustDomain":       a.domain.Name(),
 		"revocationR":       a.revWindow.String(),
 	})
@@ -241,15 +244,57 @@ func (a *App) handleStats(w http.ResponseWriter, _ *http.Request) {
 
 // handleBundle exports the relying-party trust bundle (trust material + the
 // latest signed revocation snapshot) for offline verification.
-func (a *App) handleBundle(w http.ResponseWriter, _ *http.Request) {
-	writeJSON(w, 200, a.Bundle())
+func (a *App) handleBundle(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, 200, a.Bundle(a.sessionFor(r)))
+}
+
+// handleSession mints a fresh isolated session id. A browser client calls this
+// once, stores the id, and sends it as X-Atlas-Session on every later request.
+// Clients may equally generate their own 32-hex id; this endpoint exists so the
+// UI does not have to depend on crypto.randomUUID availability.
+func (a *App) handleSession(w http.ResponseWriter, _ *http.Request) {
+	id, err := newSessionID()
+	if err != nil {
+		writeErr(w, serverError("could not mint a session id: "+err.Error()))
+		return
+	}
+	writeJSON(w, 200, map[string]any{
+		"session":       id,
+		"header":        sessionHeader,
+		"idleTTLSecond": int(sessionIdleTTL.Seconds()),
+		"note":          "send this as the " + sessionHeader + " header; your state is isolated and ephemeral",
+	})
+}
+
+// handleActivity is the ONE cross-session surface: an aggregated, anonymized
+// count of what the whole instance has done recently.
+//
+// It exposes counts and nothing else — no session ids, no SPIFFE IDs, no
+// scopes, no instance ids, no addresses. A visitor can see that the system is
+// being used without learning anything about who used it or how. Read-only by
+// construction: there is no per-session detail behind this endpoint to leak.
+func (a *App) handleActivity(w http.ResponseWriter, _ *http.Request) {
+	now := a.clock.Now()
+	day := a.activity.countSince(now.Add(-24 * time.Hour))
+	hour := a.activity.countSince(now.Add(-time.Hour))
+	writeJSON(w, 200, map[string]any{
+		"issuedToday":         day[actIssued],
+		"verifiedToday":       day[actVerified],
+		"revokedToday":        day[actRevoked],
+		"issuedLastHour":      hour[actIssued],
+		"verifiedLastHour":    hour[actVerified],
+		"revocationsLastHour": hour[actRevoked],
+		"liveSessions":        a.SessionCount(),
+		"trustDomain":         a.domain.Name(),
+		"asOf":                now.UTC(),
+	})
 }
 
 // handleMetrics emits Prometheus text exposition format — the surface the
 // atlas-lab telemetry (Prometheus + Grafana) scrapes.
 func (a *App) handleMetrics(w http.ResponseWriter, _ *http.Request) {
-	m := a.store.Snapshot()
-	age := a.snapshotAge().Seconds()
+	m := a.def.store.Snapshot()
+	age := a.snapshotAge(a.def).Seconds()
 	w.Header().Set("Content-Type", "text/plain; version=0.0.4; charset=utf-8")
 	fmt.Fprintf(w, "# HELP atlas_verify_verdicts_total Verification verdicts by decision.\n")
 	fmt.Fprintf(w, "# TYPE atlas_verify_verdicts_total counter\n")
@@ -262,7 +307,7 @@ func (a *App) handleMetrics(w http.ResponseWriter, _ *http.Request) {
 	fmt.Fprintf(w, "# HELP atlas_revocation_snapshot_age_seconds Age of the held signed revocation snapshot.\n")
 	fmt.Fprintf(w, "# TYPE atlas_revocation_snapshot_age_seconds gauge\natlas_revocation_snapshot_age_seconds %.3f\n", age)
 
-	h := a.store.LatencySnapshot()
+	h := a.def.store.LatencySnapshot()
 	fmt.Fprintf(w, "# HELP atlas_verify_latency_seconds Verification latency.\n")
 	fmt.Fprintf(w, "# TYPE atlas_verify_latency_seconds histogram\n")
 	for i, ub := range h.Bounds {
