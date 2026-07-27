@@ -1,0 +1,37 @@
+# `railway up` uploads the working directory, which includes untracked files —
+# .gitignore alone does not protect them. Mirror .dockerignore so nothing
+# personal or irrelevant is shipped to the builder.
+
+# Personal scratch area — never leaves this machine.
+atlas-PYTHON/
+
+.git/
+.claude/
+.vscode/
+.devcontainer/
+
+ui/
+node_modules/
+**/node_modules/
+**/dist/
+
+docs/
+agents/
+context/
+rfc/
+archive/
+lab/
+JUNK_DOCS_MD/
+
+# Root-anchored (leading /) ON PURPOSE: a bare `atlas-server` also matches
+# the cmd/atlas-server SOURCE DIRECTORY, which broke the Railway build with
+# "stat /src/cmd/atlas-server: directory not found". These entries are meant
+# to exclude stray built binaries at the repo root, never source packages.
+/atlas-server
+/atlas-gate
+*.test
+*.out
+*.pem
+*.key
+/state.json
+/atlas-state.json

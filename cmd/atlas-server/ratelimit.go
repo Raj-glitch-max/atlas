@@ -3,6 +3,7 @@ package main
 import (
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 )
@@ -75,7 +76,36 @@ func (rl *rateLimiter) sweep(now time.Time) {
 }
 
 // clientIP extracts a best-effort client identity for limiting.
-func clientIP(r *http.Request) string {
+//
+// trustProxy MUST be false unless the server actually sits behind a proxy that
+// sets X-Forwarded-For. The distinction matters in both directions:
+//
+//   - Behind a PaaS (Railway, Render, Cloud Run, Fly, any CDN) every request
+//     arrives from the platform's proxy, so RemoteAddr is IDENTICAL for every
+//     visitor on earth. Limiting on it turns a per-IP limit into one global
+//     budget: a single busy client locks out everyone.
+//   - Exposed directly, X-Forwarded-For is attacker-controlled. Trusting it
+//     there lets anyone evade the limit by rotating a header value.
+//
+// So it is opt-in, and honest about what it buys: with a proxy in front, the
+// left-most XFF entry is the originating client by convention, but a client can
+// still forge that header before it reaches the proxy. Rate limiting here is an
+// availability backstop for a public demo, not a security control — treat it as
+// "stops the accidental hammering", never as "stops a determined attacker".
+func clientIP(r *http.Request, trustProxy bool) string {
+	if trustProxy {
+		if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+			if i := strings.IndexByte(xff, ','); i >= 0 {
+				xff = xff[:i]
+			}
+			if ip := strings.TrimSpace(xff); ip != "" {
+				return ip
+			}
+		}
+		if ip := strings.TrimSpace(r.Header.Get("X-Real-IP")); ip != "" {
+			return ip
+		}
+	}
 	if host, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
 		return host
 	}
@@ -88,7 +118,7 @@ func (a *App) limit(h http.HandlerFunc) http.HandlerFunc {
 		return h
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
-		if !a.limiter.allow(clientIP(r)) {
+		if !a.limiter.allow(clientIP(r, a.trustProxy)) {
 			w.Header().Set("Retry-After", "1")
 			writeErr(w, &apiError{Status: http.StatusTooManyRequests, Message: "rate limit exceeded; slow down"})
 			return

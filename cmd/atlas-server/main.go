@@ -19,13 +19,14 @@ func main() {
 	// Every flag falls back to an ATLAS_* environment variable, so the same
 	// binary is configured by flags in dev and by env in a container/orchestrator
 	// (precedence: an explicitly-set flag wins over env, which wins over default).
-	addr := flag.String("addr", envOr("ATLAS_ADDR", "127.0.0.1:8087"), "listen address")
+	addr := flag.String("addr", defaultAddr(), "listen address (PaaS: set PORT and this binds 0.0.0.0:$PORT)")
 	domain := flag.String("trust-domain", envOr("ATLAS_TRUST_DOMAIN", "domain-a.test"), "server trust domain (issued principals must belong to it)")
 	store := flag.String("store", envOr("ATLAS_STORE", ""), "path to a durable state file (default: in-memory only)")
 	keyPath := flag.String("key", envOr("ATLAS_KEY", ""), "path to the authority key (PEM); created if absent. Needed for records to survive restarts")
 	apiKey := flag.String("api-key", envOr("ATLAS_API_KEY", ""), "if set, /issue and /revoke require Authorization: Bearer <key>")
 	grant := flag.String("grant", envOr("ATLAS_GRANT", ""), "comma-separated scopes a principal may delegate (default: a built-in demo set)")
 	allowOrigin := flag.String("allow-origin", envOr("ATLAS_ALLOW_ORIGIN", ""), "CORS allowed origin for browser clients (default: * — pin to your UI origin in production)")
+	trustProxy := flag.Bool("trust-proxy", envBool("ATLAS_TRUST_PROXY", false), "derive the client IP from X-Forwarded-For (REQUIRED behind a PaaS/CDN, unsafe when exposed directly)")
 	rateLimit := flag.Int("rate-limit", envInt("ATLAS_RATE_LIMIT", 0), "per-IP requests/min on /issue and /revoke (0 = unlimited)")
 	tlsCert := flag.String("tls-cert", envOr("ATLAS_TLS_CERT", ""), "path to a TLS certificate (PEM); enables HTTPS when set with -tls-key")
 	tlsKey := flag.String("tls-key", envOr("ATLAS_TLS_KEY", ""), "path to the TLS private key (PEM)")
@@ -47,7 +48,7 @@ func main() {
 	}
 	app, err := NewApp(Config{
 		Domain: *domain, StorePath: *store, KeyPath: *keyPath, APIKey: *apiKey, Grant: grantSet,
-		AllowOrigin: *allowOrigin, RateLimitRPM: *rateLimit,
+		AllowOrigin: *allowOrigin, RateLimitRPM: *rateLimit, TrustProxy: *trustProxy,
 		LogRequests: *logReq, LogVerbose: *logVerbose,
 	}, systemClock{})
 	if err != nil {
@@ -57,7 +58,14 @@ func main() {
 		log.Printf("atlas-server: CORS pinned to origin %s", *allowOrigin)
 	}
 	if *rateLimit > 0 {
-		log.Printf("atlas-server: mutating endpoints rate-limited to %d req/min per IP", *rateLimit)
+		src := "RemoteAddr"
+		if *trustProxy {
+			src = "X-Forwarded-For"
+		}
+		log.Printf("atlas-server: mutating endpoints rate-limited to %d req/min per client (client identified by %s)", *rateLimit, src)
+		if !*trustProxy {
+			log.Printf("atlas-server: NOTE -rate-limit without -trust-proxy behind a proxy limits ALL callers as one client")
+		}
 	}
 	if *store != "" {
 		log.Printf("atlas-server: durable store at %s", *store)
@@ -129,6 +137,25 @@ func main() {
 	if err := app.Flush(); err != nil {
 		log.Printf("atlas-server: final flush: %v", err)
 	}
+}
+
+// defaultAddr resolves the listen address, in priority order:
+//
+//	ATLAS_ADDR  — explicit, wins outright
+//	PORT        — the PaaS convention (Railway, Render, Heroku, Cloud Run).
+//	              These platforms assign a port at runtime and route to the
+//	              container's 0.0.0.0:$PORT; binding 127.0.0.1 makes the
+//	              container unreachable and the health check fails with no
+//	              useful error, so PORT implies 0.0.0.0.
+//	127.0.0.1:8087 — local development: loopback only, never exposed by accident.
+func defaultAddr() string {
+	if v := os.Getenv("ATLAS_ADDR"); v != "" {
+		return v
+	}
+	if p := os.Getenv("PORT"); p != "" {
+		return "0.0.0.0:" + p
+	}
+	return "127.0.0.1:8087"
 }
 
 func envOr(key, def string) string {

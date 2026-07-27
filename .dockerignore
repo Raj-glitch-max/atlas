@@ -1,0 +1,44 @@
+# Keep the build context to what the image actually needs: Go sources plus
+# go.mod/go.sum. The Dockerfile does `COPY . .`, so everything not excluded here
+# is uploaded to the daemon and cached as a layer input — a large context slows
+# every build and invalidates the cache on unrelated edits.
+
+# Personal scratch area — never built, never shipped, never uploaded anywhere.
+atlas-PYTHON/
+
+.git/
+.github/
+.claude/
+.vscode/
+.devcontainer/
+
+# Front-end: built separately and deployed as static files, not into this image.
+ui/
+node_modules/
+**/node_modules/
+**/dist/
+
+# Docs, planning, governance, research — none of it is compiled.
+docs/
+agents/
+context/
+rfc/
+archive/
+lab/
+JUNK_DOCS_MD/
+*.md
+!README.md
+
+# Local build outputs and state that must never end up in an image.
+# Root-anchored (leading /) ON PURPOSE: a bare `atlas-server` also matches
+# the cmd/atlas-server SOURCE DIRECTORY, which broke the Railway build with
+# "stat /src/cmd/atlas-server: directory not found". These entries are meant
+# to exclude stray built binaries at the repo root, never source packages.
+/atlas-server
+/atlas-gate
+*.test
+*.out
+*.pem
+*.key
+/state.json
+/atlas-state.json

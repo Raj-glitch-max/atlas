@@ -75,6 +75,7 @@ type Config struct {
 
 	AllowOrigin  string // CORS Access-Control-Allow-Origin ("" => "*", dev default)
 	RateLimitRPM int    // per-IP requests/min on mutating endpoints (0 => off)
+	TrustProxy   bool   // behind a proxy/PaaS: derive the client IP from X-Forwarded-For
 	LogRequests  bool   // emit a structured access log line per request
 	LogVerbose   bool   // also log noisy probe/scrape endpoints
 }
@@ -98,6 +99,7 @@ type App struct {
 	revWindow   time.Duration
 	allowOrigin string
 	limiter     *rateLimiter
+	trustProxy  bool
 	logRequests bool
 	logVerbose  bool
 
@@ -174,7 +176,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 		pubKey: &key.PublicKey, pubKeyHex: publicKeyHex(&key.PublicKey), listID: listID,
 		authority: authority, trust: trust, publisher: publisher,
 		policy: policy, revWindow: 2 * time.Second,
-		allowOrigin: allowOrigin, limiter: limiter,
+		allowOrigin: allowOrigin, limiter: limiter, trustProxy: cfg.TrustProxy,
 		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
 		sessions: map[string]*Session{},
 		activity: newActivityLog(),

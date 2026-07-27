@@ -3,6 +3,14 @@
 **Hand one agent's authority to another without handing over a secret — and
 verify it in ~116µs with the issuer offline.**
 
+### ▶ [Try it live — no install, ~60 seconds](https://atlas-dh1.pages.dev)
+
+Issue a capability, watch five checks run against the real engine, revoke it,
+and watch the same capability get refused. Every verdict on that page comes from
+a live [`atlas-server`](https://atlas-production-c457.up.railway.app/health) —
+not a recording. Your session is isolated: nobody else can see or revoke what
+you issue.
+
 Atlas issues a **scoped, expiring, revocable capability** instead of a shared
 key. The receiving side verifies it from locally-held trust material — **no call
 to the issuer, even when the network to it is gone** — and a revocation is
