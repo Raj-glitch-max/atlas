@@ -1,0 +1,33 @@
+# `railway up` uploads the working directory, which includes untracked files —
+# .gitignore alone does not protect them. Mirror .dockerignore so nothing
+# personal or irrelevant is shipped to the builder.
+
+# Personal scratch area — never leaves this machine.
+atlas-PYTHON/
+
+.git/
+.claude/
+.vscode/
+.devcontainer/
+
+ui/
+node_modules/
+**/node_modules/
+**/dist/
+
+docs/
+agents/
+context/
+rfc/
+archive/
+lab/
+JUNK_DOCS_MD/
+
+atlas-server
+atlas-gate
+*.test
+*.out
+*.pem
+*.key
+state.json
+atlas-state.json
