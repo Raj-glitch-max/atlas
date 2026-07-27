@@ -7,10 +7,8 @@
 > `live · domain-a.test`, issuance/verify/revoke all hit the real engine, and
 > two browser sessions cannot see or revoke each other's capabilities.
 >
-> **One known gap on the live instance:** no Railway Volume is attached yet, so
-> `/data` is container-local. The service still works, but a redeploy or restart
-> regenerates the authority key and wipes issued records. Attach a volume
-> mounted at `/data` in the Railway dashboard to fix — see below.
+> **The live instance runs fully in-memory, on purpose.** See "Durability vs.
+> non-root" below — it is a real trade, and the demo takes the non-root side.
 
 Two pieces: the **backend** (`atlas-server`, a small Go binary in a distroless
 container) and the **frontend** (`ui/`, a static Vite build). They are wired
@@ -56,10 +54,49 @@ front: `X-Forwarded-For` is client-supplied, so trusting it there lets anyone
 evade the limit by rotating a header. Rate limiting here is an availability
 backstop, never a security control.
 
-Add a **volume mounted at `/data`** in the Railway dashboard. Without it the
-authority key is regenerated on every restart, which invalidates every
-previously issued record. The container already runs as uid 65532 with a
-read-only root filesystem, and `/data` is pre-chowned for it.
+### Durability vs. non-root — pick one, knowingly
+
+This is a genuine conflict, and it bites on every PaaS, not just Railway.
+
+The image runs as **uid 65532 (non-root)** — a property the README advertises.
+Railway (like most platforms) mounts volumes owned by **root**. So the moment
+you attach a volume at `/data` and pass `-key /data/authority.key`, the server
+cannot write it and refuses to start:
+
+```
+atlas-server: write key file /data/authority.key: permission denied
+```
+
+That refusal is deliberate, not a bug. `-key` is a request for durability, and
+silently falling back to an ephemeral key would mean every record issued before
+a restart quietly stops verifying. The server fails loudly instead.
+
+You have three options:
+
+| Option | Keeps non-root | Durable | Use when |
+|---|---|---|---|
+| **In-memory (default here)** | ✅ | ❌ | A public demo |
+| Volume + `RAILWAY_RUN_UID=0` | ❌ runs as root | ✅ | You need persistence more than the hardening |
+| Volume you can chown | ✅ | ✅ | Self-hosted Docker/K8s, where you control the mount |
+
+**The live demo takes option 1**, and the reasoning is worth stating because it
+is not obvious: visitor state is *already* ephemeral by design — sessions are
+in-memory, capped, and evicted after 30 minutes idle — so durability would buy
+almost nothing here. Meanwhile this repository tells people to run a non-root,
+distroless container. The flagship public instance should embody the posture the
+project advocates rather than quietly contradict it.
+
+On self-hosted Docker or Kubernetes you can have both, because you control the
+mount: `chown -R 65532:65532` the host directory, or set `fsGroup: 65532` in the
+pod security context. `deploy/docker-compose.yml` already does the right thing.
+
+If you *do* want durability on Railway, set `RAILWAY_RUN_UID=0` and restore the
+flags — accepting that the container then runs as root:
+
+```sh
+railway variables --set RAILWAY_RUN_UID=0
+# and add back:  -store /data/state.json -key /data/authority.key
+```
 
 Do **not** set `ATLAS_API_KEY` for a public demo — it would make `/issue` and
 `/revoke` require a bearer token, and the whole point is that a visitor can
