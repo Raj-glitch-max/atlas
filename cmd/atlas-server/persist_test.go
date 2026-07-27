@@ -28,16 +28,16 @@ func TestPersistenceRoundTrip(t *testing.T) {
 		t.Fatalf("NewApp session1: %v", err)
 	}
 	ts1 := httptest.NewServer(app1.Router())
-	r1, e := app1.Issue("spiffe://domain-a.test/workload/a", "spiffe://domain-b.test/agent/x", []string{"read:orders"}, time.Hour)
+	r1, e := app1.Issue(app1.def, "spiffe://domain-a.test/workload/a", "spiffe://domain-b.test/agent/x", []string{"read:orders"}, time.Hour)
 	if e != nil {
 		t.Fatalf("issue1: %v", e.Message)
 	}
-	r2, e := app1.Issue("spiffe://domain-a.test/workload/b", "spiffe://domain-b.test/agent/y", []string{"read:orders"}, time.Hour)
+	r2, e := app1.Issue(app1.def, "spiffe://domain-a.test/workload/b", "spiffe://domain-b.test/agent/y", []string{"read:orders"}, time.Hour)
 	if e != nil {
 		t.Fatalf("issue2: %v", e.Message)
 	}
 	_ = r2
-	if e := app1.Revoke(r1.Instance); e != nil {
+	if e := app1.Revoke(app1.def, r1.Instance); e != nil {
 		t.Fatalf("revoke: %v", e.Message)
 	}
 	if err := app1.Flush(); err != nil {
@@ -61,23 +61,23 @@ func TestPersistenceRoundTrip(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewApp session2: %v", err)
 	}
-	dels := app2.store.Delegations()
+	dels := app2.def.store.Delegations()
 	if len(dels) != 2 {
 		t.Fatalf("want 2 delegations restored, got %d", len(dels))
 	}
 	// the revoked one must still read revoked, and the verifier must reject its
 	// record (the revoked set was rebuilt and republished on load).
-	v := app2.Verify(r1.Record)
+	v := app2.Verify(app2.def, r1.Record)
 	if v.Decision != "reject" {
 		t.Fatalf("restored revocation not observed: verdict=%s causes=%v", v.Decision, v.Causes)
 	}
 	// the other one still verifies accept
-	v2 := app2.Verify(r2.Record)
+	v2 := app2.Verify(app2.def, r2.Record)
 	if v2.Decision != "accept" {
 		t.Fatalf("non-revoked delegation should still accept, got %s %v", v2.Decision, v2.Causes)
 	}
 	// metrics carried over (2 issued from session 1)
-	if m := app2.store.Snapshot(); m.Issued < 2 {
+	if m := app2.def.store.Snapshot(); m.Issued < 2 {
 		t.Fatalf("metrics not restored: issued=%d", m.Issued)
 	}
 }
@@ -128,7 +128,7 @@ func TestInMemoryWhenNoPath(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, e := app.Issue("spiffe://domain-a.test/p", "spiffe://domain-b.test/d", []string{"read:orders"}, time.Hour); e != nil {
+	if _, e := app.Issue(app.def, "spiffe://domain-a.test/p", "spiffe://domain-b.test/d", []string{"read:orders"}, time.Hour); e != nil {
 		t.Fatalf("issue: %v", e.Message)
 	}
 	if err := app.Flush(); err != nil {

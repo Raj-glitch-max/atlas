@@ -79,29 +79,37 @@ type Config struct {
 	LogVerbose   bool   // also log noisy probe/scrape endpoints
 }
 
-// App is the server's composition root and in-process state.
+// App is the server's composition root. It holds only state that is SHARED
+// across callers — the authority key, trust material, issuance policy, and
+// transport config. All mutable per-caller state (delegation store, audit log,
+// revoked set, signed snapshot) lives in a Session.
 type App struct {
 	clock       Clock
 	domain      spiffeid.TrustDomain
 	keyID       string
+	pubKey      *ecdsa.PublicKey
 	pubKeyHex   string
+	listID      string
 	apiKey      string
 	authority   *issuance.Authority
 	trust       *truststore.Store
 	publisher   *revstatus.Publisher
-	provider    *revstatus.SignedSetProvider
 	policy      verify.Policy
-	store       *Store
 	revWindow   time.Duration
 	allowOrigin string
 	limiter     *rateLimiter
 	logRequests bool
 	logVerbose  bool
 
-	mu       sync.RWMutex // guards revoked set + provider ingest vs. verify reads
-	revoked  map[string]record.InstanceID
-	lastAsOf time.Time
-	lastSet  revstatus.SignedRevokedSet // last published snapshot (for /bundle export)
+	// def is the default session: the durable, single-graph behaviour used by
+	// every client that does not send a session id (CLI, SDKs, MCP, tests).
+	def *Session
+
+	sessionsMu sync.Mutex
+	sessions   map[string]*Session
+
+	// activity is the cross-session aggregate exposed at /activity.
+	activity *activityLog
 }
 
 // NewApp wires the full engine for a trust domain. The revocation window R and
@@ -163,67 +171,84 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 	}
 	app := &App{
 		clock: clock, domain: td, keyID: keyID, apiKey: cfg.APIKey,
-		pubKeyHex: publicKeyHex(&key.PublicKey),
-		authority: authority, trust: trust, publisher: publisher, provider: provider,
-		policy: policy, store: store, revWindow: 2 * time.Second,
-		revoked: map[string]record.InstanceID{}, allowOrigin: allowOrigin, limiter: limiter,
+		pubKey: &key.PublicKey, pubKeyHex: publicKeyHex(&key.PublicKey), listID: listID,
+		authority: authority, trust: trust, publisher: publisher,
+		policy: policy, revWindow: 2 * time.Second,
+		allowOrigin: allowOrigin, limiter: limiter,
 		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
+		sessions:    map[string]*Session{},
+		activity:    newActivityLog(),
+	}
+	// The default session carries the durable store — this is the pre-existing
+	// single-graph behaviour, unchanged for every client that does not opt into
+	// a session.
+	app.def = &Session{
+		ID: "default", created: clock.Now(), lastSeen: clock.Now(),
+		store: store, provider: provider, revoked: map[string]record.InstanceID{},
 	}
 	// Rebuild the revoked set from any persisted revoked delegations.
 	for _, instStr := range store.RevokedInstances() {
 		if inst, err := record.InstanceIDFromString(instStr); err == nil {
-			app.revoked[instStr] = inst
+			app.def.revoked[instStr] = inst
 		}
 	}
 	// Seed a signed snapshot (empty, or the restored revoked set) so
 	// verification answers immediately with the correct revocation state.
-	if err := app.republishLocked(); err != nil {
+	if err := app.republish(app.def); err != nil {
 		return nil, err
 	}
 	return app, nil
 }
 
-// Flush persists the store if durability is enabled and there are changes.
-func (a *App) Flush() error { return a.store.Flush() }
+// Flush persists the default session's store if durability is enabled. Only the
+// default session is durable; visitor sessions are intentionally ephemeral.
+func (a *App) Flush() error { return a.def.store.Flush() }
 
-// nextAsOf returns a strictly-increasing signed timestamp (the realization
-// only adopts snapshots with a newer as-of).
-func (a *App) nextAsOf() time.Time {
+// nextAsOf returns a strictly-increasing signed timestamp for a session (the
+// realization only adopts snapshots with a newer as-of). Caller holds s.mu.
+func (a *App) nextAsOf(s *Session) time.Time {
 	now := a.clock.Now()
-	if !now.After(a.lastAsOf) {
-		now = a.lastAsOf.Add(time.Millisecond)
+	if !now.After(s.lastAsOf) {
+		now = s.lastAsOf.Add(time.Millisecond)
 	}
-	a.lastAsOf = now
+	s.lastAsOf = now
 	return now
 }
 
-// republishLocked re-signs the current revoked set with a fresh as-of and
-// ingests it. Caller must hold a.mu for write (or be in construction).
-func (a *App) republishLocked() error {
-	set := make([]record.InstanceID, 0, len(a.revoked))
-	for _, v := range a.revoked {
+// republishLocked re-signs a session's revoked set with a fresh as-of and
+// ingests it into that session's provider. Caller must hold s.mu for write.
+func (a *App) republishLocked(s *Session) error {
+	set := make([]record.InstanceID, 0, len(s.revoked))
+	for _, v := range s.revoked {
 		set = append(set, v)
 	}
-	snap, err := a.publisher.Publish(set, a.nextAsOf())
+	snap, err := a.publisher.Publish(set, a.nextAsOf(s))
 	if err != nil {
 		return err
 	}
-	if _, err := a.provider.Ingest(snap); err != nil {
+	if _, err := s.provider.Ingest(snap); err != nil {
 		return err
 	}
-	a.lastSet = snap
+	s.lastSet = snap
 	return nil
+}
+
+// republish is republishLocked with the session lock taken.
+func (a *App) republish(s *Session) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return a.republishLocked(s)
 }
 
 // Bundle exports the relying-party trust bundle: the trust material (public
 // key) plus the latest signed revocation snapshot. A holder of this bundle can
 // verify delegations fully offline; the snapshot's signature makes the bundle
 // tamper-evident (a doctored bundle is refused at import).
-func (a *App) Bundle() BundleDTO {
-	a.mu.RLock()
-	defer a.mu.RUnlock()
-	revoked := make([]string, 0, len(a.lastSet.Revoked))
-	for _, r := range a.lastSet.Revoked {
+func (a *App) Bundle(s *Session) BundleDTO {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	revoked := make([]string, 0, len(s.lastSet.Revoked))
+	for _, r := range s.lastSet.Revoked {
 		revoked = append(revoked, r.String())
 	}
 	return BundleDTO{
@@ -231,27 +256,41 @@ func (a *App) Bundle() BundleDTO {
 		TrustDomain: a.domain.Name(),
 		Keys:        map[string]string{a.keyID: a.pubKeyHex},
 		Revocation: BundleRevocation{
-			ListID:  a.lastSet.ListID,
-			AsOf:    a.lastSet.AsOf,
+			ListID:  s.lastSet.ListID,
+			AsOf:    s.lastSet.AsOf,
 			Revoked: revoked,
-			Sig:     a.lastSet.Sig,
+			Sig:     s.lastSet.Sig,
 		},
 		ExportedAt: a.clock.Now().UTC(),
 	}
 }
 
-// Refresh re-publishes the current set with a fresh as-of; the background
-// loop calls it every < R so the held snapshot never ages past the freshness
-// bound even when no revocations occur.
+// Refresh re-publishes every live session's set with a fresh as-of; the
+// background loop calls it every < R so no held snapshot ages past the
+// freshness bound even when no revocations occur. A session whose snapshot went
+// stale would start answering Indeterminate and fail closed — correct, but not
+// what a visitor idling on the page should see.
 func (a *App) Refresh() error {
-	a.mu.Lock()
-	defer a.mu.Unlock()
-	return a.republishLocked()
+	if err := a.republish(a.def); err != nil {
+		return err
+	}
+	a.sessionsMu.Lock()
+	live := make([]*Session, 0, len(a.sessions))
+	for _, s := range a.sessions {
+		live = append(live, s)
+	}
+	a.sessionsMu.Unlock()
+	for _, s := range live {
+		if err := a.republish(s); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Issue creates a delegation via the real authority. Over-scope requests are
 // Refused by the engine (attenuation), surfaced as a 422.
-func (a *App) Issue(principal, delegate string, scope []string, ttl time.Duration) (*IssueResult, *apiError) {
+func (a *App) Issue(s *Session, principal, delegate string, scope []string, ttl time.Duration) (*IssueResult, *apiError) {
 	p, err := spiffeid.FromString(principal)
 	if err != nil {
 		return nil, badRequest("principal is not a valid SPIFFE ID: " + err.Error())
@@ -273,16 +312,17 @@ func (a *App) Issue(principal, delegate string, scope []string, ttl time.Duratio
 		return nil, serverError(err.Error())
 	}
 	if res.Outcome == issuance.Refused {
-		a.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "issue.refused", Principal: principal, Delegate: delegate, Detail: res.Refusal.String()})
+		s.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "issue.refused", Principal: principal, Delegate: delegate, Detail: res.Refusal.String()})
 		return nil, &apiError{Status: 422, Message: "issuance refused: " + res.Refusal.String(), Refused: true}
 	}
 	asrt := res.Record.Read()
 	inst := asrt.Instance.String()
-	a.store.AddDelegation(&Delegation{
+	s.store.AddDelegation(&Delegation{
 		Instance: inst, Principal: principal, Delegate: delegate, Scope: scope,
 		IssuedAt: asrt.IssuedAt, ExpiresAt: asrt.Expiration,
 	})
-	a.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "issue", Principal: principal, Delegate: delegate, Instance: inst})
+	s.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "issue", Principal: principal, Delegate: delegate, Instance: inst})
+	a.activity.record(actIssued, a.clock.Now())
 	return &IssueResult{
 		Record: string(res.Record.Presented()), Instance: inst,
 		Principal: principal, Delegate: delegate, Scope: scope,
@@ -292,22 +332,23 @@ func (a *App) Issue(principal, delegate string, scope []string, ttl time.Duratio
 
 // Verify runs the real Verification Core against a presented record. The
 // latency is measured around Verify (AT26), never inside it.
-func (a *App) Verify(rec string) *VerifyResult {
-	a.mu.RLock()
-	v, err := verify.NewVerifier(a.policy, a.trust, revocationAdapter{p: a.provider}, a.clock)
+func (a *App) Verify(s *Session, rec string) *VerifyResult {
+	s.mu.RLock()
+	v, err := verify.NewVerifier(a.policy, a.trust, revocationAdapter{p: s.provider}, a.clock)
 	if err != nil {
-		a.mu.RUnlock()
+		s.mu.RUnlock()
 		return &VerifyResult{Decision: "error", Causes: []string{err.Error()}}
 	}
 	start := time.Now()
 	verdict, trace := v.Verify([]byte(rec))
 	elapsed := time.Since(start)
-	a.mu.RUnlock()
+	s.mu.RUnlock()
 
 	dec := decisionString(verdict.Decision)
-	a.store.RecordVerdict(dec)
-	a.store.ObserveLatency(elapsed.Seconds())
-	a.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "verify", Decision: dec, Detail: joinCauses(verdict.Causes)})
+	s.store.RecordVerdict(dec)
+	s.store.ObserveLatency(elapsed.Seconds())
+	s.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "verify", Decision: dec, Detail: joinCauses(verdict.Causes)})
+	a.activity.record(actVerified, a.clock.Now())
 	return &VerifyResult{
 		Decision:      dec,
 		Accept:        verdict.IsAccept(),
@@ -317,28 +358,32 @@ func (a *App) Verify(rec string) *VerifyResult {
 	}
 }
 
-// Revoke adds an instance to the signed revoked set and republishes it.
-func (a *App) Revoke(instanceStr string) *apiError {
+// Revoke adds an instance to this session's signed revoked set and republishes
+// it. A revocation is scoped to the session that issued it: one visitor cannot
+// revoke another visitor's capability, because the instance is not in the other
+// session's revoked set and never enters its snapshot.
+func (a *App) Revoke(s *Session, instanceStr string) *apiError {
 	inst, err := record.InstanceIDFromString(instanceStr)
 	if err != nil {
 		return badRequest("instance is not a valid instance id: " + err.Error())
 	}
-	a.mu.Lock()
-	a.revoked[instanceStr] = inst
-	err = a.republishLocked()
-	a.mu.Unlock()
+	s.mu.Lock()
+	s.revoked[instanceStr] = inst
+	err = a.republishLocked(s)
+	s.mu.Unlock()
 	if err != nil {
 		return serverError("failed to publish revocation snapshot: " + err.Error())
 	}
-	a.store.MarkRevoked(instanceStr)
-	a.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "revoke", Instance: instanceStr})
+	s.store.MarkRevoked(instanceStr)
+	s.store.Audit(AuditEvent{Time: a.clock.Now(), Type: "revoke", Instance: instanceStr})
+	a.activity.record(actRevoked, a.clock.Now())
 	return nil
 }
 
-// snapshotAge reports how long ago the held revocation snapshot was signed —
-// the metric operators watch against R.
-func (a *App) snapshotAge() time.Duration {
-	a.mu.RLock()
-	defer a.mu.RUnlock()
-	return a.clock.Now().Sub(a.lastAsOf)
+// snapshotAge reports how long ago a session's held revocation snapshot was
+// signed — the metric operators watch against R.
+func (a *App) snapshotAge(s *Session) time.Duration {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return a.clock.Now().Sub(s.lastAsOf)
 }
