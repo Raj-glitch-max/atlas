@@ -21,7 +21,22 @@ COPY --from=build /out/atlas        /usr/local/bin/atlas
 COPY --from=build --chown=65532:65532 /data /data
 USER 65532:65532
 EXPOSE 8087
-VOLUME ["/data"]
+
+# Deliberately NO `VOLUME ["/data"]`. Railway's builder rejects the instruction
+# outright ("docker VOLUME at Line 24 is not supported, use Railway Volumes"),
+# and it buys nothing here: a declared volume only makes Docker auto-create an
+# anonymous one, which is *worse* than no volume for durability — an anonymous
+# volume is discarded with the container, so it silently looks persistent while
+# losing the authority key on every recreate.
+#
+# Durability is a deploy-time decision instead, and must be made explicitly:
+#   docker:   -v atlas-data:/data
+#   compose:  the named volume in deploy/docker-compose.yml
+#   Railway:  attach a Railway Volume mounted at /data
+#
+# Without one of those, /data is container-local: the server still runs, but the
+# authority key is regenerated on every restart and every previously issued
+# record stops verifying.
 
 # PORT (not -addr) selects the listen port, so the same image runs unchanged on
 # a PaaS that assigns a port at runtime (Railway, Render, Cloud Run all inject
