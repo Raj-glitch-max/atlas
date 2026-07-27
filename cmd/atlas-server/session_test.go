@@ -59,7 +59,7 @@ func issueIn(t *testing.T, h http.Handler, session string) (record, instance str
 	return rec, inst
 }
 
-func verifyIn(t *testing.T, h http.Handler, session, rec string) string {
+func decisionFor(t *testing.T, h http.Handler, session, rec string) string {
 	t.Helper()
 	payload, err := json.Marshal(map[string]string{"record": rec})
 	if err != nil {
@@ -121,7 +121,7 @@ func TestSessionCannotRevokeAnotherSessionsCapability(t *testing.T) {
 	h := newTestApp(t).Router()
 
 	recA, instA := issueIn(t, h, sessA)
-	if got := verifyIn(t, h, sessA, recA); got != "accept" {
+	if got := decisionFor(t, h, sessA, recA); got != "accept" {
 		t.Fatalf("A's fresh record should accept in A, got %q", got)
 	}
 
@@ -133,7 +133,7 @@ func TestSessionCannotRevokeAnotherSessionsCapability(t *testing.T) {
 	}
 
 	// A's record must still verify in A.
-	if got := verifyIn(t, h, sessA, recA); got != "accept" {
+	if got := decisionFor(t, h, sessA, recA); got != "accept" {
 		t.Fatalf("session B revoked session A's capability — isolation broken (A now %q)", got)
 	}
 
@@ -141,7 +141,7 @@ func TestSessionCannotRevokeAnotherSessionsCapability(t *testing.T) {
 	if code, _ := do(t, h, http.MethodPost, "/revoke", sessA, `{"instance":"`+instA+`"}`); code != 200 {
 		t.Fatalf("A revoking its own instance failed: %d", code)
 	}
-	if got := verifyIn(t, h, sessA, recA); got != "reject" {
+	if got := decisionFor(t, h, sessA, recA); got != "reject" {
 		t.Fatalf("A's own revocation must be enforced in A, got %q", got)
 	}
 }
@@ -153,19 +153,19 @@ func TestDefaultSessionUnchangedForNonSessionClients(t *testing.T) {
 	h := newTestApp(t).Router()
 
 	rec, inst := issueIn(t, h, "") // no session header
-	if got := verifyIn(t, h, "", rec); got != "accept" {
+	if got := decisionFor(t, h, "", rec); got != "accept" {
 		t.Fatalf("default session verify: got %q", got)
 	}
 	if code, _ := do(t, h, http.MethodPost, "/revoke", "", `{"instance":"`+inst+`"}`); code != 200 {
 		t.Fatal("default session revoke failed")
 	}
-	if got := verifyIn(t, h, "", rec); got != "reject" {
+	if got := decisionFor(t, h, "", rec); got != "reject" {
 		t.Fatalf("default session revocation not enforced: %q", got)
 	}
 
 	// An invalid session id must fall back to the default session, not create a
 	// silent empty sandbox that makes state appear to vanish.
-	if got := verifyIn(t, h, "not-a-valid-session-id", rec); got != "reject" {
+	if got := decisionFor(t, h, "not-a-valid-session-id", rec); got != "reject" {
 		t.Fatalf("invalid session id should fall back to default, got %q", got)
 	}
 }
