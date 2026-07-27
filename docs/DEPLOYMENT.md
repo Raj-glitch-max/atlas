@@ -1,5 +1,17 @@
 # Deploying the Atlas demo
 
+> **Currently live:**
+> frontend <https://atlas-dh1.pages.dev> (Cloudflare Pages) ·
+> backend <https://atlas-production-c457.up.railway.app> (Railway).
+> Verified end to end in a real browser: the console badge reads
+> `live · domain-a.test`, issuance/verify/revoke all hit the real engine, and
+> two browser sessions cannot see or revoke each other's capabilities.
+>
+> **One known gap on the live instance:** no Railway Volume is attached yet, so
+> `/data` is container-local. The service still works, but a redeploy or restart
+> regenerates the authority key and wipes issued records. Attach a volume
+> mounted at `/data` in the Railway dashboard to fix — see below.
+
 Two pieces: the **backend** (`atlas-server`, a small Go binary in a distroless
 container) and the **frontend** (`ui/`, a static Vite build). They are wired
 together by one build-time variable and one CORS setting.
