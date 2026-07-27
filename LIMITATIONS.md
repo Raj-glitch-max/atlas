@@ -46,11 +46,28 @@ correct, durable, and honest about scale: it is not a database. The seams for
 replacing it (a `Store` interface, a stateless engine) exist; a clustered
 deployment does not.
 
-One consequence worth stating plainly: a single server instance holds **one
-trust domain and one global delegation graph.** Every caller shares the same
-audit log and the same revocation set. That is fine for a single-tenant
-deployment and it is *not* fine as a multi-user service — there is no
-per-tenant boundary to enforce.
+One consequence worth stating plainly, and one partial mitigation.
+
+By default a single server instance holds **one trust domain and one global
+delegation graph.** Every caller shares the same audit log and the same
+revocation set. That is correct for a single-tenant deployment, and it is what
+the CLI, the SDKs, and the MCP server all use.
+
+For the public sandbox there is **per-session isolation**: a client that sends
+an `X-Atlas-Session` header gets its own delegation store, audit log, and
+revoked set, so one visitor cannot see or revoke another's capabilities
+(`cmd/atlas-server/session_test.go` proves both directions). Be clear about what
+this is and is not:
+
+- It **is** a sandbox boundary, sufficient for a shared public demo.
+- It is **not** multi-tenancy. There is no authentication behind a session id,
+  no authorization model, no quota, and no durability — sessions are in-memory,
+  capped at 500, and evicted after 30 minutes idle. Anyone who learns a session
+  id has that session's state.
+- The authority key and trust material are **shared** across sessions by
+  design: every visitor is issued by the same real authority.
+
+Do not mistake it for a tenancy feature in a production deployment.
 
 ## 6. Freshness costs staleness — physics, not a bug
 
