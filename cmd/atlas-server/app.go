@@ -176,8 +176,8 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 		policy: policy, revWindow: 2 * time.Second,
 		allowOrigin: allowOrigin, limiter: limiter,
 		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
-		sessions:    map[string]*Session{},
-		activity:    newActivityLog(),
+		sessions: map[string]*Session{},
+		activity: newActivityLog(),
 	}
 	// The default session carries the durable store — this is the pre-existing
 	// single-graph behaviour, unchanged for every client that does not opt into
