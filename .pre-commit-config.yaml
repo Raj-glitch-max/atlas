@@ -41,7 +41,7 @@ repos:
         stages: [commit-msg]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.3
     hooks:
       - id: codespell
         # Ignore-list: domain terms codespell misreads (AKS, SOM, BRIN,
