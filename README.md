@@ -157,12 +157,6 @@ Editing one without the amendment process breaks the build, by design —
 Found a vulnerability? **Do not open a public issue.** Follow the private
 disclosure process in [`SECURITY.md`](SECURITY.md).
 
-## Who wrote this
-
-One maintainer, with AI assistance, under a spec-first process — stated plainly
-in [`AI_DISCLOSURE.md`](AI_DISCLOSURE.md), along with why the guardrails in this
-repository exist and what you should check rather than take on trust.
-
 ## License
 
 [Apache-2.0](LICENSE). See [`NOTICE`](NOTICE) for attribution and third-party
