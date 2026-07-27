@@ -15,12 +15,22 @@
 //	        --delegate spiffe://domain-b.test/agent/deployer --scope vercel:deploy:prod)
 //	go run ./cmd/atlas bundle -o /tmp/bundle.json
 //
-//	# 2) run the gate in front of any upstream, requiring that scope
+//	# 2) keep the bundle fresh — the gate's staleness budget is measured against
+//	#    the snapshot INSIDE it, so a bundle nobody rewrites ages out within R
+//	#    and the gate correctly (but uselessly) denies everything:
+//	while :; do go run ./cmd/atlas bundle -o /tmp/bundle.json.tmp \
+//	        && mv /tmp/bundle.json.tmp /tmp/bundle.json; sleep 1; done &
+//
+//	# 3) run the gate in front of any upstream, requiring that scope
 //	go run ./examples/atlas-gate -bundle /tmp/bundle.json \
 //	        -require-scope vercel:deploy:prod -upstream http://127.0.0.1:9000 -addr :8443
 //
-//	# 3) callers present the capability; no capability => 401, wrong scope => 403
+//	# 4) callers present the capability; no capability => 401, wrong scope => 403
 //	curl -H "Atlas-Capability: $REC" http://127.0.0.1:8443/deploy
+//
+// If you have no refresher (a one-shot demo), raise the budget instead:
+// -max-staleness 10m. Do NOT do that in production — the budget IS your
+// revocation blind spot.
 package main
 
 import (
@@ -35,6 +45,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"sync/atomic"
 	"time"
 
 	"github.com/Raj-glitch-max/atlas/internal/record"
@@ -82,16 +93,45 @@ func main() {
 	upstream := flag.String("upstream", "", "upstream URL to proxy authorized requests to (default: reply 200)")
 	header := flag.String("header", "Atlas-Capability", "request header carrying the presented record")
 	maxStaleness := flag.Duration("max-staleness", 2*time.Second, "relying-party freshness budget (R)")
+	reload := flag.Duration("reload", 0, "how often to re-read the bundle from disk (default: max-staleness/4)")
 	flag.Parse()
 
 	if *bundlePath == "" || *requireScope == "" {
 		log.Fatal("atlas-gate: -bundle and -require-scope are required")
 	}
+	if *reload <= 0 {
+		*reload = *maxStaleness / 4
+	}
 
-	verifier, err := buildVerifier(*bundlePath, *maxStaleness)
+	v0, err := buildVerifier(*bundlePath, *maxStaleness)
 	if err != nil {
 		log.Fatalf("atlas-gate: %v", err)
 	}
+
+	// The bundle on disk is a SNAPSHOT, and its freshness is what the gate's
+	// staleness budget is measured against. A gate that reads it once ages out
+	// of its own budget within R and then denies everything — fail-closed, so
+	// safe, but useless: with the default R=2s the gate stops admitting traffic
+	// two seconds after it starts.
+	//
+	// So re-read it. An out-of-band refresher (`atlas bundle -o …` on a timer,
+	// a sidecar, a mounted secret) rewrites the file; the gate picks it up and
+	// swaps the verifier atomically. If a reload fails the previous verifier is
+	// kept and simply ages out — the failure mode stays closed, never open.
+	var current atomic.Pointer[verify.Verifier]
+	current.Store(v0)
+	go func() {
+		t := time.NewTicker(*reload)
+		defer t.Stop()
+		for range t.C {
+			v, err := buildVerifier(*bundlePath, *maxStaleness)
+			if err != nil {
+				log.Printf("atlas-gate: bundle reload failed (keeping previous, which will age out and fail closed): %v", err)
+				continue
+			}
+			current.Store(v)
+		}
+	}()
 
 	// The protected upstream — or a built-in 200 responder for a standalone demo.
 	var proxy http.Handler
@@ -114,7 +154,7 @@ func main() {
 			deny(w, http.StatusUnauthorized, "no capability presented (set the "+*header+" header)")
 			return
 		}
-		verdict, _ := verifier.Verify([]byte(rec))
+		verdict, _ := current.Load().Verify([]byte(rec))
 		if !verdict.IsAccept() {
 			deny(w, http.StatusForbidden, "capability did not verify (not accepted / revoked / stale)")
 			return
@@ -126,8 +166,8 @@ func main() {
 		proxy.ServeHTTP(w, r)
 	}
 
-	log.Printf("atlas-gate listening on %s — requiring scope %q, verifying offline against %s",
-		*addr, *requireScope, *bundlePath)
+	log.Printf("atlas-gate listening on %s — requiring scope %q, verifying offline against %s (R=%s, reload every %s)",
+		*addr, *requireScope, *bundlePath, *maxStaleness, *reload)
 	srv := &http.Server{Addr: *addr, Handler: http.HandlerFunc(gate), ReadHeaderTimeout: 5 * time.Second}
 	log.Fatal(srv.ListenAndServe())
 }
