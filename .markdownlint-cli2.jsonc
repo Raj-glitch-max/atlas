@@ -1,7 +1,7 @@
 {
   // markdownlint configuration for the Atlas corpus.
   //
-  // Why this file exists (E1-T3, ENGINEERING_DECISION_RECORD.md context):
+  // Why this file exists (E1-T3, docs/planning/ENGINEERING_DECISION_RECORD.md context):
   // the docs-lint gate ran with markdownlint defaults and no config, and
   // failed on the PRE-EXISTING corpus (README.md included) — the gate was
   // never green. The bulk of the corpus is hash-pinned frozen documents
@@ -21,8 +21,15 @@
     "MD024": false, // no-duplicate-heading: repeated section names (RFC template)
     "MD025": false, // single-title: multiple top-level headings in corpus docs
     "MD026": false, // no-trailing-punctuation in headings
+    "MD029": false, // ol-prefix: agents/review-team/05_red_team.md numbers attacks
+                    // continuously (1..17) ACROSS section headings — the numbers are
+                    // stable attack IDs cross-referenced by other review agents.
+                    // Renumbering per-section to satisfy the rule would break those
+                    // references and corrupt a historical review record.
     "MD030": false, // list-marker-space: corpus style
     "MD032": false, // blanks-around-lists: compact style in corpus
+    "MD033": false, // no-inline-html: review-team prompt templates use angle-bracket
+                    // placeholders (`<one sentence>`) that are not HTML.
     "MD036": false, // no-emphasis-as-heading: used deliberately in corpus
     "MD038": false, // no-space-in-code: one frozen occurrence
     "MD040": false, // fenced-code-language: ASCII diagrams carry no language

@@ -60,6 +60,16 @@ the vectors self-contained):
   `atl_ins` (opaque instance identity, non-empty), `atl_rvb` (optional opaque
   revocation binding, base64url). Unknown claims are tolerated (forward
   compatibility). A payload violating any of these ⇒ integrity fails.
+- **Duplicate JSON member names ⇒ reject (MUST).** RFC 8259 permits an object
+  to repeat a member name but leaves the result undefined. A verifier that
+  resolves duplicates (e.g. last-wins) can disagree with a first-wins verifier
+  over the *same signed bytes* — a conformance differential, and for the
+  security-bearing `scope`/`sub` a silent-acceptance hazard (last-wins on
+  `{"sub":"…/p","sub":"…/evil"}` would accept the wrong principal). A conformant
+  verifier MUST reject any authenticated payload containing a duplicate member
+  name at any nesting depth, at integrity time. Do **not** rely on your JSON
+  library's default — most, including Go's `encoding/json`, silently take
+  last-wins.
 - **Signature:** ES256 over the signing input, verified with the JWK in
   `trust.keys` whose `kid` matches the header. An unknown `kid` ⇒ integrity
   fails (there is no key-rotation state in scope that makes it legitimate).
@@ -112,11 +122,13 @@ Families covered: `alg=none` (with and without a stale signature),
 algorithm substitution (`ES384`) and confusion (`HS256` using the public
 key's coordinates as the HMAC secret), missing/wrong `typ`, missing/forged
 `kid`, truncation, cross-record signature and payload transplants, non-JWS
-garbage, the empty input, and **authentic-but-malformed payloads** (a real
-signature over a payload that omits the principal or instance, carries a
-non-canonical scope, or a non-SPIFFE identity — proving that signature
-authenticity is necessary but not sufficient). A verifier that accepts any of
-these has a silent-acceptance differential.
+garbage, the empty input, **duplicate JSON member names** (a real signature
+over a payload that repeats `scope` or `sub` — where a last-wins reader and a
+first-wins reader disagree over identical bytes), and **authentic-but-malformed
+payloads** (a real signature over a payload that omits the principal or
+instance, carries a non-canonical scope, or a non-SPIFFE identity — proving that
+signature authenticity is necessary but not sufficient). A verifier that accepts
+any of these has a silent-acceptance differential.
 
 ## Conformance
 

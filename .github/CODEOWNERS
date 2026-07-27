@@ -1,0 +1,29 @@
+# Code owners for Atlas.
+#
+# These owners are requested for review automatically when a matching path
+# changes. See https://docs.github.com/articles/about-code-owners.
+# Owners are also listed, with roles and areas, in MAINTAINERS.md.
+
+# Default owner for everything in the repo.
+*                       @Raj-glitch-max
+
+# The security-critical core. Changes here are held to the highest bar
+# (see GOVERNANCE.md) and require an ADR entry when behavior changes.
+/internal/record/       @Raj-glitch-max
+/internal/verify/       @Raj-glitch-max
+/internal/issuance/     @Raj-glitch-max
+/internal/revstatus/    @Raj-glitch-max
+/internal/revorigin/    @Raj-glitch-max
+/internal/truststore/   @Raj-glitch-max
+
+# Conformance vectors are normative: a change is a protocol change.
+/tests/vectors/         @Raj-glitch-max
+/tests/conformance/     @Raj-glitch-max
+
+# Governance, security, and licensing.
+/LICENSE                @Raj-glitch-max
+/NOTICE                 @Raj-glitch-max
+/SECURITY.md            @Raj-glitch-max
+/GOVERNANCE.md          @Raj-glitch-max
+/MAINTAINERS.md         @Raj-glitch-max
+/CODE_OF_CONDUCT.md     @Raj-glitch-max

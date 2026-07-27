@@ -14,7 +14,7 @@ It isn't young; it's deliberately boring. Records are ES256/P-256 JWS via Go's
 standard library — the same primitives in your TLS stack. Atlas invents no
 cryptography. What's novel is the *verification semantics* (ordered checks,
 fail-closed staleness, verifiable-freshness revocation), and those are pinned
-by 28 language-neutral conformance vectors incl. 18 adversarial ones. Caveat
+by 30 language-neutral conformance vectors incl. 20 adversarial ones. Caveat
 carried openly: no third-party audit yet (`LIMITATIONS.md` §9).
 
 **"If someone steals a record, they can use it — it's a bearer token."**
@@ -28,8 +28,10 @@ trusting everything else.
 All refused, and it's a *test that fails the build* if any is accepted:
 `tests/vectors/negative-vectors.json` has stripped-sig alg=none, HS256
 key-confusion (public key as HMAC secret), ES384 substitution, cross-record
-signature and payload transplants, forged kid, truncations. Plus a
-coverage-guided fuzzer with zero silent acceptances over 800k+ executions.
+signature and payload transplants, forged kid, truncations, and duplicate JSON
+keys. Plus a coverage-guided fuzzer that now runs **in CI on every PR** — zero
+silent acceptances and zero panics over ~1.9M mutated executions locally
+(227 new-coverage inputs discovered before saturation).
 
 **"Why should I trust your revocation freshness? Offline means stale."**
 Yes — and that staleness is the *point made explicit*. The verifier's
@@ -100,11 +102,16 @@ frozen-doc integrity, import-boundary, ~20 packages of tests). `bash
 examples/unforgettable.sh` runs the whole thesis live. Nothing here is a
 screenshot.
 
-**"Benchmarks — real or vibes?"** Measured against the real engine: verify
-~94µs / ~10.6k/s, issue ~30µs, 403-byte proof, published with the harness and
-a Prometheus latency histogram. Substrate-dependent numbers (partition,
-cross-domain) are explicitly *not* claimed until the SPIRE lab runs on real
-infra — `LIMITATIONS.md` §8.
+**"Benchmarks — real or vibes?"** Measured against the real engine and
+published with the machine they were measured on: verify **p50 ~116µs / p99
+~220µs** (~8.6k/s), issue **p50 ~37µs**, 403-byte proof — on a Ryzen 5 5600H,
+Go 1.22.11, linux/amd64, chain depth 1. Regenerate the whole table yourself
+with `bash scripts/run-benchmarks.sh`; it prints the environment alongside the
+numbers (`docs/BENCHMARKS.md`). These are in-process engine figures — end-to-end
+through the server is ~2-3x and is exported live as the
+`atlas_verify_latency_seconds` Prometheus histogram. Substrate-dependent numbers
+(partition, cross-domain) are explicitly *not* claimed until the SPIRE lab runs
+on real infra — `LIMITATIONS.md` §8.
 
 **"Where's the boundary between demo and proof?"** Drawn explicitly in
 `THREAT_MODEL.md` (every claim → the test that proves it) and `LIMITATIONS.md`

@@ -6,8 +6,8 @@ docs/research/FOUNDER_DECISION_BRIEF.md
 docs/research/RESEARCH_PROGRAM.md
 docs/research/TECHNICAL_VALIDATION.md
 docs/research/FOUNDER_PROBLEM_FIT.md
-P5_FALSIFICATION_EXPERIMENT.md
-LEVEL0_1_FEASIBILITY_GATE.md
+docs/planning/P5_FALSIFICATION_EXPERIMENT.md
+docs/planning/LEVEL0_1_FEASIBILITY_GATE.md
 # ── Phase 7 — Product Definition package (added 2026-07-04) ──────────────────
 # Freeze act: agents/journal/2026-07-04-freeze-phase-7-phase-8.md
 # Package scope per docs/product/PRODUCT_DEFINITION.md line 3 (itself + the nine cross-ref'd).

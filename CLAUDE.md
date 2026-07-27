@@ -1,62 +1,85 @@
 # Atlas Workspace
 
-This workspace contains the canonical tooling for Atlas.
+Atlas is an offline-verifiable, attenuable delegation primitive for SPIFFE
+workload identity. This file orients coding agents; humans should start at
+[`README.md`](README.md).
 
 ## Top-level layout
 
-```
+```text
 /home/raj/Videos/atlas/
-├── CLAUDE.md                       this file
-├── agents/                         persistent reasoning framework (renamed from FounderOS, 2026-06-19)
-│   └── agents/                     current framework root
-│       ├── README.md               orientation
-│       ├── GOVERNANCE.md           binding rules (load first)
-│       ├── REFERENCES.md           external-skills policy + 7-item index
-│       ├── council/                5 epistemologies
-│       ├── domain/                 4 knowledge anchors
-│       ├── working/                dynamic specialists
-│       ├── templates/              scaffolds for new files
-│       └── journal/                decision memory
-├── archive/
-│   └── research/                   archived root-level research documents (2026-07-05)
-├── context/                        canonical project state (9 files)
-│   ├── 00_PROJECT_CONTEXT.md       project mission, pipeline, candidate ranking
-│   ├── 01_GOVERNANCE.md            agent roles, review path, commit standards, freeze policy
-│   ├── 02_SYSTEM_ARCHITECTURE.md   system boundary, trust model, framework layout
-│   ├── 03_DATA_FLOW.md             delegation, revocation, and reasoning flows
-│   ├── 04_OPERATION_MANUAL.md      make commands, runbooks, journal process
-│   ├── 05_DECISION_LOG.md          key committed decisions and outcomes
-│   ├── 06_GLOSSARY.md              domain terminology
-│   ├── 07_SECURITY_POLICY.md       security objectives, invariants, honest limits
-│   └── 08_AI_HANDOFF.md            current state, surviving hypotheses, next actions
-├── rfc/                            architecture RFC documents
-│   ├── RFC-000-architecture-principles.md
-│   ├── RFC-001-system-context.md
-│   └── RFC-002-conceptual-domain-model.md
-└── scripts/
-    ├── frozen-docs.list            list of hash-pinned planning documents
-    └── check-frozen-docs.sh        integrity verification script
+├── README.md · LICENSE · NOTICE · CONTRIBUTING.md · SECURITY.md
+├── LIMITATIONS.md · ROADMAP.md · CLAUDE.md      the eight root docs
+├── .github/                    workflows, CODEOWNERS, and the community files
+│                               (CODE_OF_CONDUCT, GOVERNANCE, MAINTAINERS)
+├── cmd/                        atlas (CLI) · atlas-server · atlas-mcp · atlas-{issue,verify,revoke}
+├── internal/                   THE ENGINE — the six RFC-003 modules
+│   ├── record/ (M1)            the stable record surface
+│   ├── issuance/ (M2)          domain A: seal + attenuation
+│   ├── verify/ (M3)            the conformance definition — highest bar in the tree
+│   ├── truststore/ (M4)        trust material lookup
+│   ├── revstatus/ (M5)         revocation status + freshness
+│   └── revorigin/ (M6)         revocation origin
+├── sdk/                        zero-dependency clients: go · python · typescript
+├── examples/                   runnable demos + atlas-gate (reverse proxy)
+├── tests/                      conformance kit · language-neutral vectors · acceptance
+├── ui/                         product site + operator console (Vite)
+├── deploy/                     distroless nonroot container + compose
+├── docs/
+│   ├── architecture/           SYSTEM_ARCHITECTURE · THREAT_MODEL · module spec
+│   ├── product/                WHY · PITCH · OBJECTIONS · AGENT_WORKFLOWS + frozen specs
+│   ├── engineering/            frozen ER/SO/INV/FM/AT specs
+│   ├── planning/               internal planning history (2 files frozen)
+│   ├── research/               frozen research briefs
+│   ├── discovery/              OMEGA + primitive-discovery notes
+│   ├── project/                BACKLOG · RISK_REGISTER · TECHNICAL_DEBT_REGISTER · history
+│   ├── guides/                 START_HERE.md — the zero-knowledge reading path
+│   ├── runbooks/               V1_OPERATION.md
+│   └── BENCHMARKS.md           generated — regenerate, never hand-edit
+├── rfc/                        RFC-000…003
+├── agents/                     reasoning framework + dated decision journal
+├── lab/ · atlas-lab/           SPIRE experiment substrate + benchmarks
+├── context/                    canonical project state (9 files)
+└── scripts/                    check-imports · check-frozen-docs · run-benchmarks
 ```
+
+`atlas-PYTHON/` is the founder's personal playground. **Do not read, modify,
+or commit it.**
 
 ## Reading order
 
-1. `context/08_AI_HANDOFF.md` — current pipeline state and next actions. **Read this first.**
-2. `context/00_PROJECT_CONTEXT.md` — what this project is and is not.
-3. `context/01_GOVERNANCE.md` — how the agents system behaves and how decisions are made.
+1. `context/08_AI_HANDOFF.md` — current state and next actions. **Read first.**
+2. `README.md` — what this is, and how to see it work.
+3. `CONTRIBUTING.md` — the single process document (branches, commits, freeze rule).
 4. `agents/GOVERNANCE.md` — binding rules for agent interaction.
 5. `agents/journal/` — committed decisions with verbatim dissent.
 
 ## Constraints (always on)
 
 - Do not redesign `agents/` without founder evidence requiring it.
-- Do not generate products, startups, or architectures in research sessions.
-- Do not auto-import content from any external skill library; consult only by name via `agents/REFERENCES.md`.
-- Every committed decision produces a journal entry at `agents/journal/<YYYY-MM-DD>-<slug>.md`.
-- Do not amend frozen docs without following the amendment process in `CONTRIBUTING.md`.
+- Do not auto-import content from any external skill library; consult only by
+  name via `agents/REFERENCES.md`.
+- Every committed decision produces a journal entry at
+  `agents/journal/<YYYY-MM-DD>-<slug>.md`.
+- Do not amend frozen docs without the process in `CONTRIBUTING.md` §6.
+- `internal/verify` is the conformance definition. A behaviour change there
+  needs a conformance vector, not just a test.
+- `docs/BENCHMARKS.md` is generated by `scripts/run-benchmarks.sh`. Never
+  hand-edit a number into it.
 
 ## Working conventions
 
-- The current canonical name of the framework is **`agents`**. "FounderOS" is historical only.
-- The current canonical project name is **Atlas**. Previous names are preserved in `docs/project/PROJECT_HISTORY.md`.
-- Confidence labels: High / Medium / Low / None. Confidence without cited evidence is forbidden.
-- Files are changed explicitly, not silently. Edits always pass through the relevant governance rule.
+- Canonical framework name is **`agents`**; "FounderOS" is historical only.
+- Canonical project name is **Atlas**; previous names are in
+  `docs/project/PROJECT_HISTORY.md`.
+- Confidence labels: High / Medium / Low / None. Confidence without cited
+  evidence is forbidden.
+- Files are changed explicitly, not silently.
+
+## CodeGraph (optional local index)
+
+This workspace supports [CodeGraph](https://github.com/jacoblee93/codegraph) for
+a local semantic index — `codegraph index` to build, `codegraph sync` for
+incremental updates. It indexes source, AST symbols, call trees, and imports,
+excluding everything in `.gitignore` plus `.claude/`, `.git/`, `.vscode/`, and
+`.codegraph/` itself. Entirely optional; nothing in the build depends on it.

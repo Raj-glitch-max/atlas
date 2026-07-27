@@ -228,6 +228,16 @@ func TestValidateIntegrityAuthenticButMalformedPayload(t *testing.T) {
 		"missing instance":   `{"sub":"spiffe://domain-a.test/p","act":{"sub":"spiffe://domain-a.test/d"},"scope":["a"],"exp":1,"iat":1}`,
 		"bad binding base64": `{"sub":"spiffe://domain-a.test/p","act":{"sub":"spiffe://domain-a.test/d"},"scope":["a"],"exp":1,"iat":1,"atl_ins":"i","atl_rvb":"!!!"}`,
 		"exp as json string": `{"sub":"spiffe://domain-a.test/p","act":{"sub":"spiffe://domain-a.test/d"},"scope":["a"],"exp":"1","iat":1,"atl_ins":"i"}`,
+		// Duplicate JSON MEMBER NAMES (distinct from duplicate scope-array
+		// entries above): RFC 8259 permits them but leaves resolution
+		// undefined, so a last-wins reader (Go) and a first-wins reader
+		// disagree over identical signed bytes — a verifier differential, and
+		// for the security-bearing `scope` a latent attenuation hazard. Both
+		// readings would satisfy the claim contract, so only the duplicate-key
+		// refusal rejects them. Top-level and nested-object collisions both fail.
+		"duplicate scope key":  `{"sub":"spiffe://domain-a.test/p","act":{"sub":"spiffe://domain-a.test/d"},"scope":["a"],"scope":["a","b"],"exp":1,"iat":1,"atl_ins":"i"}`,
+		"duplicate sub key":    `{"sub":"spiffe://domain-a.test/p","sub":"spiffe://domain-a.test/evil","act":{"sub":"spiffe://domain-a.test/d"},"scope":["a"],"exp":1,"iat":1,"atl_ins":"i"}`,
+		"duplicate nested key": `{"sub":"spiffe://domain-a.test/p","act":{"sub":"spiffe://domain-a.test/d","sub":"spiffe://domain-a.test/evil"},"scope":["a"],"exp":1,"iat":1,"atl_ins":"i"}`,
 	}
 	for name, payload := range cases {
 		requireAltered(t, name, signWith(t, payload), tm)

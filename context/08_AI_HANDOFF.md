@@ -15,7 +15,7 @@ exist and work end-to-end: `cmd/atlas-server` (HTTP API + durable store + auth +
 TLS + rate-limit + metrics), `cmd/atlas` (CLI incl. offline verify + scope gate),
 `cmd/atlas-mcp` (agent tools), zero-dep SDKs in Python/TypeScript/Go
 (`sdk/`), a reference authorization gate (`examples/atlas-gate`), and the
-operator console + site (`ui/`). Assurance: 28 conformance vectors, fuzzing,
+operator console + site (`ui/`). Assurance: 30 conformance vectors, fuzzing,
 property tests, benchmarks, import-lint (R1–R7), frozen-doc integrity. `make ci`
 is the full gate and passes. **`README.md` and `ROADMAP.md` are the accurate,
 current source of truth for the engineering track** — read them for what's done

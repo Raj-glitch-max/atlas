@@ -15,8 +15,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -39,7 +39,7 @@
     {
       "name": "alg-none-stale-sig",
       "description": "header alg=none keeping a stale signature",
-      "record": "eyJhbGciOiJub25lIiwia2lkIjoiY29uZm9ybWFuY2Uta2V5LTEiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJub25lIiwia2lkIjoiY29uZm9ybWFuY2Uta2V5LTEiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -49,8 +49,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -73,7 +73,7 @@
     {
       "name": "alg-es384",
       "description": "header claims ES384 over an ES256 signature",
-      "record": "eyJhbGciOiJFUzM4NCIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzM4NCIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -83,8 +83,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -107,7 +107,7 @@
     {
       "name": "typ-missing",
       "description": "header omits the pinned typ",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -117,8 +117,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -141,7 +141,7 @@
     {
       "name": "typ-wrong",
       "description": "header typ is a generic JWT, not atlas-record+jws",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiSldUIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiSldUIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -151,8 +151,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -175,7 +175,7 @@
     {
       "name": "kid-missing",
       "description": "header omits kid",
-      "record": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -185,8 +185,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -209,7 +209,7 @@
     {
       "name": "kid-forged",
       "description": "header names a key not held",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZvcmdlZC1raWQiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZvcmdlZC1raWQiLCJ0eXAiOiJhdGxhcy1yZWNvcmQrandzIn0.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -219,8 +219,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -253,8 +253,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -277,7 +277,7 @@
     {
       "name": "truncated-last-byte",
       "description": "last byte removed",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZl",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHD",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -287,8 +287,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -311,7 +311,7 @@
     {
       "name": "transplanted-signature",
       "description": "sibling record's signature over this header+payload",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.7R_bUfJ93saK0SOyBDb-12B1pvGM80FcHsi3RGVW0gySCmMf6PPKKaAaSlYSxq4BP7wNxmyEziT5pngKfWtc6g",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.svYz7JwC8uBAQDYf_Q7HaYzN7hYUWDXnYnfuXzTUXq3uejQ9bB7YEE-Mt5RbOmPwxxVqJ8cchXZSSoU01l2Hhw",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -321,8 +321,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -345,7 +345,7 @@
     {
       "name": "transplanted-payload",
       "description": "sibling record's payload under this signature",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwLCJhdGxfaW5zIjoiaW5zdC1zaWJsaW5nIn0.2IeJPQQOmx2ugGC8EGHoyMvJwhVkBKAGNNBYnaST3BO8mwSbidQL3WIFnT6goMObm5tY-l7dUYq98skUYVKZlg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwLCJhdGxfaW5zIjoiaW5zdC1zaWJsaW5nIn0.mg0tUCUzgsmOkOiKnNJAHQbceWF0-IpAttR-XpydLZv2ZjwF9WaTumOiae-iF7FYm8SJ8F6LWO7I8PxJpWCHDQ",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -355,8 +355,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -389,8 +389,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -423,8 +423,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -447,7 +447,7 @@
     {
       "name": "authentic-missing-sub",
       "description": "authentic signature, payload omits the principal (sub)",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJhY3QiOnsic3ViIjoic3BpZmZlOi8vZG9tYWluLWEudGVzdC9kZWxlZ2F0ZSJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3QteCJ9.p2BpmtCTJFhz8xlGCwgzcd098u5BEeadjFdS2abnWfKvD3x9cAm8RFGyWVP_56pJuCyqg7BqJVt1YJ7Eup8hBA",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJhY3QiOnsic3ViIjoic3BpZmZlOi8vZG9tYWluLWEudGVzdC9kZWxlZ2F0ZSJ9LCJzY29wZSI6WyJyZWFkOm9yZGVycyJdLCJleHAiOjE4MDAwMDM2MDAsImlhdCI6MTgwMDAwMDAwMCwiYXRsX2lucyI6Imluc3QteCJ9.rzupP3uQbFsZOVAMkyYve553lQTZAuh-UDny3IDBBAhJfSZZSh_ccPorJYEzw_JnvS-7QoEoRETqIgSyiDsKcA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -457,8 +457,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -481,7 +481,7 @@
     {
       "name": "authentic-missing-instance",
       "description": "authentic signature, payload omits the instance identity",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwfQ.4JWtnXtD1xr4XK4PxCeLRVpWnvkbgkVH4uqXBDyMyScOeiJUUv8bHCB8J_UjluGKVl6D8dkqwBGsKD3uuHJduw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwfQ.uFF-jHUWEAoDNKa5jaoqI3bKBPYsZiiTd9Cj4ku_7TbtuXWnxnoBkA-zn_tNoWCDiXNh0nY22sUb8hBbEroEng",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -491,8 +491,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -515,7 +515,7 @@
     {
       "name": "authentic-unsorted-scope",
       "description": "authentic signature, scope not in canonical (sorted) form",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbIndyaXRlOmF1ZGl0IiwicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.NBjSam1izY-mexYTscIPy_u1qbhEZH1SlmC-jSBm2QwXrSGWsWQepYjrfdN52hZegdKLix8zyZZGQXQbWdE-Fg",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbIndyaXRlOmF1ZGl0IiwicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.IOBJ_81fjG09szEMzULGF32en5uxVifWKnqSuvvM_8XjgEuR8sSheCzUfTaAXMAvNxQmHUMi56smyB3qoESxEw",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -525,8 +525,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -549,7 +549,7 @@
     {
       "name": "authentic-nonspiffe-sub",
       "description": "authentic signature, principal is not a SPIFFE ID",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJodHRwczovL2V4YW1wbGUudGVzdC9wIiwiYWN0Ijp7InN1YiI6InNwaWZmZTovL2RvbWFpbi1hLnRlc3QvZGVsZWdhdGUifSwic2NvcGUiOlsicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.xygHMtrE9yZ_Y3zo6eqN3W_qROYJhB0dqbM08HhA9oMQy56lwFKgWn8F3H5pSLmwr3ejcjiN9FBQ8WgyaYiXUQ",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJodHRwczovL2V4YW1wbGUudGVzdC9wIiwiYWN0Ijp7InN1YiI6InNwaWZmZTovL2RvbWFpbi1hLnRlc3QvZGVsZWdhdGUifSwic2NvcGUiOlsicmVhZDpvcmRlcnMiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.SPpuoOgtiZ2yTgMBwW9Kv6A2XXUSGL0WwcHhWJYI9FufoIPq9yaMMpCORR5OSj-7NUnSSHDjDnZE-QlYtc6lMg",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -559,8 +559,76 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-duplicate-scope-key",
+      "description": "authentic signature, payload repeats the scope member name (last-wins vs first-wins differential)",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXgifQ.Vx_Ji7ddAiT1x_aXMVCmViOwuCO8fiEYbG1WqjC9HYCXjq0mebGLIC1U4RE-yxYheRy4uikFHzSj1QcNUAoF-g",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
+          }
+        ]
+      },
+      "revocation": {
+        "state": "NotObservedRevoked",
+        "as_of": "2027-01-15T08:05:00Z"
+      },
+      "now": "2027-01-15T08:05:00Z",
+      "policy": {
+        "r_seconds": 60,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "IntegrityFailed"
+        ]
+      }
+    },
+    {
+      "name": "authentic-duplicate-sub-key",
+      "description": "authentic signature, payload repeats the principal member name (last-wins would accept the wrong principal)",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImNvbmZvcm1hbmNlLWtleS0xIiwidHlwIjoiYXRsYXMtcmVjb3JkK2p3cyJ9.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsInN1YiI6InNwaWZmZTovL2RvbWFpbi1hLnRlc3QvZXZpbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDAwMzYwMCwiaWF0IjoxODAwMDAwMDAwLCJhdGxfaW5zIjoiaW5zdC14In0.Tr-wsWp9-Dz4rUQKdYXNw4g_gwi3FVORqdJ-qyjWkyilIeUySdIz8pfPVG3FY1Zlglv9gFRkA1sFZ3itUOBdxQ",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "conformance-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },
@@ -583,7 +651,7 @@
     {
       "name": "alg-hs256-confusion",
       "description": "signed HS256 using the public key coordinates as the HMAC secret",
-      "record": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.jN9kchoRR_VheibGVizd1bKxX6_RjfAPEOwyTU89EUo",
+      "record": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3ByaW5jaXBhbCIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L2RlbGVnYXRlIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIiwid3JpdGU6YXVkaXQiXSwiZXhwIjoxODAwMDAzNjAwLCJpYXQiOjE4MDAwMDAwMDAsImF0bF9pbnMiOiJpbnN0LXZhbGlkIn0.zI_908184ktIE7iSaB16hCL9y55PlYZK_Xz1RUKIvJw",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -593,8 +661,8 @@
             "kid": "conformance-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "lvuFgb0L61T9W0AN7kk04MTd-ITX9hDPGh0TrIQAgwM",
-            "y": "cMDOmHFdfos8PFlmqdo9cUmNIgRo-Jzbie3k2Y8LB3Y"
+            "x": "0gwvNqcnzA-_F-TGKE26fKOscBb5oaWPVjKpkP-Rvi4",
+            "y": "5e4cTHkd0B0ytneMQGCSLgVSMNuaN0PvFcDrKIwb66I"
           }
         ]
       },

@@ -28,8 +28,9 @@ Same truth, compressed differently. Pick the one that fits the room.
 >
 > It's a real product, not a paper: a server, a CLI (`atlas delegate`), agent
 > tools over MCP so Claude can call it directly, a Python SDK, and a
-> 28-vector conformance suite — 18 adversarial — plus fuzzing and published
-> benchmarks (~94µs verify). The whole thesis runs live in one script: issue,
+> 30-vector conformance suite — 20 adversarial — plus coverage-guided fuzzing
+> in CI and benchmarks published with the machine that produced them
+> (verify p50 ~116µs). The whole thesis runs live in one script: issue,
 > kill the server, verify offline, revoke, reject offline, refuse a tampered
 > bundle. And I documented what it *doesn't* do as carefully as what it does.
 

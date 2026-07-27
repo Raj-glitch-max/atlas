@@ -4,6 +4,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"sort"
 	"testing"
 	"time"
 
@@ -151,6 +152,101 @@ func BenchmarkVerifyRevoked(b *testing.B) {
 			b.Fatalf("want Reject, got %s", verdict.Decision)
 		}
 	}
+}
+
+// percentiles reports the latency distribution of a single operation as custom
+// benchmark metrics. Go's built-in ns/op is a mean over b.N iterations and hides
+// the tail entirely — but the tail is what a relying party in a request path
+// actually feels. These benchmarks time each iteration individually and report
+// p50/p90/p99, so a published latency claim can state a percentile honestly
+// instead of quoting a mean and calling it "p50".
+//
+// Timing overhead: time.Now() costs ~50ns on this class of machine against
+// operations in the 10-100µs range, i.e. well under 1% — not corrected for.
+func percentiles(b *testing.B, op func()) {
+	samples := make([]time.Duration, 0, b.N)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		t0 := time.Now()
+		op()
+		samples = append(samples, time.Since(t0))
+	}
+	b.StopTimer()
+	if len(samples) == 0 {
+		return
+	}
+	sort.Slice(samples, func(i, j int) bool { return samples[i] < samples[j] })
+	at := func(q float64) float64 {
+		idx := int(q * float64(len(samples)-1))
+		return float64(samples[idx].Nanoseconds()) / 1000.0 // µs
+	}
+	b.ReportMetric(at(0.50), "p50-µs")
+	b.ReportMetric(at(0.90), "p90-µs")
+	b.ReportMetric(at(0.99), "p99-µs")
+	b.ReportMetric(0, "ns/op") // suppress the misleading mean
+}
+
+// BenchmarkLatencyVerifyAccept is the number published as "verify latency".
+// Single-hop, chain depth 1 (Atlas has no multi-hop; see LIMITATIONS.md 1).
+func BenchmarkLatencyVerifyAccept(b *testing.B) {
+	r := newRig(b)
+	v := r.verifier(b, verify.NotObservedRevoked)
+	percentiles(b, func() {
+		if verdict, _ := v.Verify(r.record); !verdict.IsAccept() {
+			b.Fatalf("want Accept, got %s", verdict.Decision)
+		}
+	})
+}
+
+func BenchmarkLatencyIssue(b *testing.B) {
+	r := newRig(b)
+	a := record.Assertions{
+		Principal: r.principal, Delegate: r.delegate,
+		Scope:      []string{"read:orders", "write:audit"},
+		Expiration: benchNow.Add(time.Hour), IssuedAt: benchNow, Instance: r.instance,
+	}
+	percentiles(b, func() {
+		if _, err := record.Seal(a, r.signer); err != nil {
+			b.Fatal(err)
+		}
+	})
+}
+
+func BenchmarkLatencyValidateIntegrity(b *testing.B) {
+	r := newRig(b)
+	percentiles(b, func() {
+		if _, out := record.ValidateIntegrity(r.record, r.trust.mat); out != record.Intact {
+			b.Fatal("not intact")
+		}
+	})
+}
+
+// BenchmarkProofSize reports the on-the-wire size of a presented record in
+// bytes. It is a measurement, not a timing — reported as a metric so it lands
+// in the same generated report as the latencies and cannot drift away from them.
+//
+// Size is scope-dependent (each granted scope string is carried in the payload),
+// so both the one-scope and two-scope cases are reported rather than a single
+// headline figure that only holds for one shape of record.
+func BenchmarkProofSize(b *testing.B) {
+	r := newRig(b)
+	two := len(r.record)
+
+	inst, _ := record.InstanceIDFromString("inst-bench")
+	one, err := record.Seal(record.Assertions{
+		Principal:  r.principal,
+		Delegate:   r.delegate,
+		Scope:      []string{"read:orders"},
+		Expiration: benchNow.Add(time.Hour),
+		IssuedAt:   benchNow.Add(-time.Minute),
+		Instance:   inst,
+	}, r.signer)
+	if err != nil {
+		b.Fatal(err)
+	}
+	b.ReportMetric(float64(len(one.Presented())), "bytes-1-scope")
+	b.ReportMetric(float64(two), "bytes-2-scope")
+	b.ReportMetric(0, "ns/op")
 }
 
 // BenchmarkSignedSetPublish measures the cost of publishing a signed revoked
