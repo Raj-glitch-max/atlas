@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/subtle"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -19,7 +20,7 @@ func (a *App) Router() http.Handler {
 	mux.HandleFunc("/readyz", a.handleReady)
 	mux.HandleFunc("/version", a.handleVersion)
 	mux.HandleFunc("/issue", a.only(http.MethodPost, a.limit(a.requireAuth(a.handleIssue))))
-	mux.HandleFunc("/verify", a.only(http.MethodPost, a.handleVerify))
+	mux.HandleFunc("/verify", a.only(http.MethodPost, a.limit(a.handleVerify)))
 	mux.HandleFunc("/revoke", a.only(http.MethodPost, a.limit(a.requireAuth(a.handleRevoke))))
 	mux.HandleFunc("/delegations", a.only(http.MethodGet, a.handleDelegations))
 	mux.HandleFunc("/audit", a.only(http.MethodGet, a.handleAudit))
@@ -86,13 +87,37 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 
 func writeErr(w http.ResponseWriter, e *apiError) { writeJSON(w, e.Status, e) }
 
-func decode(r *http.Request, v any) *apiError {
+// maxBodyBytes caps every request body. A delegation record is ~500 bytes and
+// the largest legitimate request (an issue with a long scope list) is well
+// under a kilobyte, so 64 KiB is generous by two orders of magnitude while
+// still bounding the damage.
+//
+// Without this cap /verify was an unauthenticated remote memory-exhaustion
+// vector: the body is buffered and decoded, and measured amplification was
+// ~4.5x (a 191 MB body took the server from 60 MB to 864 MB RSS; six
+// concurrent requests reached 3.87 GB). No credential was required, and
+// /verify is not behind the rate limiter, so a single client could OOM-kill a
+// container at will.
+const maxBodyBytes = 64 << 10
+
+func decode(r *http.Request, w http.ResponseWriter, v any) *apiError {
 	if r.Body == nil {
 		return badRequest("empty request body")
 	}
+	// MaxBytesReader (rather than io.LimitReader) so the server also stops
+	// READING past the limit and closes the connection, instead of politely
+	// draining a body an attacker is still sending.
+	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
 	dec := json.NewDecoder(r.Body)
 	dec.DisallowUnknownFields()
 	if err := dec.Decode(v); err != nil {
+		var mbe *http.MaxBytesError
+		if errors.As(err, &mbe) {
+			return &apiError{
+				Status:  http.StatusRequestEntityTooLarge,
+				Message: fmt.Sprintf("request body exceeds the %d-byte limit", maxBodyBytes),
+			}
+		}
 		return badRequest("invalid JSON: " + err.Error())
 	}
 	return nil
@@ -151,7 +176,7 @@ type issueReq struct {
 
 func (a *App) handleIssue(w http.ResponseWriter, r *http.Request) {
 	var req issueReq
-	if e := decode(r, &req); e != nil {
+	if e := decode(r, w, &req); e != nil {
 		writeErr(w, e)
 		return
 	}
@@ -173,7 +198,7 @@ type verifyReq struct {
 
 func (a *App) handleVerify(w http.ResponseWriter, r *http.Request) {
 	var req verifyReq
-	if e := decode(r, &req); e != nil {
+	if e := decode(r, w, &req); e != nil {
 		writeErr(w, e)
 		return
 	}
@@ -190,7 +215,7 @@ type revokeReq struct {
 
 func (a *App) handleRevoke(w http.ResponseWriter, r *http.Request) {
 	var req revokeReq
-	if e := decode(r, &req); e != nil {
+	if e := decode(r, w, &req); e != nil {
 		writeErr(w, e)
 		return
 	}
