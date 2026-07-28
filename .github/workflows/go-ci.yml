@@ -44,6 +44,15 @@ jobs:
       - name: test
         run: go test ./...
 
+      # The race detector, which nothing ran before. Every other test in the
+      # tree is sequential, so `go test ./...` exercised almost no concurrent
+      # paths — a data race in Store.Delegations() (shared *Delegation pointers
+      # read by the JSON encoder while MarkRevoked wrote them) survived until a
+      # concurrent stress test was written. Sequential tests cannot find races;
+      # only concurrent ones under -race can.
+      - name: test (race detector)
+        run: go test -race ./...
+
       # Coverage-guided fuzzing of the Verification Core. `go test ./...` above
       # only replays FuzzVerify's seed corpus as ordinary cases — it does NOT
       # mutate. This step is what makes the "coverage-guided fuzzing" claim in
