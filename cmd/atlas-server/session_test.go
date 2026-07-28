@@ -245,3 +245,35 @@ func TestIdleSessionsAreEvicted(t *testing.T) {
 		t.Fatal("idle session past its TTL was not evicted")
 	}
 }
+
+// TestBodySizeLimit pins a fixed unauthenticated remote DoS.
+//
+// /verify takes no credential and buffers its body before decoding. With no
+// cap, measured amplification was ~4.5x: a 191 MB body drove the server from
+// 60 MB to 864 MB RSS, and six concurrent requests reached 3.87 GB — enough to
+// OOM-kill a typical container with no credential and no rate limit in the way.
+//
+// A legitimate record is ~500 bytes, so anything approaching the cap is abuse.
+func TestBodySizeLimit(t *testing.T) {
+	h := newTestApp(t).Router()
+
+	oversized := `{"record":"` + strings.Repeat("A", maxBodyBytes+1024) + `"}`
+	code, body := do(t, h, http.MethodPost, "/verify", "", oversized)
+	if code != http.StatusRequestEntityTooLarge {
+		t.Fatalf("oversized body: got %d, want 413 — the DoS cap is not enforced (body %v)", code, body)
+	}
+
+	// The cap must not break legitimate traffic: a normal record still works.
+	rec, _ := issueIn(t, h, sessA)
+	if got := decisionFor(t, h, sessA, rec); got != "accept" {
+		t.Fatalf("normal-sized request broken by the body cap: %q", got)
+	}
+
+	// Every body-taking endpoint must be capped, not just /verify.
+	for _, path := range []string{"/issue", "/revoke", "/verify"} {
+		code, _ := do(t, h, http.MethodPost, path, sessA, oversized)
+		if code != http.StatusRequestEntityTooLarge {
+			t.Fatalf("%s accepted an oversized body (got %d) — cap must apply to all decoded endpoints", path, code)
+		}
+	}
+}
