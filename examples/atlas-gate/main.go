@@ -43,7 +43,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"os"
 	"strings"
 	"sync/atomic"
 	"time"
@@ -208,7 +207,7 @@ func recordGrantsScope(rec, required string) bool {
 // same wiring cmd/atlas/offline.go uses. The revocation snapshot's signature is
 // re-verified on ingest, so a tampered bundle is refused here.
 func buildVerifier(path string, maxStaleness time.Duration) (*verify.Verifier, error) {
-	raw, err := os.ReadFile(path)
+	raw, err := record.ReadBundleFile(path)
 	if err != nil {
 		return nil, err
 	}

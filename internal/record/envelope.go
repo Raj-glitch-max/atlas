@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"io"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/go-jose/go-jose/v3"
@@ -149,9 +150,39 @@ func decodeClaims(payload []byte) (Assertions, error) {
 	if !isCanonicalScope(claims.Scope) {
 		return Assertions{}, fmt.Errorf("record: scope is not in canonical form")
 	}
+	// Timestamps must be JSON INTEGERS, not merely numbers that happen to fit.
+	//
+	// Go's decoder rejects a float into an int64, so this held here by accident
+	// — a property of this runtime, not of the format. JavaScript has no integer
+	// type: every number is a double, so `"exp": 1.8e9` and
+	// `"exp": 1800000000.0000001` decode happily there and may round. Over the
+	// SAME signed bytes, a Go verifier and a JS verifier would disagree about
+	// when a record expires. That is a verifier differential on the expiry
+	// claim, so the rule is made explicit and checked over the raw payload
+	// rather than inherited from whatever the host language's decoder does.
+	if err := requireIntegerNumerics(payload, "exp", "iat"); err != nil {
+		return Assertions{}, err
+	}
 	if claims.Expiration <= 0 || claims.IssuedAt <= 0 {
 		return Assertions{}, fmt.Errorf("record: exp and iat must be positive NumericDates")
 	}
+	// Upper bound. Without one, exp = MaxInt64 overflows time.Unix into a
+	// nonsense date and yields an effectively immortal capability — expiry is
+	// the one limit enforced with zero coordination, so it must not be
+	// disableable by a large integer.
+	if claims.Expiration > maxNumericDate || claims.IssuedAt > maxNumericDate {
+		return Assertions{}, fmt.Errorf("record: exp/iat exceed the maximum supported NumericDate (%d)", maxNumericDate)
+	}
+	// NOTE: exp < iat is deliberately NOT rejected here. An inverted window is
+	// representable, and judging it is M3's job — the record model reports what
+	// the issuer asserted, the verifier decides whether it is usable. A check
+	// here would move a validity judgment into the integrity layer and break the
+	// separation the whole module boundary exists to maintain
+	// (TestExpiredAtBirthStillSealsAndValidates pins this).
+	//
+	// The bound above is different in kind: it is a REPRESENTABILITY limit, not
+	// a validity one. Past maxNumericDate, time.Unix yields a meaningless value,
+	// so the claim cannot be faithfully decoded at all.
 	instance, err := InstanceIDFromString(claims.Instance)
 	if err != nil {
 		return Assertions{}, fmt.Errorf("record: atl_ins missing: %w", err)
@@ -267,4 +298,47 @@ func isBase64URLByte(b byte) bool {
 		return true
 	}
 	return false
+}
+
+// maxNumericDate bounds exp/iat. Year 9999 in Unix seconds — far beyond any
+// legitimate capability lifetime, and small enough that time.Unix cannot
+// overflow into a nonsense date.
+const maxNumericDate int64 = 253402300799
+
+// requireIntegerNumerics enforces that the named top-level claims, if present,
+// are encoded as JSON integers: no fraction, no exponent, no leading plus.
+//
+// It reads the RAW payload rather than the decoded struct because by the time a
+// value reaches an int64 field the host language has already made its own
+// decision about `1.8e9` — and that decision differs between languages. The
+// check has to happen on the bytes to be language-neutral.
+func requireIntegerNumerics(payload []byte, names ...string) error {
+	want := make(map[string]bool, len(names))
+	for _, n := range names {
+		want[n] = true
+	}
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(payload, &raw); err != nil {
+		return fmt.Errorf("record: payload not a JSON object: %w", err)
+	}
+	for name := range want {
+		v, ok := raw[name]
+		if !ok {
+			continue // absence is handled by the positivity check
+		}
+		s := strings.TrimSpace(string(v))
+		if s == "" {
+			return fmt.Errorf("record: %s is empty", name)
+		}
+		for i := 0; i < len(s); i++ {
+			c := s[i]
+			if c == '-' && i == 0 {
+				continue // negative is caught by the positivity check
+			}
+			if c < '0' || c > '9' {
+				return fmt.Errorf("record: %s must be a JSON integer (got %q — no fraction, exponent, or sign)", name, s)
+			}
+		}
+	}
+	return nil
 }
