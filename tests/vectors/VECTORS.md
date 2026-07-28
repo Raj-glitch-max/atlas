@@ -8,9 +8,10 @@ definition and the Go conformance kit into an artifact a Rust/Python/Zig/…
 implementation can run without touching Go, and it is how verifier
 differentials (the Frankencerts failure) are caught before they ship.
 
-- **Files:** `verdict-vectors.json` (verdict-space cases) and
+- **Files:** `verdict-vectors.json` (verdict-space cases),
   `negative-vectors.json` (adversarial/malformed records that MUST be
-  rejected). Both committed and authoritative.
+  rejected), and `revocation-vectors.json` (the revocation LAYER — see below).
+  All committed and authoritative.
 - **Source of truth:** generated from the Go conformance corpus
   (`tests/conformance`), recording the *reference verifier's actual verdict*.
   Regenerate with `go test ./tests/vectors -run TestVectorsRegenerate -update`
@@ -137,3 +138,58 @@ and the same set of `expect.causes` for every vector in both files. Compare
 causes as a set (order is not significant). A single mismatch — a positive
 vector rejected, or (worse) a negative vector accepted — is a verifier
 differential and a conformance failure.
+
+## Revocation-layer vectors (`revocation-vectors.json`, schema 1)
+
+The two files above supply `revocation.state` as an **already-computed answer**
+(`Indeterminate` | `NotObservedRevoked` | `ObservablyRevoked`). That tests a
+verifier's *handling* of an answer and skips its *derivation* entirely: the
+snapshot signature is never checked and freshness is never computed.
+
+Since freshness-bounded, fail-closed revocation is the most novel mechanism in
+Atlas, that made it the least conformance-tested one — an implementation could
+pass all 30 record-level vectors while getting revocation semantics completely
+wrong.
+
+`revocation-vectors.json` carries the **signed snapshot itself**. A conformant
+implementation must do the real work:
+
+1. verify the snapshot signature against `snapshot_key` (an RFC 7517 JWK),
+2. bind the snapshot to `expect_list` — a snapshot from a different revocation
+   stream MUST NOT be adopted,
+3. apply `ingest[]` **in order**, enforcing *strictly monotonic* `as_of`
+   adoption, and match each outcome against `expect_adopt[]`,
+4. compute the adopted snapshot's age against `now` and `policy.r_seconds`,
+5. derive a revocation state and only then a verdict.
+
+`ingest` is a sequence on purpose: rollback is only expressible as an ordered
+pair, and a verifier that adopts snapshots without monotonicity can only be
+caught by presenting a newer snapshot followed by an older one.
+
+`expect_adopt` is asserted per-ingest rather than only through the final
+verdict, so an implementation that adopts a forged or rolled-back snapshot is
+caught at the point of the mistake.
+
+The record-signing key and the revocation-origin key are **deliberately
+different** in these vectors, even though the reference server uses one key for
+both. That prevents an implementation from passing by accidentally verifying a
+snapshot with the record key.
+
+### Coverage
+
+| Vector | Pins |
+|---|---|
+| `fresh-not-revoked` | the only case that may accept |
+| `fresh-revoked` | definitive rejection, `RevokedObservable` |
+| `stale-not-revoked-fails-closed` | **the fail-closed property** — not revoked, but unprovable, so refuse |
+| `no-snapshot-is-indeterminate` | absence of a record is not evidence of non-revocation |
+| `bad-signature-not-adopted` | corrupted signature ⇒ no knowledge, not the snapshot's contents |
+| `stripped-entry-not-adopted` | the "hide the revocation" tamper |
+| `foreign-key-not-adopted` | correct signature, wrong signer |
+| `wrong-list-id-not-adopted` | cross-stream substitution |
+| `rollback-rejected` | newer then older, both genuinely signed |
+| `replay-same-asof-rejected` | adoption is *strictly* monotonic |
+| `newer-snapshot-supersedes` | revocation stays terminal across updates |
+| `boundary-exactly-at-R` | age == R is still fresh (an off-by-one here silently changes every deployment) |
+
+Regenerate with `go test ./tests/vectors -run TestRevocationVectorsRegenerate -update`.
