@@ -9,7 +9,7 @@ GITLEAKS  := $(shell command -v gitleaks 2>/dev/null)
 DOCKER    := $(shell command -v docker 2>/dev/null)
 GO        := $(shell command -v go 2>/dev/null)
 
-.PHONY: help init lint format docs-lint secrets check-frozen frozen-baseline devshell build vet fmtcheck importlint test ci upgrade
+.PHONY: help init lint format docs-lint secrets check-frozen frozen-baseline devshell build vet fmtcheck race importlint test ci upgrade
 
 help: ## list available targets
 	@awk 'BEGIN {FS = ":.*##"; printf "Engineering Foundation targets:\n\n"} /^[a-zA-Z][a-zA-Z0-9_-]*:.*##/ { printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
@@ -53,6 +53,10 @@ vet: ## run go vet over every package
 	@if [ -z "$(GO)" ]; then echo "vet: go toolchain not found"; exit 1; fi
 	go vet ./...
 
+race: ## run the suite under the race detector (mirrors the CI gate)
+	@if [ -z "$(GO)" ]; then echo "race: go toolchain not found"; exit 1; fi
+	go test -race ./...
+
 fmtcheck: ## fail if any Go file is not gofmt-clean (mirrors the CI gate)
 	@if [ -z "$(GO)" ]; then echo "fmtcheck: go toolchain not found"; exit 1; fi
 	@unformatted=$$(gofmt -l . | grep -v '^atlas-PYTHON/' || true); \
@@ -69,8 +73,8 @@ test: ## run Go tests for every package
 	@if [ -z "$(GO)" ]; then echo "test: go toolchain not found"; exit 1; fi
 	go test ./...
 
-ci: ## run the local equivalent of CI (lint + docs-lint + check-frozen + secrets + build + vet + fmtcheck + importlint + test)
-ci: lint docs-lint check-frozen secrets build vet fmtcheck importlint test
+ci: ## run the local equivalent of CI (lint + docs-lint + check-frozen + secrets + build + vet + fmtcheck + importlint + test + race)
+ci: lint docs-lint check-frozen secrets build vet fmtcheck importlint test race
 	@echo "ci: all gates passed."
 
 upgrade: ## bump pre-commit hooks to latest (pre-commit autoupdate)

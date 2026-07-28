@@ -251,13 +251,31 @@ func (s *Store) RevokedInstances() []string {
 	return out
 }
 
-// Delegations returns a copy of all delegations, newest first.
+// Delegations returns a DEEP copy of all delegations, newest first.
+//
+// The copy must be deep. Returning the stored *Delegation pointers copies only
+// the slice and leaves callers reading fields that MarkRevoked mutates under
+// the lock — a real data race, caught by the race detector under concurrent
+// load: handleDelegations was JSON-encoding d.Revoked while a concurrent
+// /revoke wrote it. The previous comment claimed "a copy" and delivered a
+// shared-element slice, which is the subtler and more dangerous shape.
+//
+// Scope is copied too. It is not mutated today, but a slice header is a
+// multi-word value, so sharing it makes any future mutation a torn read rather
+// than a clean one — and the next person to add a field here should not have to
+// rediscover this.
 func (s *Store) Delegations() []*Delegation {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	out := make([]*Delegation, 0, len(s.order))
 	for i := len(s.order) - 1; i >= 0; i-- {
-		out = append(out, s.byInst[s.order[i]])
+		d := s.byInst[s.order[i]]
+		if d == nil {
+			continue
+		}
+		cp := *d
+		cp.Scope = append([]string(nil), d.Scope...)
+		out = append(out, &cp)
 	}
 	return out
 }
