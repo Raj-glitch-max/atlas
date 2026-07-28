@@ -39,8 +39,9 @@ unless revoked* — checkable anywhere.
   audits) — gone.
 - **Authorization that dies when the auth server does** — gone; verification
   is local.
-- **"Who could do what, when?" audits that are impossible** — every grant,
-  check, and revocation is a signed, replayable event.
+- **"Who could do what, when?" audits that are impossible** — every grant is a
+  signed, self-contained, independently replayable artifact. (The *record* is
+  signed; the server's event log is not — see `LIMITATIONS.md` §8.)
 - **Every service re-implementing verification differently** — one conformant
   verifier, one test-vector suite, identical decisions everywhere.
 
@@ -98,7 +99,8 @@ Use Atlas when **most** of these are true:
 - the permission should be **temporary** and **narrower** than the grantor's,
 - delegation crosses a team, org, or trust-domain boundary,
 - the checker can't — or shouldn't — depend on a live call to the issuer,
-- you need an audit trail that survives interrogation.
+- you need grants that are individually replayable and independently checkable
+  long after the fact.
 
 ## Q8 · When should I NOT use Atlas?
 

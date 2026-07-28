@@ -66,6 +66,11 @@ SPIFFE and never a replacement. Closest in design space to Biscuit / UCAN. It is
 **not** a policy engine, **not** an identity provider, and **not** a replacement
 for OAuth or SPIFFE.
 
+**Atlas cannot answer "who can access X?" or "what may this agent do?"** — and
+never will. Reverse indexing requires a global, consistently-queryable store,
+and refusing that dependency is the entire premise. If you need permission
+enumeration, you need a policy system (Zanzibar-lineage), not this.
+
 If you have one agent talking to one service, use an API key. If your
 permissions are static and long-lived, use your IAM. Atlas earns its complexity
 only when delegation actually exists — see

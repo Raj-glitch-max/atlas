@@ -29,7 +29,7 @@ func (a *App) Router() http.Handler {
 	mux.HandleFunc("/bundle", a.only(http.MethodGet, a.handleBundle))
 	mux.HandleFunc("/metrics", a.only(http.MethodGet, a.handleMetrics))
 	mux.HandleFunc("/activity", a.only(http.MethodGet, a.handleActivity))
-	mux.HandleFunc("/session", a.only(http.MethodPost, a.handleSession))
+	mux.HandleFunc("/session", a.only(http.MethodPost, a.limit(a.handleSession)))
 	return a.accessLog(a.cors(mux))
 }
 

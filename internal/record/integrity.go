@@ -50,7 +50,7 @@ func ValidateIntegrity(presented []byte, tm TrustMaterial) (*Record, Outcome) {
 	if typ, _ := header.ExtraHeaders[jose.HeaderType].(string); typ != headerType {
 		return nil, Altered
 	}
-	if header.KeyID == "" {
+	if !validKeyID(header.KeyID) {
 		return nil, Altered
 	}
 	key, held := tm.keyFor(header.KeyID)
@@ -66,4 +66,42 @@ func ValidateIntegrity(presented []byte, tm TrustMaterial) (*Record, Outcome) {
 		return nil, Altered
 	}
 	return &Record{compact: string(presented), assertions: assertions}, Intact
+}
+
+// maxKeyIDLen bounds the kid header. Real key ids are short labels; anything
+// approaching this is abuse.
+const maxKeyIDLen = 128
+
+// validKeyID constrains the kid header to a bounded, inert character set.
+//
+// kid is ATTACKER-CONTROLLED data whose only job is to select a key from
+// locally-held trust material. This implementation resolves it through an
+// in-memory map, so a hostile value is inert here — but that safety is a
+// property of this implementation, not of the format, and implementations that
+// resolve kid against a filesystem or a URL are a known JWT vulnerability
+// class (path traversal to arbitrary file read; SSRF).
+//
+// Constraining it in the format means a reimplementation cannot introduce that
+// class while remaining conformant: a kid that could traverse a path or form a
+// URL is not a well-formed kid. Unbounded length is refused for the same reason
+// the request body is capped — an attacker should not choose an allocation size.
+//
+// Permitted: ASCII letters, digits, '-', '_', '.'. Notably absent are '/', '\',
+// ':', and NUL, which is what makes traversal and scheme-forming impossible.
+func validKeyID(kid string) bool {
+	if kid == "" || len(kid) > maxKeyIDLen {
+		return false
+	}
+	for i := 0; i < len(kid); i++ {
+		c := kid[i]
+		switch {
+		case c >= 'a' && c <= 'z', c >= 'A' && c <= 'Z', c >= '0' && c <= '9':
+		case c == '-', c == '_', c == '.':
+		default:
+			return false
+		}
+	}
+	// Reject "." and ".." outright: harmless as map keys, but they are the
+	// literal traversal primitives, and a conformant kid should never be one.
+	return kid != "." && kid != ".."
 }

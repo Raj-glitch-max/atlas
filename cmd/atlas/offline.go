@@ -98,7 +98,7 @@ func cmdBundle(out io.Writer, c *client, args []string) int {
 // the bundle — no server, no network. When requireScope is non-empty it also
 // applies the authorization gate (valid AND grants the action).
 func verifyOffline(out io.Writer, bundlePath, rec string, maxStaleness time.Duration, requireScope string) int {
-	raw, err := os.ReadFile(bundlePath)
+	raw, err := record.ReadBundleFile(bundlePath)
 	if err != nil {
 		fmt.Fprintln(out, "offline verify: read bundle:", err)
 		return exitError

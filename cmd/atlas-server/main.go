@@ -100,10 +100,21 @@ func main() {
 		}
 	}()
 
+	// Full timeouts, not just ReadHeaderTimeout.
+	//
+	// The 64 KiB body cap bounds total BYTES, but without ReadTimeout an
+	// attacker can still trickle those bytes and hold a connection and its
+	// goroutine indefinitely (slow-loris). WriteTimeout bounds a slow reader
+	// doing the same on the response side, and IdleTimeout reaps keep-alive
+	// connections that are doing nothing at all. Every one of these is a
+	// resource an unauthenticated client should not be able to pin.
 	srv := &http.Server{
 		Addr:              *addr,
 		Handler:           app.Router(),
 		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       60 * time.Second,
 	}
 
 	useTLS := *tlsCert != ""
