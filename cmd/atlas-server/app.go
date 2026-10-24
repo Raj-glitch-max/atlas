@@ -67,11 +67,13 @@ func defaultPermissions() issuance.PermissionSet {
 
 // Config is the server's construction-time configuration.
 type Config struct {
-	Domain    string   // trust domain (issued principals must belong to it)
-	StorePath string   // durable state file ("" => in-memory)
-	KeyPath   string   // authority key file ("" => ephemeral)
-	APIKey    string   // optional bearer token guarding mutating endpoints
-	Grant     []string // scopes a principal may delegate ("" => default set)
+	Domain         string   // trust domain (issued principals must belong to it)
+	StorePath      string   // durable state file ("" => in-memory)
+	KeyPath        string   // authority key file ("" => ephemeral)
+	APIKey         string   // optional bearer token guarding mutating endpoints
+	Grant          []string // scopes a principal may delegate ("" => default set)
+	PermissionsFile string  // JSON file mapping SPIFFE IDs to permission sets (per-principal)
+	Mode           string   // issuance mode: "open", "strict", "sandbox"
 
 	AllowOrigin  string // CORS Access-Control-Allow-Origin ("" => "*", dev default)
 	RateLimitRPM int    // per-IP requests/min on mutating endpoints (0 => off)
@@ -102,6 +104,7 @@ type App struct {
 	trustProxy  bool
 	logRequests bool
 	logVerbose  bool
+	mode        string // "open", "strict", "sandbox"
 
 	// def is the default session: the durable, single-graph behaviour used by
 	// every client that does not send a session id (CLI, SDKs, MCP, tests).
@@ -129,13 +132,34 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 	}
 	const keyID = "authority-key-1"
 
-	grantSet := defaultPermissions()
-	if len(cfg.Grant) > 0 {
-		grantSet = issuance.NewPermissionSet(cfg.Grant...)
+	var permsSource issuance.PermissionSource
+	if cfg.PermissionsFile != "" {
+		fileSrc, err := NewFilePermissionSource(cfg.PermissionsFile)
+		if err != nil {
+			return nil, fmt.Errorf("load permissions file %q: %w", cfg.PermissionsFile, err)
+		}
+		switch cfg.Mode {
+		case "strict":
+			permsSource = strictPermissionSource{inner: fileSrc}
+		case "sandbox":
+			permsSource = sandboxPermissionSource{inner: fileSrc}
+		case "open":
+			permsSource = fileSrc
+		default:
+			return nil, fmt.Errorf("unknown mode %q: must be open, strict, or sandbox", cfg.Mode)
+		}
+	} else {
+		// Fallback to global grant set (v1 behavior)
+		grantSet := defaultPermissions()
+		if len(cfg.Grant) > 0 {
+			grantSet = issuance.NewPermissionSet(cfg.Grant...)
+		}
+		permsSource = grantedPerms{set: grantSet}
 	}
+
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: keyID},
-		grantedPerms{set: grantSet},
+		permsSource,
 		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
 	if err != nil {
 		return nil, err
@@ -178,6 +202,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 		policy: policy, revWindow: 2 * time.Second,
 		allowOrigin: allowOrigin, limiter: limiter, trustProxy: cfg.TrustProxy,
 		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
+		mode:        cfg.Mode,
 		sessions: map[string]*Session{},
 		activity: newActivityLog(),
 	}
@@ -304,6 +329,10 @@ func (a *App) Issue(s *Session, principal, delegate string, scope []string, ttl 
 	if err != nil {
 		return nil, badRequest("delegate is not a valid SPIFFE ID: " + err.Error())
 	}
+	// Sandbox mode: only allow self-delegation (delegate == principal)
+	if a.mode == "sandbox" && p.String() != d.String() {
+		return nil, &apiError{Status: 422, Message: "issuance refused: sandbox mode only permits self-delegation", Refused: true}
+	}
 	if ttl <= 0 {
 		ttl = time.Hour
 	}
@@ -334,7 +363,8 @@ func (a *App) Issue(s *Session, principal, delegate string, scope []string, ttl 
 
 // Verify runs the real Verification Core against a presented record. The
 // latency is measured around Verify (AT26), never inside it.
-func (a *App) Verify(s *Session, rec string) *VerifyResult {
+// If presenter is non-zero, it is passed to the verifier for presenter binding (R3).
+func (a *App) Verify(s *Session, rec string, presenter spiffeid.ID) *VerifyResult {
 	s.mu.RLock()
 	v, err := verify.NewVerifier(a.policy, a.trust, revocationAdapter{p: s.provider}, a.clock)
 	if err != nil {
@@ -342,7 +372,7 @@ func (a *App) Verify(s *Session, rec string) *VerifyResult {
 		return &VerifyResult{Decision: "error", Causes: []string{err.Error()}}
 	}
 	start := time.Now()
-	verdict, trace := v.Verify([]byte(rec))
+	verdict, trace := v.Verify([]byte(rec), presenter)
 	elapsed := time.Since(start)
 	s.mu.RUnlock()
 

@@ -30,6 +30,10 @@ const (
 	// RevokedObservable: the instance's revocation is observable to this
 	// relying party (SO1).
 	RevokedObservable
+	// PresenterAbsent: presenter binding required but no presenter supplied.
+	PresenterAbsent
+	// PresenterMismatch: supplied presenter does not match record delegate.
+	PresenterMismatch
 
 	// --- Inconclusive causes (a check could not conclude) -> InconclusiveRejected [HYPOTHESIS] ---
 
@@ -66,6 +70,8 @@ var (
 		Expired:              true,
 		ScopeIntegrityFailed: true,
 		RevokedObservable:    true,
+		PresenterAbsent:      true,
+		PresenterMismatch:    true,
 	}
 	inconclusiveCauses = map[Cause]bool{
 		TrustMaterialAbsent:           true,
@@ -97,6 +103,10 @@ func (c Cause) String() string {
 		return "ScopeIntegrityFailed"
 	case RevokedObservable:
 		return "RevokedObservable"
+	case PresenterAbsent:
+		return "PresenterAbsent"
+	case PresenterMismatch:
+		return "PresenterMismatch"
 	case TrustMaterialAbsent:
 		return "TrustMaterialAbsent"
 	case ClockBeyondTolerance:

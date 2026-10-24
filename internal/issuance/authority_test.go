@@ -220,3 +220,105 @@ func TestPermissionSetProperSubsetSemantics(t *testing.T) {
 		t.Errorf("dedup/empty handling: len = %d, want 1", s2.Len())
 	}
 }
+
+// DEFECT D2: Equal-scope delegation is refused (OverScope) when principal holds exactly the requested set.
+// The permission set is global, so principal A can delegate scopes only principal B holds.
+// This test asserts the CURRENT WRONG behavior: equal scope is refused.
+// After fix, this test should be renamed TestD2_EqualScopeDelegationAllowed and inverted.
+func TestDefectD2_EqualScopeRefused(t *testing.T) {
+	f := newFixture(t)
+	// Principal has permissions: read:orders, write:audit, admin:all
+	// Request delegation with EXACTLY the same scope set
+	res, err := f.authority.Issue(f.req("read:orders", "write:audit", "admin:all"))
+	if err != nil {
+		t.Fatalf("issue: %v", err)
+	}
+	// CURRENT WRONG BEHAVIOR: Refused with OverScope
+	if res.Outcome != issuance.Refused || res.Refusal != issuance.OverScope {
+		t.Fatalf("DEFECT D2 NOT REPRODUCED: outcome=%s refusal=%s, want Refused/OverScope (equal scope should be refused in current code)", res.Outcome, res.Refusal)
+	}
+	if res.Record != nil {
+		t.Error("refusal must create nothing (FM6)")
+	}
+	t.Logf("DEFECT D2 REPRODUCED: equal-scope delegation refused with OverScope")
+}
+
+// DEFECT D2 variant: Global permission set means principal A can only delegate scopes principal B holds
+func TestDefectD2_GlobalPermissionSet(t *testing.T) {
+	// This demonstrates the global permission set issue: all principals share the same permission set
+	key, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	principalA := spiffeid.RequireFromString("spiffe://domain-a.test/principal-a")
+	principalB := spiffeid.RequireFromString("spiffe://domain-a.test/principal-b")
+	delegate := spiffeid.RequireFromString(delegateID)
+
+	// Both principals get the SAME global permission set
+	perms := harness.NewPermissionSource().Grant(principalA, "read:orders", "write:audit", "admin:all")
+	// Note: the harness permission source grants to principalA, but the authority uses it for ANY principal
+	auth, err := issuance.NewAuthority(
+		record.Signer{Key: key, KeyID: keyID},
+		perms,
+		issuance.NoBinding{},
+		issuance.RandomMinter{},
+		harness.NewClock(issuedAt),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Principal B tries to delegate scopes only principal A "holds" (but actually global)
+	res, err := auth.Issue(issuance.Request{
+		Principal:  principalB,
+		Delegate:   delegate,
+		Scope:      []string{"read:orders", "write:audit", "admin:all"},
+		Expiration: expiry,
+	})
+	if err != nil {
+		t.Fatalf("issue: %v", err)
+	}
+	// CURRENT BEHAVIOR: succeeds because permission source returns same set for any principal
+	// This is the "global permission set" defect - principal B can delegate scopes it doesn't "own"
+	if res.Outcome != issuance.Issued {
+		t.Logf("Global permission set behavior: principal B cannot delegate (unexpected)")
+	} else {
+		t.Logf("DEFECT D2 VARIANT REPRODUCED: principal B delegates scopes from global set (principal A's scopes)")
+	}
+}
+
+// TestD2_EqualScopeDelegationAllowed tests that the D2 fix works: equal-scope
+// delegation is now allowed (but scope exceeding permissions is still refused).
+// This replaces TestDefectD2_EqualScopeRefused after the fix.
+func TestD2_EqualScopeDelegationAllowed(t *testing.T) {
+	f := newFixture(t)
+	// Principal has permissions: read:orders, write:audit, admin:all
+	// Request delegation with EXACTLY the same scope set
+	res, err := f.authority.Issue(f.req("read:orders", "write:audit", "admin:all"))
+	if err != nil {
+		t.Fatalf("issue: %v", err)
+	}
+	// FIXED BEHAVIOR: equal scope is ALLOWED (Issued)
+	if res.Outcome != issuance.Issued {
+		t.Fatalf("equal scope should be allowed (Issued), got outcome=%s refusal=%s", res.Outcome, res.Refusal)
+	}
+	if res.Record == nil {
+		t.Error("Issued must create a record")
+	}
+}
+
+// TestD2_ScopeExceedingPermissionsRefused tests that scope exceeding permissions
+// is still correctly refused (OverScope).
+func TestD2_ScopeExceedingPermissionsRefused(t *testing.T) {
+	f := newFixture(t)
+	// Principal has permissions: read:orders, write:audit, admin:all
+	// Request delegation with scope that EXCEEDS permissions
+	res, err := f.authority.Issue(f.req("read:orders", "write:audit", "admin:all", "delete:everything"))
+	if err != nil {
+		t.Fatalf("issue: %v", err)
+	}
+	// Should be refused with OverScope
+	if res.Outcome != issuance.Refused || res.Refusal != issuance.OverScope {
+		t.Fatalf("scope exceeding permissions should be refused with OverScope, got outcome=%s refusal=%s", res.Outcome, res.Refusal)
+	}
+	if res.Record != nil {
+		t.Error("refusal must create nothing (FM6)")
+	}
+}

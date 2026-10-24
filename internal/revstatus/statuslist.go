@@ -49,16 +49,28 @@ type SignedRevokedSet struct {
 	Sig     []byte
 }
 
-// canonicalDigest is the deterministic hash signed and verified. It sorts and
-// deduplicates the revoked set so signer and verifier agree regardless of
-// input order or duplicates.
+// ErrAsOfNotMillisecond is returned when an as-of timestamp has sub-millisecond precision.
+var ErrAsOfNotMillisecond = errors.New("revstatus: as-of must have millisecond precision (no sub-millisecond)")
+
+// canonicalDigest is the deterministic hash signed and verified (schema v2).
+// It covers: domain-separation label, list ID, as-of as BIG-ENDIAN INT64 MILLISECONDS,
+// and sorted deduplicated revoked IDs. The wire format carries integer milliseconds only
+// (no floats; unambiguous across languages).
 func canonicalDigest(listID string, asOf time.Time, revoked []record.InstanceID) [32]byte {
+	// Validate millisecond precision (reject sub-millisecond)
+	if asOf.Nanosecond()%1_000_000 != 0 {
+		// This panic is only reached if validation is bypassed; Ingest validates explicitly.
+		panic("revstatus: canonicalDigest called with sub-millisecond asOf")
+	}
 	sorted := dedupSorted(revoked)
 	h := sha256.New()
+	// Domain separation label
+	h.Write([]byte("atlas-revocation-snapshot-v2"))
+	h.Write([]byte{0})
 	h.Write([]byte(listID))
 	h.Write([]byte{0})
 	var ts [8]byte
-	binary.BigEndian.PutUint64(ts[:], uint64(asOf.Unix()))
+	binary.BigEndian.PutUint64(ts[:], uint64(asOf.UnixMilli()))
 	h.Write(ts[:])
 	h.Write([]byte{0})
 	for _, id := range sorted {
@@ -118,6 +130,10 @@ func NewPublisher(key *ecdsa.PrivateKey, listID string) (*Publisher, error) {
 // Revocation Origin register's View at the composition root — the propagation
 // channel; revstatus does not import revorigin, dependency rule R5).
 func (p *Publisher) Publish(revoked []record.InstanceID, asOf time.Time) (SignedRevokedSet, error) {
+	// Validate as-of has millisecond precision (reject sub-millisecond)
+	if asOf.Nanosecond()%1_000_000 != 0 {
+		return SignedRevokedSet{}, ErrAsOfNotMillisecond
+	}
 	sorted := dedupSorted(revoked)
 	digest := canonicalDigest(p.listID, asOf, sorted)
 	sig, err := ecdsa.SignASN1(rand.Reader, p.key, digest[:])
@@ -125,6 +141,15 @@ func (p *Publisher) Publish(revoked []record.InstanceID, asOf time.Time) (Signed
 		return SignedRevokedSet{}, err
 	}
 	return SignedRevokedSet{ListID: p.listID, AsOf: asOf, Revoked: sorted, Sig: sig}, nil
+}
+
+// PublishMust is like Publish but panics on error. For test-only convenience.
+func (p *Publisher) PublishMust(revoked []record.InstanceID, asOf time.Time) SignedRevokedSet {
+	s, err := p.Publish(revoked, asOf)
+	if err != nil {
+		panic(err)
+	}
+	return s
 }
 
 // SignedSetProvider is the relying-party-side Provider realization. It holds
@@ -161,6 +186,10 @@ func NewSignedSetProvider(pub *ecdsa.PublicKey, listID string) *SignedSetProvide
 func (p *SignedSetProvider) Ingest(s SignedRevokedSet) (adopted bool, err error) {
 	if s.ListID != p.listID {
 		return false, ErrSetWrongList
+	}
+	// Validate as-of has millisecond precision (reject sub-millisecond)
+	if s.AsOf.Nanosecond()%1_000_000 != 0 {
+		return false, ErrAsOfNotMillisecond
 	}
 	digest := canonicalDigest(s.ListID, s.AsOf, s.Revoked)
 	if !ecdsa.VerifyASN1(p.pub, digest[:], s.Sig) {

@@ -144,3 +144,59 @@ func resultText(t *testing.T, r rpcResponse) string {
 	}
 	return res.Content[0].Text
 }
+
+// DEFECT D7: The agent-facing MCP server exposes atlas_issue and atlas_revoke by default;
+// no MCP enforcement point exists.
+// This test asserts the CURRENT WRONG behavior: issue and revoke tools are available without any enforcement.
+// After fix, this test should be renamed TestD7_MCPEnforcementExists and inverted.
+func TestDefectD7_MCPNoEnforcement(t *testing.T) {
+	ts := mockAtlas(t)
+	srv := NewServer(NewClient(ts.URL, ""))
+
+	// List tools - should include atlas_issue and atlas_revoke by default
+	resps := run(t, srv,
+		`{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{}}}`,
+		`{"jsonrpc":"2.0","method":"notifications/initialized"}`,
+		`{"jsonrpc":"2.0","id":2,"method":"tools/list"}`,
+	)
+
+	listText := ""
+	for _, r := range resps {
+		if r.Result != nil {
+			m, _ := json.Marshal(r.Result)
+			if strings.Contains(string(m), "atlas_issue") {
+				listText = string(m)
+				break
+			}
+		}
+	}
+
+	// CURRENT WRONG BEHAVIOR: atlas_issue and atlas_revoke are in the tools list by default
+	if !strings.Contains(listText, "atlas_issue") || !strings.Contains(listText, "atlas_revoke") {
+		t.Fatalf("DEFECT D7 NOT REPRODUCED: tools list missing atlas_issue or atlas_revoke: %s", listText)
+	}
+
+	// Call atlas_issue directly - should succeed (no enforcement)
+	resps = run(t, srv,
+		`{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"atlas_issue","arguments":{"principal":"spiffe://domain-a.test/p","delegate":"spiffe://domain-b.test/d","scope":["read:orders"]}}}`,
+	)
+	if len(resps) != 1 || resps[0].Error != nil {
+		t.Fatalf("DEFECT D7 NOT REPRODUCED: atlas_issue failed: %+v", resps)
+	}
+	if !strings.Contains(resultText(t, resps[0]), "abc123") {
+		t.Fatalf("DEFECT D7 NOT REPRODUCED: atlas_issue result unexpected: %s", resultText(t, resps[0]))
+	}
+
+	// Call atlas_revoke directly - should succeed (no enforcement)
+	resps = run(t, srv,
+		`{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"atlas_revoke","arguments":{"instance":"abc123"}}}`,
+	)
+	if len(resps) != 1 || resps[0].Error != nil {
+		t.Fatalf("DEFECT D7 NOT REPRODUCED: atlas_revoke failed: %+v", resps)
+	}
+	if !strings.Contains(resultText(t, resps[0]), "revoked") {
+		t.Fatalf("DEFECT D7 NOT REPRODUCED: atlas_revoke result unexpected: %s", resultText(t, resps[0]))
+	}
+
+	t.Logf("DEFECT D7 REPRODUCED: atlas_issue and atlas_revoke available by default with no enforcement")
+}

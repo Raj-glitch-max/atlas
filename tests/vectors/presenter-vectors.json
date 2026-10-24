@@ -1,0 +1,214 @@
+{
+  "vectors": [
+    {
+      "name": "presenter-binding-enabled-match",
+      "description": "Verification with presenter binding enabled and presenter matching delegate",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": true
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "spiffe://example.org/workload-a",
+      "expect": "Accept",
+      "causes": [],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "Pass"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-enabled-mismatch",
+      "description": "Verification with presenter binding enabled but presenter does not match delegate",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": true
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "spiffe://example.org/workload-b",
+      "expect": "Reject",
+      "causes": ["PresenterMismatch"],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "FailDefinitive", "cause": "PresenterMismatch"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-enabled-absent",
+      "description": "Verification with presenter binding enabled but no presenter supplied",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": true
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "",
+      "expect": "Reject",
+      "causes": ["PresenterAbsent"],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "FailDefinitive", "cause": "PresenterAbsent"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-disabled-no-presenter",
+      "description": "Verification with presenter binding disabled and no presenter supplied",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": false
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "",
+      "expect": "Accept",
+      "causes": [],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "Pass", "detail": "presenter binding not required"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-disabled-with-presenter",
+      "description": "Verification with presenter binding disabled but presenter supplied (should be ignored)",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": false
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "spiffe://example.org/workload-b",
+      "expect": "Accept",
+      "causes": [],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "Pass", "detail": "presenter binding not required"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-enabled-self-delegation",
+      "description": "Verification with presenter binding enabled for self-delegation (principal == delegate)",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": true
+      },
+      "record": {
+        "principal": "spiffe://example.org/workload-a",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data", "write:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "spiffe://example.org/workload-a",
+      "expect": "Accept",
+      "causes": [],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "Pass"}
+        ]
+      }
+    },
+    {
+      "name": "presenter-binding-enabled-different-trust-domain",
+      "description": "Verification with presenter from different trust domain",
+      "policy": {
+        "R": "2s",
+        "skewTolerance": "30s",
+        "requirePresenter": true
+      },
+      "record": {
+        "principal": "spiffe://example.org/principal",
+        "delegate": "spiffe://example.org/workload-a",
+        "scope": ["read:data"],
+        "issuedAt": "2024-01-01T00:00:00Z",
+        "expiration": "2025-01-01T00:00:00Z",
+        "issuerKeyId": "authority-key-1"
+      },
+      "presenter": "spiffe://other.org/workload-a",
+      "expect": "Reject",
+      "causes": ["PresenterMismatch"],
+      "trace": {
+        "checks": [
+          {"name": "identity_binding", "outcome": "Pass"},
+          {"name": "integrity", "outcome": "Pass"},
+          {"name": "expiry", "outcome": "Pass"},
+          {"name": "scope_integrity", "outcome": "Pass"},
+          {"name": "revocation_status", "outcome": "Pass"},
+          {"name": "presenter_binding", "outcome": "FailDefinitive", "cause": "PresenterMismatch"}
+        ]
+      }
+    }
+  ]
+}

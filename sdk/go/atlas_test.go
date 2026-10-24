@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -100,4 +101,29 @@ func TestClient_HTTPErrorSurfaces(t *testing.T) {
 		t.Fatalf("expected *Error status 401, got %T %v", err, err)
 	}
 	_ = ae
+}
+
+// DEFECT D6: Python and TypeScript SDK verify() and the MCP verify tool make network calls;
+// no offline verifier exists outside Go.
+// The Go SDK Verify() method does HTTP POST to /verify.
+// This test asserts the CURRENT WRONG behavior: Verify requires network call to server.
+// After fix, this test should be renamed TestD6_OfflineVerifierExists and inverted.
+func TestDefectD6_NoOfflineVerifier(t *testing.T) {
+	c := New("http://127.0.0.1:8087") // Non-existent server
+
+	ctx := context.Background()
+	_, err := c.Verify(ctx, "some-record")
+
+	// CURRENT WRONG BEHAVIOR: Verify returns network error (unreachable)
+	if err == nil {
+		t.Fatalf("DEFECT D6 NOT REPRODUCED: Verify succeeded without server (offline verifier exists)")
+	}
+	atlasErr, ok := err.(*Error)
+	if !ok || atlasErr.Status != 0 {
+		t.Fatalf("DEFECT D6 NOT REPRODUCED: expected network error (Status=0), got %T %v", err, err)
+	}
+	if !strings.Contains(atlasErr.Message, "unreachable") {
+		t.Fatalf("DEFECT D6 NOT REPRODUCED: expected unreachable message, got %s", atlasErr.Message)
+	}
+	t.Logf("DEFECT D6 REPRODUCED: SDK Verify() requires network call, no offline path")
 }

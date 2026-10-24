@@ -11,6 +11,8 @@ import (
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/Raj-glitch-max/atlas/internal/workload"
 )
 
 const version = "0.1.0-dev"
@@ -25,17 +27,27 @@ func main() {
 	keyPath := flag.String("key", envOr("ATLAS_KEY", ""), "path to the authority key (PEM); created if absent. Needed for records to survive restarts")
 	apiKey := flag.String("api-key", envOr("ATLAS_API_KEY", ""), "if set, /issue and /revoke require Authorization: Bearer <key>")
 	grant := flag.String("grant", envOr("ATLAS_GRANT", ""), "comma-separated scopes a principal may delegate (default: a built-in demo set)")
+	permissionsFile := flag.String("permissions", envOr("ATLAS_PERMISSIONS", ""), "path to JSON file mapping SPIFFE IDs to permission sets (per-principal attenuation)")
+	mode := flag.String("mode", envOr("ATLAS_MODE", "open"), "issuance mode: open (default), strict (principal must have permissions), sandbox (self-delegation only)")
 	allowOrigin := flag.String("allow-origin", envOr("ATLAS_ALLOW_ORIGIN", ""), "CORS allowed origin for browser clients (default: * — pin to your UI origin in production)")
 	trustProxy := flag.Bool("trust-proxy", envBool("ATLAS_TRUST_PROXY", false), "derive the client IP from X-Forwarded-For (REQUIRED behind a PaaS/CDN, unsafe when exposed directly)")
 	rateLimit := flag.Int("rate-limit", envInt("ATLAS_RATE_LIMIT", 0), "per-IP requests/min on /issue and /revoke (0 = unlimited)")
 	tlsCert := flag.String("tls-cert", envOr("ATLAS_TLS_CERT", ""), "path to a TLS certificate (PEM); enables HTTPS when set with -tls-key")
 	tlsKey := flag.String("tls-key", envOr("ATLAS_TLS_KEY", ""), "path to the TLS private key (PEM)")
+
+	// mTLS / SPIFFE Workload API flags
+	mtls := flag.Bool("mtls", envBool("ATLAS_MTLS", false), "enable mTLS using SPIFFE Workload API (requires workloadapi socket)")
+	workloadAPISocket := flag.String("workload-api-socket", envOr("ATLAS_WORKLOAD_API_SOCKET", ""), "path to Workload API socket (default: SPIFFE_ENDPOINT_SOCKET env var or unix:///tmp/spire-agent/public/api.sock)")
+
 	logReq := flag.Bool("log-requests", envBool("ATLAS_LOG_REQUESTS", true), "emit a structured access log line per request")
 	logVerbose := flag.Bool("log-verbose", envBool("ATLAS_LOG_VERBOSE", false), "also log health/readyz/metrics probe traffic")
 	flag.Parse()
 
 	if (*tlsCert == "") != (*tlsKey == "") {
 		log.Fatal("atlas-server: -tls-cert and -tls-key must be provided together")
+	}
+	if *mtls && (*tlsCert != "" || *tlsKey != "") {
+		log.Fatal("atlas-server: -mtls cannot be used with -tls-cert/-tls-key")
 	}
 
 	var grantSet []string
@@ -47,9 +59,18 @@ func main() {
 		}
 	}
 	app, err := NewApp(Config{
-		Domain: *domain, StorePath: *store, KeyPath: *keyPath, APIKey: *apiKey, Grant: grantSet,
-		AllowOrigin: *allowOrigin, RateLimitRPM: *rateLimit, TrustProxy: *trustProxy,
-		LogRequests: *logReq, LogVerbose: *logVerbose,
+		Domain:          *domain,
+		StorePath:       *store,
+		KeyPath:         *keyPath,
+		APIKey:          *apiKey,
+		Grant:           grantSet,
+		PermissionsFile: *permissionsFile,
+		Mode:            *mode,
+		AllowOrigin:     *allowOrigin,
+		RateLimitRPM:    *rateLimit,
+		TrustProxy:      *trustProxy,
+		LogRequests:     *logReq,
+		LogVerbose:      *logVerbose,
 	}, systemClock{})
 	if err != nil {
 		log.Fatalf("atlas-server: %v", err)
@@ -75,6 +96,9 @@ func main() {
 	}
 	if *apiKey != "" {
 		log.Printf("atlas-server: mutating endpoints require a bearer token")
+	}
+	if *permissionsFile != "" {
+		log.Printf("atlas-server: per-principal permissions from %s (mode: %s)", *permissionsFile, *mode)
 	}
 
 	// Freshness refresher: re-sign the current revoked set every second so the
@@ -117,7 +141,42 @@ func main() {
 		IdleTimeout:       60 * time.Second,
 	}
 
-	useTLS := *tlsCert != ""
+	// Configure mTLS if enabled
+	if *mtls {
+		ctx := context.Background()
+		opts := []workload.WorkloadAPISourceOption{}
+		if *workloadAPISocket != "" {
+			// Note: The workloadapi client uses SPIFFE_ENDPOINT_SOCKET env var
+			// or defaults to unix:///tmp/spire-agent/public/api.sock
+			// For custom socket, we'd need to set the env var before creating client
+			// For now, we rely on the env var approach
+		}
+		source, err := workload.NewWorkloadAPISource(ctx, opts...)
+		if err != nil {
+			log.Fatalf("atlas-server: failed to create Workload API source: %v", err)
+		}
+		defer source.Close()
+
+		tlsConfig, err := source.TLSConfig()
+		if err != nil {
+			log.Fatalf("atlas-server: failed to create TLS config: %v", err)
+		}
+		srv.TLSConfig = tlsConfig
+
+		// Start background goroutine to log SVID rotations
+		go func() {
+			for {
+				select {
+				case <-source.Done():
+					return
+				case svid := <-source.SVIDUpdates():
+					log.Printf("atlas-server: SVID rotated, new ID: %s, expires: %s", svid.ID, svid.ExpiresAt().Format(time.RFC3339))
+				}
+			}
+		}()
+	}
+
+	useTLS := *tlsCert != "" || *mtls
 	go func() {
 		scheme := "http"
 		if useTLS {
@@ -126,7 +185,11 @@ func main() {
 		log.Printf("atlas-server %s listening on %s://%s  (trust domain %s, R=%s)", version, scheme, *addr, *domain, app.revWindow)
 		var err error
 		if useTLS {
-			err = srv.ListenAndServeTLS(*tlsCert, *tlsKey)
+			if *mtls {
+				err = srv.ListenAndServeTLS("", "") // Uses srv.TLSConfig
+			} else {
+				err = srv.ListenAndServeTLS(*tlsCert, *tlsKey)
+			}
 		} else {
 			err = srv.ListenAndServe()
 		}

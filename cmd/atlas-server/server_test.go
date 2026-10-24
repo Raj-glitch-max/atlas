@@ -194,3 +194,51 @@ func TestCORSPreflight(t *testing.T) {
 		t.Fatalf("CORS preflight failed: status=%d origin=%q", resp.StatusCode, resp.Header.Get("Access-Control-Allow-Origin"))
 	}
 }
+
+// DEFECT D3: Unauthenticated caller can POST /issue for any principal in the server's domain when no api key is set.
+// The committed Railway start command passes no api key.
+// This test asserts the CURRENT WRONG behavior: /issue succeeds without authentication.
+// After fix, this test should be renamed TestD3_UnauthenticatedIssueRefused and inverted.
+func TestDefectD3_UnauthenticatedIssue(t *testing.T) {
+	// Server created with NO api-key (default)
+	_, ts, _ := newTestServer(t)
+
+	// POST /issue without any Authorization header
+	resp, out := post(t, ts.URL+"/issue", issueReq{
+		Principal: "spiffe://domain-a.test/workload/payments-api",
+		Delegate:  "spiffe://domain-b.test/agent/booking-worker",
+		Scope:     []string{"read:orders"}, TTLSeconds: 3600,
+	})
+
+	// CURRENT WRONG BEHAVIOR: 200 OK (issuance succeeds without auth)
+	if resp.StatusCode != 200 {
+		t.Fatalf("DEFECT D3 NOT REPRODUCED: status=%d, want 200 (unauthenticated issue should succeed in current code)", resp.StatusCode)
+	}
+	if _, ok := out["record"].(string); !ok {
+		t.Fatalf("no record returned: %v", out)
+	}
+	t.Logf("DEFECT D3 REPRODUCED: unauthenticated /issue succeeds (status=%d)", resp.StatusCode)
+}
+
+// DEFECT D11: /version does not reveal whether the authority key is persistent.
+// An ephemeral-key deployment invalidates every issued record on restart.
+// This test asserts the CURRENT WRONG behavior: /version lacks key_persistent field.
+// After fix, this test should be renamed TestD11_VersionShowsKeyPersistence and inverted.
+func TestDefectD11_VersionNoKeyPersistence(t *testing.T) {
+	_, ts, _ := newTestServer(t)
+
+	resp, err := http.Get(ts.URL + "/version")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	var out map[string]any
+	_ = json.NewDecoder(resp.Body).Decode(&out)
+
+	// CURRENT WRONG BEHAVIOR: no key_persistent field
+	if _, ok := out["key_persistent"]; ok {
+		t.Fatalf("DEFECT D11 NOT REPRODUCED: key_persistent field present: %v", out["key_persistent"])
+	}
+	t.Logf("DEFECT D11 REPRODUCED: /version lacks key_persistent field")
+}

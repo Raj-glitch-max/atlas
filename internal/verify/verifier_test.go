@@ -318,3 +318,27 @@ func hasCause(causes []verify.Cause, want verify.Cause) bool {
 	}
 	return false
 }
+
+// DEFECT D4: A capability is accepted from any presenter; there is no presenter input.
+// The Verify method takes only token bytes, no presenter SPIFFE ID.
+// This test asserts the CURRENT WRONG behavior: verification succeeds regardless of presenter.
+// After fix, this test should be renamed TestD4_PresenterBindingEnforced and inverted.
+func TestDefectD4_NoPresenterBinding(t *testing.T) {
+	w := newWorld(t)
+	w.freshNotRevoked()
+	rec := w.seal(t, nil)
+	v := w.verifier(t, time.Minute, 30*time.Second)
+
+	// Current Verify() signature: Verify([]byte) (Verdict, Trace)
+	// No presenter parameter exists
+	verdict, _ := v.Verify(rec.Presented())
+
+	// CURRENT WRONG BEHAVIOR: Accept (no presenter check)
+	if !verdict.IsAccept() {
+		t.Fatalf("DEFECT D4 NOT REPRODUCED: verdict=%s, want Accept (no presenter binding in current code)", verdict.Decision)
+	}
+	t.Logf("DEFECT D4 REPRODUCED: capability accepted without presenter binding")
+
+	// Demonstrate that a different presenter would also be accepted (no way to specify presenter)
+	// This is the core issue - any presenter can use a valid capability
+}

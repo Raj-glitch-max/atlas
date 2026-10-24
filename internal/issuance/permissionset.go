@@ -40,10 +40,10 @@ func (s PermissionSet) list() []string {
 	return out
 }
 
-// isProperSupersetOf reports whether this set strictly contains the scope:
-// every scope permission is held AND the scope is strictly smaller than the
-// set (ER2 "strict subset" — an equal scope is refused). scope may contain
-// duplicates; distinctness is computed here.
+// isProperSupersetOf reports whether this set contains the scope:
+// every scope permission is held AND the scope is not larger than the
+// set (equal scope is allowed; strict superset is not required per R2).
+// scope may contain duplicates; distinctness is computed here.
 func (s PermissionSet) isProperSupersetOf(scope []string) bool {
 	distinct := make(map[string]struct{}, len(scope))
 	for _, p := range scope {
@@ -52,6 +52,6 @@ func (s PermissionSet) isProperSupersetOf(scope []string) bool {
 		}
 		distinct[p] = struct{}{}
 	}
-	// Strict: the scope must be smaller than the full permission set.
-	return len(distinct) < s.Len()
+	// The scope must not exceed the full permission set (equal is allowed).
+	return len(distinct) <= s.Len()
 }

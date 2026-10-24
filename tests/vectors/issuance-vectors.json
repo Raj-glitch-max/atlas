@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "description": "Atlas issuance-layer conformance vectors. These test the Issuance Authority (M2): scope attenuation (strict subset, now equal-scope allowed), per-principal permissions, and server modes (open, strict, sandbox). Each vector carries an issuance request and the expected outcome (Issued/Refused with cause).",
+  "vectors": [
+    {
+      "name": "proper-subset-succeeds",
+      "description": "A principal with permissions {a, b, c} delegates scope {a, b}. This is a proper subset and should succeed.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Issued", "refusal": "NoRefusal"}
+    },
+    {
+      "name": "equal-scope-succeeds",
+      "description": "A principal with permissions {a, b, c} delegates scope {a, b, c} (equal to full set). After D2 fix, equal scope is allowed.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b", "c"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Issued", "refusal": "NoRefusal"}
+    },
+    {
+      "name": "over-scope-refused",
+      "description": "A principal with permissions {a, b, c} delegates scope {a, b, c, d}. Scope exceeds permissions, must be refused with OverScope.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b", "c", "d"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "OverScope"}
+    },
+    {
+      "name": "permission-unavailable-refused",
+      "description": "A principal not in the permissions file attempts to delegate. Must be refused with PermissionsUnavailable.",
+      "principal": "spiffe://domain-a.test/unknown",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "PermissionsUnavailable"}
+    },
+    {
+      "name": "per-principal-different-permissions",
+      "description": "Principal A has {a, b}, Principal B has {c, d}. A delegates {a} (succeeds), B delegates {c} (succeeds), A delegates {c} (fails - not in A's permissions).",
+      "principal": "spiffe://domain-a.test/principal-a",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["c"],
+      "permissions": {
+        "spiffe://domain-a.test/principal-a": ["a", "b"],
+        "spiffe://domain-a.test/principal-b": ["c", "d"]
+      },
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "OverScope"}
+    },
+    {
+      "name": "strict-mode-principal-missing-refused",
+      "description": "In strict mode, a principal not in the permissions file is refused with PermissionsUnavailable.",
+      "principal": "spiffe://domain-a.test/unknown",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "strict",
+      "expect": {"outcome": "Refused", "refusal": "PermissionsUnavailable"}
+    },
+    {
+      "name": "strict-mode-known-principal-succeeds",
+      "description": "In strict mode, a principal in the permissions file can delegate within their permissions.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "strict",
+      "expect": {"outcome": "Issued", "refusal": "NoRefusal"}
+    },
+    {
+      "name": "sandbox-mode-self-delegation-succeeds",
+      "description": "In sandbox mode, a principal can delegate to itself (same SPIFFE ID).",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/principal",
+      "scope": ["a", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "sandbox",
+      "expect": {"outcome": "Issued", "refusal": "NoRefusal"}
+    },
+    {
+      "name": "sandbox-mode-cross-delegation-refused",
+      "description": "In sandbox mode, a principal cannot delegate to a different principal.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "sandbox",
+      "expect": {"outcome": "Refused", "refusal": "OverScope"}
+    },
+    {
+      "name": "empty-scope-refused",
+      "description": "An empty scope is malformed and must be refused with MalformedRequest.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": [],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "MalformedRequest"}
+    },
+    {
+      "name": "missing-principal-refused",
+      "description": "A missing principal SPIFFE ID is malformed and must be refused with MalformedRequest.",
+      "principal": "",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "MalformedRequest"}
+    },
+    {
+      "name": "missing-delegate-refused",
+      "description": "A missing delegate SPIFFE ID is malformed and must be refused with MalformedRequest.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "",
+      "scope": ["a"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "MalformedRequest"}
+    },
+    {
+      "name": "scope-with-empty-entry-refused",
+      "description": "A scope containing an empty string entry is malformed and must be refused with MalformedRequest.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "b", "c"]},
+      "mode": "open",
+      "expect": {"outcome": "Refused", "refusal": "MalformedRequest"}
+    },
+    {
+      "name": "duplicate-permissions-ignored",
+      "description": "Duplicate permissions in the permission set are ignored (set semantics). Principal has {a, a, b} which equals {a, b}. Delegate scope {a, b} succeeds.",
+      "principal": "spiffe://domain-a.test/principal",
+      "delegate": "spiffe://domain-a.test/delegate",
+      "scope": ["a", "b"],
+      "permissions": {"spiffe://domain-a.test/principal": ["a", "a", "b"]},
+      "mode": "open",
+      "expect": {"outcome": "Issued", "refusal": "NoRefusal"}
+    }
+  ]
+}

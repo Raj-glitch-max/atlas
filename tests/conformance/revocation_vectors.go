@@ -315,6 +315,82 @@ func EmitRevocationVectors() (RevocationVectorFile, error) {
 			"A snapshot exactly R old. The boundary is inclusive: age == R is still fresh. Pinned because an off-by-one here silently changes every deployment's revocation window.",
 			[]VectorSnapshot{snapshotToVector(empty)}, []bool{true},
 			base.Add(30*time.Second), "Accept"),
+
+		// D1 FIX: Snapshot integrity with millisecond precision
+		// rollback-same-second-rejected: Within the same second, a snapshot at T+500ms
+		// revokes the instance, then a snapshot at T+999ms (same Unix second, different
+		// millisecond) with the SAME signature attempts to un-revoke. With second-precision
+		// digest, both have identical digest so signature verifies for both (rollback).
+		// With millisecond-precision digest, the digests differ so the second signature
+		// fails verification. This vector MUST reject the second ingest.
+		{
+			Name:        "rollback-same-second-rejected",
+			Description: "Within the same second, a snapshot at T+500ms revokes the instance, then a snapshot at T+999ms (same Unix second, different millisecond) with the SAME signature attempts to un-revoke. With millisecond-precision digest, the digests differ so the second signature fails verification.",
+			Record:      rec,
+			Trust:       trust,
+			SnapshotKey: revJWK,
+			ExpectList:  listID,
+			Ingest: []VectorSnapshot{
+				// First snapshot: T+500ms, revokes instance
+				snapshotToVector(pub.PublishMust([]record.InstanceID{inst}, base.Add(500*time.Millisecond))),
+				// Second snapshot: T+999ms, SAME signature as first, no revocation (attacker replay)
+				// This reuses the first snapshot's signature but with a different asOf
+				{
+					ListID:  listID,
+					AsOf:    base.Add(999*time.Millisecond).UTC().Format(time.RFC3339Nano),
+					Revoked: []string{},
+					Sig:     snapshotToVector(pub.PublishMust([]record.InstanceID{inst}, base.Add(500*time.Millisecond))).Sig,
+				},
+			},
+			ExpectAdopt: []bool{true, false},
+			Now:         base.Add(1*time.Second).UTC().Format(time.RFC3339Nano),
+			Policy:      policy,
+			Expect:      VectorExpect{Decision: "Reject", Causes: []string{"RevokedObservable"}},
+		},
+
+		// asof-submillisecond-rejected: A snapshot whose asOf has sub-millisecond
+		// precision (nanoseconds not divisible by 1,000,000) MUST be rejected by
+		// validation before signature verification.
+		{
+			Name:        "asof-submillisecond-rejected",
+			Description: "A snapshot whose asOf has sub-millisecond precision (nanoseconds not divisible by 1,000,000) MUST be rejected by validation before signature verification. This prevents ambiguous timestamps that would produce different digests in different implementations.",
+			Record:      rec,
+			Trust:       trust,
+			SnapshotKey: revJWK,
+			ExpectList:  listID,
+			Ingest: []VectorSnapshot{
+				// Valid snapshot with sub-millisecond asOf - 500ms + 123456ns
+				{
+					ListID:  listID,
+					AsOf:    base.Add(500*time.Millisecond + 123456*time.Nanosecond).UTC().Format(time.RFC3339Nano),
+					Revoked: []string{},
+					// Use a valid signature for the ms-aligned version (500ms)
+					Sig: snapshotToVector(pub.PublishMust(nil, base.Add(500*time.Millisecond))).Sig,
+				},
+			},
+			ExpectAdopt: []bool{false},
+			Now:         base.Add(1*time.Second).UTC().Format(time.RFC3339Nano),
+			Policy:      policy,
+			Expect:      VectorExpect{Decision: "InconclusiveRejected", Causes: []string{"RevocationStatusIndeterminate"}},
+		},
+
+		// asof-ms-boundary-accepted: A snapshot whose asOf is exactly on a
+		// millisecond boundary (nanoseconds divisible by 1,000,000) MUST be accepted.
+		{
+			Name:        "asof-ms-boundary-accepted",
+			Description: "A snapshot whose asOf is exactly on a millisecond boundary (nanoseconds divisible by 1,000,000) MUST be accepted. This confirms the boundary condition is handled correctly.",
+			Record:      rec,
+			Trust:       trust,
+			SnapshotKey: revJWK,
+			ExpectList:  listID,
+			Ingest: []VectorSnapshot{
+				snapshotToVector(pub.PublishMust(nil, base.Add(500*time.Millisecond))),
+			},
+			ExpectAdopt: []bool{true},
+			Now:         base.Add(1*time.Second).UTC().Format(time.RFC3339Nano),
+			Policy:      policy,
+			Expect:      VectorExpect{Decision: "Accept", Causes: []string{}},
+		},
 	}
 
 	return RevocationVectorFile{

@@ -51,7 +51,64 @@ import (
 	"github.com/Raj-glitch-max/atlas/internal/revstatus"
 	"github.com/Raj-glitch-max/atlas/internal/truststore"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
+)
+
+// DenyReason categorizes the reason for denial (R6: fail-visible taxonomy).
+type DenyReason string
+
+const (
+	DenyReasonMissingCapability  DenyReason = "missing_capability"
+	DenyReasonInvalidCapability  DenyReason = "invalid_capability"
+	DenyReasonRevoked            DenyReason = "revoked"
+	DenyReasonStaleSnapshot      DenyReason = "stale_snapshot"
+	DenyReasonScopeMismatch      DenyReason = "scope_mismatch"
+	DenyReasonUpstreamUnavailable DenyReason = "upstream_unavailable"
+	DenyReasonInternalError      DenyReason = "internal_error"
+)
+
+// String returns the reason as a string for the Atlas-Reason header.
+func (r DenyReason) String() string { return string(r) }
+
+// Prometheus metrics (R6: fail-visible metrics)
+var (
+	metricRequestsTotal = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "atlas_gate_requests_total",
+			Help: "Total number of requests processed by the gate",
+		},
+		[]string{"result", "reason"},
+	)
+	metricRequestDuration = promauto.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name:    "atlas_gate_request_duration_seconds",
+			Help:    "Request processing duration in seconds",
+			Buckets: prometheus.DefBuckets,
+		},
+		[]string{"result"},
+	)
+	metricVerifierReloadsTotal = promauto.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "atlas_gate_verifier_reloads_total",
+			Help: "Total number of verifier reloads",
+		},
+		[]string{"result"},
+	)
+	metricSnapshotAge = promauto.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "atlas_gate_snapshot_age_seconds",
+			Help: "Age of the currently held revocation snapshot in seconds",
+		},
+	)
+	metricActiveVerifier = promauto.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "atlas_gate_active_verifier",
+			Help: "Whether the active verifier is healthy (1) or aged out (0)",
+		},
+	)
 )
 
 // bundleFile mirrors the /bundle wire shape (see cmd/atlas/offline.go).
@@ -117,7 +174,7 @@ func main() {
 	// a sidecar, a mounted secret) rewrites the file; the gate picks it up and
 	// swaps the verifier atomically. If a reload fails the previous verifier is
 	// kept and simply ages out — the failure mode stays closed, never open.
-	var current atomic.Pointer[verify.Verifier]
+	var current atomic.Pointer[verifierBundle]
 	current.Store(v0)
 	go func() {
 		t := time.NewTicker(*reload)
@@ -125,10 +182,29 @@ func main() {
 		for range t.C {
 			v, err := buildVerifier(*bundlePath, *maxStaleness)
 			if err != nil {
+				metricVerifierReloadsTotal.WithLabelValues("failure").Inc()
 				log.Printf("atlas-gate: bundle reload failed (keeping previous, which will age out and fail closed): %v", err)
 				continue
 			}
+			metricVerifierReloadsTotal.WithLabelValues("success").Inc()
 			current.Store(v)
+		}
+	}()
+
+	// Background metrics updater: update snapshot age and active verifier status
+	go func() {
+		t := time.NewTicker(5 * time.Second)
+		defer t.Stop()
+		for range t.C {
+			bundle := current.Load()
+			if bundle == nil {
+				metricActiveVerifier.Set(0)
+				metricSnapshotAge.Set(-1)
+				continue
+			}
+			age := time.Since(bundle.snapAsOf).Seconds()
+			metricSnapshotAge.Set(age)
+			metricActiveVerifier.Set(1)
 		}
 	}()
 
@@ -140,6 +216,11 @@ func main() {
 			log.Fatalf("atlas-gate: bad -upstream: %v", err)
 		}
 		proxy = httputil.NewSingleHostReverseProxy(u)
+		// Add upstream error handling
+		proxy.(*httputil.ReverseProxy).ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+			recordMetrics(DenyReasonUpstreamUnavailable, http.StatusBadGateway, time.Now())
+			denyWithReason(w, http.StatusBadGateway, DenyReasonUpstreamUnavailable, "upstream unavailable: "+err.Error())
+		}
 	} else {
 		proxy = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
@@ -148,22 +229,41 @@ func main() {
 	}
 
 	gate := func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
 		rec := r.Header.Get(*header)
 		if rec == "" {
-			deny(w, http.StatusUnauthorized, "no capability presented (set the "+*header+" header)")
+			recordMetrics(DenyReasonMissingCapability, http.StatusUnauthorized, start)
+			denyWithReason(w, http.StatusUnauthorized, DenyReasonMissingCapability, "no capability presented (set the "+*header+" header)")
 			return
 		}
-		verdict, _ := current.Load().Verify([]byte(rec))
+		bundle := current.Load()
+		if bundle == nil || bundle.verifier == nil {
+			recordMetrics(DenyReasonInternalError, http.StatusServiceUnavailable, start)
+			denyWithReason(w, http.StatusServiceUnavailable, DenyReasonInternalError, "verifier not initialized")
+			return
+		}
+		verdict, trace := bundle.verifier.Verify([]byte(rec))
 		if !verdict.IsAccept() {
-			deny(w, http.StatusForbidden, "capability did not verify (not accepted / revoked / stale)")
+			// Map verdict to deny reason
+			reason := mapVerdictToReason(verdict, trace)
+			code := reasonToHTTPCode(reason)
+			recordMetrics(reason, code, start)
+			denyWithReason(w, code, reason, verdictString(verdict))
 			return
 		}
 		if !recordGrantsScope(rec, *requireScope) {
-			deny(w, http.StatusForbidden, "capability is valid but does not grant "+*requireScope)
+			recordMetrics(DenyReasonScopeMismatch, http.StatusForbidden, start)
+			denyWithReason(w, http.StatusForbidden, DenyReasonScopeMismatch, "capability is valid but does not grant "+*requireScope)
 			return
 		}
+		// Success
+		metricRequestsTotal.WithLabelValues("allow", "").Inc()
+		metricRequestDuration.WithLabelValues("allow").Observe(time.Since(start).Seconds())
 		proxy.ServeHTTP(w, r)
 	}
+
+	// Metrics endpoint
+	http.Handle("/metrics", promhttp.Handler())
 
 	log.Printf("atlas-gate listening on %s — requiring scope %q, verifying offline against %s (R=%s, reload every %s)",
 		*addr, *requireScope, *bundlePath, *maxStaleness, *reload)
@@ -171,10 +271,83 @@ func main() {
 	log.Fatal(srv.ListenAndServe())
 }
 
-func deny(w http.ResponseWriter, code int, msg string) {
+// denyWithReason writes a denial response with the Atlas-Reason header and structured JSON.
+func denyWithReason(w http.ResponseWriter, code int, reason DenyReason, msg string) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Atlas-Reason", reason.String())
 	w.WriteHeader(code)
-	_ = json.NewEncoder(w).Encode(map[string]string{"error": msg})
+	_ = json.NewEncoder(w).Encode(map[string]string{
+		"error":  msg,
+		"reason": reason.String(),
+	})
+}
+
+// recordMetrics records Prometheus metrics for a request.
+func recordMetrics(reason DenyReason, code int, start time.Time) {
+	result := "deny"
+	if code >= 200 && code < 300 {
+		result = "allow"
+	}
+	metricRequestsTotal.WithLabelValues(result, reason.String()).Inc()
+	metricRequestDuration.WithLabelValues(result).Observe(time.Since(start).Seconds())
+}
+
+// mapVerdictToReason maps a verification verdict to a deny reason.
+func mapVerdictToReason(verdict verify.Verdict, trace verify.DecisionTrace) DenyReason {
+	for _, entry := range trace.Entries {
+		if entry.Outcome == verify.OutcomeFailDefinitive {
+			switch entry.Cause {
+			case verify.RevokedObservable:
+				return DenyReasonRevoked
+			case verify.TrustMaterialAbsent, verify.IntegrityFailed, verify.BindingMismatch,
+				verify.ScopeIntegrityFailed, verify.PresenterAbsent, verify.PresenterMismatch:
+				return DenyReasonInvalidCapability
+			}
+		}
+		if entry.Outcome == verify.OutcomeInconclusive {
+			switch entry.Cause {
+			case verify.RevocationKnowledgeStale:
+				return DenyReasonStaleSnapshot
+			case verify.ClockBeyondTolerance, verify.RevocationStatusIndeterminate:
+				return DenyReasonInvalidCapability
+			}
+		}
+	}
+	return DenyReasonInvalidCapability
+}
+
+// reasonToHTTPCode maps a deny reason to an HTTP status code.
+func reasonToHTTPCode(reason DenyReason) int {
+	switch reason {
+	case DenyReasonMissingCapability:
+		return http.StatusUnauthorized // 401
+	case DenyReasonInvalidCapability:
+		return http.StatusForbidden // 403
+	case DenyReasonRevoked:
+		return http.StatusForbidden // 403
+	case DenyReasonStaleSnapshot:
+		return http.StatusServiceUnavailable // 503
+	case DenyReasonScopeMismatch:
+		return http.StatusForbidden // 403
+	case DenyReasonUpstreamUnavailable:
+		return http.StatusBadGateway // 502
+	case DenyReasonInternalError:
+		return http.StatusServiceUnavailable // 503
+	default:
+		return http.StatusInternalServerError // 500
+	}
+}
+
+// verdictString returns a human-readable string for the verdict.
+func verdictString(verdict verify.Verdict) string {
+	var causes []string
+	for _, c := range verdict.Causes {
+		causes = append(causes, c.String())
+	}
+	if len(causes) > 0 {
+		return "verification failed: " + strings.Join(causes, ", ")
+	}
+	return "verification failed"
 }
 
 // recordGrantsScope decodes the record's scope claim (offline) and reports
@@ -203,10 +376,16 @@ func recordGrantsScope(rec, required string) bool {
 	return false
 }
 
+// verifierBundle holds a verifier and its associated snapshot AsOf time for metrics.
+type verifierBundle struct {
+	verifier *verify.Verifier
+	snapAsOf time.Time
+}
+
 // buildVerifier composes the real Verification Core from a trust bundle — the
 // same wiring cmd/atlas/offline.go uses. The revocation snapshot's signature is
 // re-verified on ingest, so a tampered bundle is refused here.
-func buildVerifier(path string, maxStaleness time.Duration) (*verify.Verifier, error) {
+func buildVerifier(path string, maxStaleness time.Duration) (*verifierBundle, error) {
 	raw, err := record.ReadBundleFile(path)
 	if err != nil {
 		return nil, err
@@ -270,7 +449,10 @@ func buildVerifier(path string, maxStaleness time.Duration) (*verify.Verifier, e
 	if err != nil {
 		return nil, err
 	}
-	return verify.NewVerifier(policy, trust, revAdapter{p: provider}, sysClock{})
+	return &verifierBundle{
+		verifier: verify.NewVerifier(policy, trust, revAdapter{p: provider}, sysClock{}),
+		snapAsOf: b.Revocation.AsOf,
+	}, nil
 }
 
 var errRefuseBundle = &gateError{"refusing bundle — revocation snapshot signature did not verify"}

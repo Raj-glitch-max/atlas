@@ -4,7 +4,7 @@ import "errors"
 
 // Verifier is the conformant Verification Core (M3): the locus at which the
 // system's guarantees are defined (FM10). Conformance IS this type's
-// behavior — the five checks, the closed cause and verdict sets, the routing,
+// behavior — the six checks, the closed cause and verdict sets, the routing,
 // and the unconditional trace. A verifier holds only injected configuration
 // (policy and ports); it keeps no per-verification state, so a re-presentation
 // is a fresh verification (RFC-002 §9.2) and concurrent Verify calls are safe
@@ -50,25 +50,29 @@ func NewVerifier(policy Policy, trust TrustMaterialPort, revoc RevocationStatusP
 // Verify determines the verdict for a presented record and emits a decision
 // trace unconditionally (Accepts included).
 //
+// presenter is the SPIFFE ID of the authenticated peer (e.g., from mTLS).
+// When policy.RequirePresenter() is true, presenter must be non-zero and must
+// match the record's delegate; otherwise verification fails definitively.
+//
 // Execution order: integrity runs first as the gate, because the other four
 // stages require an authenticated read (a record's assertions cannot be
 // trusted before its integrity is established). If integrity does not pass,
 // the read-dependent stages are recorded NotEvaluated (honest, not omitted).
-// The trace presents the five stages in canonical label order regardless.
+// The trace presents the six stages in canonical label order regardless.
 //
 // Verdict routing is order-independent: all produced causes are collected and
 // a single precedence applies — any definitive cause yields Reject; otherwise
 // any inconclusive cause yields InconclusiveRejected [HYPOTHESIS]; otherwise
 // Accept. Thus forcing any single check to fail while others pass flips the
 // verdict away from Accept (SO5).
-func (v *Verifier) Verify(presented []byte) (Verdict, DecisionTrace) {
+func (v *Verifier) Verify(presented []byte, presenter spiffeid.ID) (Verdict, DecisionTrace) {
 	now := v.clock.Now()
 
 	rec, integrity := checkIntegrity(presented, v.trust)
 
 	var (
-		binding, expiry, scope, revocation CheckEntry
-		status                             RevocationStatus
+		binding, expiry, scope, revocation, presenterBinding CheckEntry
+		status                                               RevocationStatus
 	)
 	if rec != nil {
 		a := rec.Read()
@@ -77,17 +81,19 @@ func (v *Verifier) Verify(presented []byte) (Verdict, DecisionTrace) {
 		scope = checkScope(a)
 		status = v.revoc.StatusOf(a.Instance)
 		revocation = checkRevocation(a.Instance, status, now, v.policy.r, v.policy.skew)
+		presenterBinding = checkPresenter(a, presenter, v.policy.RequirePresenter())
 	} else {
 		const gated = "not evaluated: gated by integrity"
 		binding = notEvaluated(CheckIdentityBinding, gated)
 		expiry = notEvaluated(CheckExpiry, gated)
 		scope = notEvaluated(CheckScope, gated)
 		revocation = notEvaluated(CheckRevocation, gated)
+		presenterBinding = notEvaluated(CheckPresenterBinding, gated)
 	}
 
 	// Canonical label order for the trace: binding(1), integrity(2),
-	// expiry(3), scope(4), revocation(5).
-	entries := []CheckEntry{binding, integrity, expiry, scope, revocation}
+	// expiry(3), scope(4), revocation(5), presenter_binding(6).
+	entries := []CheckEntry{binding, integrity, expiry, scope, revocation, presenterBinding}
 	verdict := route(entries)
 
 	trace := DecisionTrace{

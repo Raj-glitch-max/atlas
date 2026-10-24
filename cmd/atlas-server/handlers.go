@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // Router builds the HTTP handler for the API. CORS is permissive by design in
@@ -154,16 +156,18 @@ func (a *App) handleReady(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (a *App) handleVersion(w http.ResponseWriter, _ *http.Request) {
+	keyPersistent := a.keyID != "" && a.def != nil && a.def.store != nil
 	writeJSON(w, 200, map[string]any{
-		"service":     "atlas-server",
-		"version":     version,
-		"trustDomain": a.domain.Name(),
-		"algorithm":   "ES256 (P-256)",
-		"keyId":       a.keyID,
-		"publicKey":   a.pubKeyHex,
-		"revocationR": a.revWindow.String(),
-		"singleHop":   true,
-		"federation":  "off",
+		"service":       "atlas-server",
+		"version":       version,
+		"trustDomain":   a.domain.Name(),
+		"algorithm":     "ES256 (P-256)",
+		"keyId":         a.keyID,
+		"publicKey":     a.pubKeyHex,
+		"revocationR":   a.revWindow.String(),
+		"singleHop":     true,
+		"federation":    "off",
+		"key_persistent": keyPersistent,
 	})
 }
 
@@ -206,7 +210,17 @@ func (a *App) handleVerify(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, badRequest("record is required"))
 		return
 	}
-	writeJSON(w, 200, a.Verify(a.sessionFor(r), req.Record))
+
+	// Extract presenter SPIFFE ID from mTLS connection if available
+	var presenter spiffeid.ID
+	if r.TLS != nil && len(r.TLS.PeerCertificates) > 0 {
+		peerCert := r.TLS.PeerCertificates[0]
+		if id, err := spiffeid.FromX509SVID(peerCert); err == nil {
+			presenter = id
+		}
+	}
+
+	writeJSON(w, 200, a.Verify(a.sessionFor(r), req.Record, presenter))
 }
 
 type revokeReq struct {
