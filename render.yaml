@@ -1,0 +1,121 @@
+# Atlas Render Blueprint
+# Deploys: atlas-server (Docker web service) + UI (static site)
+#
+# Usage:
+#   1. Push this repo to GitHub/GitLab
+#   2. Connect to Render and select this repo
+#   3. Render will detect render.yaml and prompt to create resources
+#   4. Set required env vars (ATLAS_API_KEY, ATLAS_ALLOW_ORIGIN) in Dashboard
+
+services:
+  # ------------------------------------------------------------
+  # atlas-server: The core SPIFFE workload identity server
+  # Built from deploy/Dockerfile (multi-stage: Go builder -> distroless)
+  # ------------------------------------------------------------
+  - type: web
+    name: atlas-server
+    runtime: docker
+    region: oregon
+    plan: starter
+    dockerfilePath: ./deploy/Dockerfile
+    dockerContext: ..
+    # The Dockerfile ENTRYPOINT is ["atlas-server"] with CMD defaults.
+    # We override CMD to ensure 0.0.0.0 binding and explicit config.
+    dockerCommand: >
+      /usr/local/bin/atlas-server
+      -addr=0.0.0.0:$PORT
+      -store=/data/state.json
+      -key=/data/authority.key
+      -trust-domain=domain-a.test
+      -rate-limit=600
+      -trust-proxy=true
+    # Health check: Render uses /health for liveness/readiness
+    healthCheckPath: /health
+    # Disk for durable state (authority key + delegation store)
+    disk:
+      name: atlas-data
+      mountPath: /data
+      sizeGB: 1
+    # Environment variables (set secrets in Dashboard after first deploy)
+    envVars:
+      - key: ATLAS_API_KEY
+        # Generate with: openssl rand -hex 16
+        # Required for /issue and /revoke endpoints
+        sync: false
+      - key: ATLAS_ALLOW_ORIGIN
+        # Pin to your UI origin in production, e.g. https://atlas-ui.onrender.com
+        # Default (*) allows all — NOT recommended for production
+        sync: false
+      - key: ATLAS_TRUST_DOMAIN
+        value: domain-a.test
+      - key: ATLAS_RATE_LIMIT
+        value: "600"
+      - key: ATLAS_TRUST_PROXY
+        value: "true"
+      - key: ATLAS_LOG_REQUESTS
+        value: "true"
+      - key: ATLAS_LOG_VERBOSE
+        value: "false"
+    # Auto-deploy on push to main (after CI passes if configured)
+    autoDeployTrigger: commit
+    # Graceful shutdown: give the server 30s to flush state
+    maxShutdownDelaySeconds: 30
+    # Preview environments for PRs (smaller plan)
+    previews:
+      generation: automatic
+      plan: starter
+
+  # ------------------------------------------------------------
+  # atlas-ui: Static site (Vite build output from ui/dist)
+  # Serves the product site + operator console
+  # ------------------------------------------------------------
+  - type: web
+    name: atlas-ui
+    runtime: static
+    region: oregon
+    plan: starter
+    # Build the UI first
+    buildCommand: cd ui && npm ci && npm run build
+    # Publish the dist directory
+    staticPublishPath: ./ui/dist
+    # SPA routing: fallback to index.html for client-side routes
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    # Pin CORS to the API server
+    envVars:
+      - key: VITE_API_ORIGIN
+        # Will be set to the atlas-server URL after deploy
+        # e.g. https://atlas-server.onrender.com
+        sync: false
+    autoDeployTrigger: commit
+    previews:
+      generation: automatic
+      plan: starter
+
+# Optional: Group into a project with environments for staging/production
+# Uncomment and customize if you want multi-environment deployments
+#
+# projects:
+#   - name: atlas
+#     environments:
+#       - name: production
+#         services:
+#           - name: atlas-server
+#             # ... copy service config here, or reference by name
+#           - name: atlas-ui
+#         # databases: (if adding Postgres later)
+#       - name: staging
+#         services:
+#           - name: atlas-server
+#             plan: starter  # smaller for staging
+#           - name: atlas-ui
+#             plan: starter
+
+# ------------------------------------------------------------
+# Preview environment defaults (applies to all services)
+# ------------------------------------------------------------
+previews:
+  generation: automatic
+  expireAfterDays: 7
