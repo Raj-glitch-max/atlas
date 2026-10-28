@@ -147,8 +147,9 @@ func GenerateTestWorkloadSVID(trustDomain, workloadName string, caCert *x509.Cer
 
 // GenerateTestBundle creates a test trust bundle from a CA certificate.
 func GenerateTestBundle(caCert *x509.Certificate) *Bundle {
+	trustDomain := spiffeid.RequireTrustDomainFromString(caCert.Subject.CommonName)
 	return &Bundle{
-		TrustDomain:     caCert.Subject.CommonName, // Will be overridden
+		TrustDomain:     trustDomain,
 		X509Authorities: []*x509.Certificate{caCert},
 	}
 }

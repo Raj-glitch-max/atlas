@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -21,13 +20,13 @@ type WorkloadAPISource struct {
 	mu     sync.RWMutex
 
 	// Current SVID and bundle state
-	currentSVID  *X509SVID
+	currentSVID    *X509SVID
 	currentBundles map[spiffeid.TrustDomain]*Bundle
 
 	// Notification channels
-	svidUpdates    chan *X509SVID
-	bundleUpdates  chan map[spiffeid.TrustDomain]*Bundle
-	done           chan struct{}
+	svidUpdates   chan *X509SVID
+	bundleUpdates chan map[spiffeid.TrustDomain]*Bundle
+	done          chan struct{}
 
 	// Configuration
 	trustDomain spiffeid.TrustDomain
@@ -64,11 +63,51 @@ func NewWorkloadAPISource(ctx context.Context, opts ...WorkloadAPISourceOption) 
 		opt(s)
 	}
 
+	// Fetch initial SVID and bundles
+	if err := s.fetchInitial(ctx); err != nil {
+		client.Close()
+		return nil, err
+	}
+
 	// Start background watchers
 	go s.watchX509SVIDs(ctx)
 	go s.watchBundles(ctx)
 
 	return s, nil
+}
+
+// fetchInitial fetches the initial SVID and bundles.
+func (s *WorkloadAPISource) fetchInitial(ctx context.Context) error {
+	// Fetch initial X509 SVID
+	svid, err := s.client.FetchX509SVID(ctx)
+	if err != nil {
+		return &WorkloadError{Code: "FETCH_SVID_FAILED", Message: "failed to fetch initial X509 SVID", Cause: err}
+	}
+	ourSVID := s.convertX509SVID(svid)
+	if ourSVID == nil {
+		return &WorkloadError{Code: "CONVERT_SVID_FAILED", Message: "failed to convert initial SVID"}
+	}
+
+	// Fetch bundles for the trust domain
+	td := ourSVID.ID.TrustDomain()
+	bundle, err := s.client.FetchBundle(ctx, td)
+	if err != nil {
+		return &WorkloadError{Code: "FETCH_BUNDLE_FAILED", Message: "failed to fetch initial bundle", Cause: err}
+	}
+	ourBundle := s.convertBundle(td, bundle)
+	if ourBundle == nil {
+		return &WorkloadError{Code: "CONVERT_BUNDLE_FAILED", Message: "failed to convert initial bundle"}
+	}
+
+	s.mu.Lock()
+	s.currentSVID = ourSVID
+	s.currentBundles[td] = ourBundle
+	if s.trustDomain == (spiffeid.TrustDomain{}) {
+		s.trustDomain = td
+	}
+	s.mu.Unlock()
+
+	return nil
 }
 
 // GetX509SVID returns the current X.509 SVID.
@@ -129,33 +168,34 @@ func (s *WorkloadAPISource) watchX509SVIDs(ctx context.Context) {
 			return
 		default:
 			// Use the streaming API to watch for updates
-			svids, err := s.client.WatchX509Context(ctx)
+			updates, err := s.client.WatchX509SVID(ctx)
 			if err != nil {
 				// Log error and retry after a delay
 				time.Sleep(5 * time.Second)
 				continue
 			}
 
-			// Convert to our X509SVID type
-			ourSVID := s.convertX509SVID(svids)
-			if ourSVID == nil {
-				continue
-			}
+			for svid := range updates {
+				ourSVID := s.convertX509SVID(svid)
+				if ourSVID == nil {
+					continue
+				}
 
-			// Update trust domain if not set
-			if s.trustDomain == (spiffeid.TrustDomain{}) {
-				s.trustDomain = ourSVID.ID.TrustDomain()
-			}
+				// Update trust domain if not set
+				if s.trustDomain == (spiffeid.TrustDomain{}) {
+					s.trustDomain = ourSVID.ID.TrustDomain()
+				}
 
-			// Update and notify
-			s.mu.Lock()
-			s.currentSVID = ourSVID
-			s.mu.Unlock()
+				// Update and notify
+				s.mu.Lock()
+				s.currentSVID = ourSVID
+				s.mu.Unlock()
 
-			select {
-			case s.svidUpdates <- ourSVID:
-			default:
-				// Channel full, drop update
+				select {
+				case s.svidUpdates <- ourSVID:
+				default:
+					// Channel full, drop update
+				}
 			}
 		}
 	}
@@ -170,20 +210,34 @@ func (s *WorkloadAPISource) watchBundles(ctx context.Context) {
 		case <-s.done:
 			return
 		default:
-			bundles, err := s.client.WatchBundlesContext(ctx)
+			// Fetch bundles for the current trust domain
+			s.mu.RLock()
+			td := s.trustDomain
+			s.mu.RUnlock()
+
+			if td == (spiffeid.TrustDomain{}) {
+				time.Sleep(5 * time.Second)
+				continue
+			}
+
+			bundle, err := s.client.FetchBundle(ctx, td)
 			if err != nil {
 				time.Sleep(5 * time.Second)
 				continue
 			}
 
-			ourBundles := s.convertBundles(bundles)
+			ourBundle := s.convertBundle(td, bundle)
+			if ourBundle == nil {
+				continue
+			}
 
 			s.mu.Lock()
-			s.currentBundles = ourBundles
+			s.currentBundles[td] = ourBundle
 			s.mu.Unlock()
 
+			// Notify
 			select {
-			case s.bundleUpdates <- ourBundles:
+			case s.bundleUpdates <- s.AllBundles():
 			default:
 			}
 		}
@@ -192,11 +246,11 @@ func (s *WorkloadAPISource) watchBundles(ctx context.Context) {
 
 // convertX509SVID converts a workloadapi X509SVID to our type.
 func (s *WorkloadAPISource) convertX509SVID(svid *workloadapi.X509SVID) *X509SVID {
-	if svid == nil {
+	if svid == nil || len(svid.Certificates) == 0 {
 		return nil
 	}
 
-	id, err := spiffeid.FromX509SVID(svid.Certificates[0])
+	id, err := spiffeid.FromX509Certificate(svid.Certificates[0])
 	if err != nil {
 		return nil
 	}
@@ -209,24 +263,21 @@ func (s *WorkloadAPISource) convertX509SVID(svid *workloadapi.X509SVID) *X509SVI
 	}
 }
 
-// convertBundles converts workloadapi bundles to our type.
-func (s *WorkloadAPISource) convertBundles(bundles *workloadapi.BundleSet) map[spiffeid.TrustDomain]*Bundle {
-	if bundles == nil {
+// convertBundle converts a workloadapi bundle to our type.
+func (s *WorkloadAPISource) convertBundle(td spiffeid.TrustDomain, bundle *workloadapi.Bundle) *Bundle {
+	if bundle == nil {
 		return nil
 	}
 
-	result := make(map[spiffeid.TrustDomain]*Bundle)
-	for td, bundle := range bundles.X509Authorities() {
-		certs := make([]*x509.Certificate, len(bundle))
-		for i, c := range bundle {
-			certs[i] = c
-		}
-		result[td] = &Bundle{
-			TrustDomain:     td,
-			X509Authorities: certs,
-		}
+	certs := make([]*x509.Certificate, len(bundle.X509Authorities()))
+	for i, c := range bundle.X509Authorities() {
+		certs[i] = c
 	}
-	return result
+
+	return &Bundle{
+		TrustDomain:     td,
+		X509Authorities: certs,
+	}
 }
 
 // TLSCertificate returns a tls.Certificate for the current SVID, suitable for
@@ -293,81 +344,4 @@ func (s *WorkloadAPISource) TrustDomain() spiffeid.TrustDomain {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	return s.trustDomain
-}
-
-// StaticSource is a test implementation of X509SVIDSource and BundleSource
-// that returns fixed SVIDs and bundles. Useful for testing without a real
-// Workload API.
-type StaticSource struct {
-	svid    *X509SVID
-	bundles map[spiffeid.TrustDomain]*Bundle
-	done    chan struct{}
-	mu      sync.RWMutex
-}
-
-// NewStaticSource creates a new StaticSource with the given SVID and bundles.
-func NewStaticSource(svid *X509SVID, bundles map[spiffeid.TrustDomain]*Bundle) *StaticSource {
-	return &StaticSource{
-		svid:    svid,
-		bundles: bundles,
-		done:    make(chan struct{}),
-	}
-}
-
-// GetX509SVID returns the static SVID.
-func (s *StaticSource) GetX509SVID() (*X509SVID, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	if s.svid == nil {
-		return nil, ErrSourceNotReady
-	}
-	return s.svid, nil
-}
-
-// GetBundle returns the static bundle for the trust domain.
-func (s *StaticSource) GetBundle(trustDomain spiffeid.TrustDomain) (*Bundle, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	bundle, ok := s.bundles[trustDomain]
-	if !ok {
-		return nil, ErrBundleNotFound
-	}
-	return bundle, nil
-}
-
-// AllBundles returns all static bundles.
-func (s *StaticSource) AllBundles() map[spiffeid.TrustDomain]*Bundle {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
-	result := make(map[spiffeid.TrustDomain]*Bundle, len(s.bundles))
-	for td, b := range s.bundles {
-		result[td] = b
-	}
-	return result
-}
-
-// Done returns a channel that is closed when the source is closed.
-func (s *StaticSource) Done() <-chan struct{} {
-	return s.done
-}
-
-// Close closes the source.
-func (s *StaticSource) Close() error {
-	close(s.done)
-	return nil
-}
-
-// SetSVID updates the SVID (for testing rotation).
-func (s *StaticSource) SetSVID(svid *X509SVID) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.svid = svid
-}
-
-// SetBundles updates the bundles (for testing rotation).
-func (s *StaticSource) SetBundles(bundles map[spiffeid.TrustDomain]*Bundle) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.bundles = bundles
 }

@@ -1,6 +1,10 @@
 package verify
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
+)
 
 // Verifier is the conformant Verification Core (M3): the locus at which the
 // system's guarantees are defined (FM10). Conformance IS this type's
