@@ -19,16 +19,12 @@ services:
     plan: starter
     dockerfilePath: ./deploy/Dockerfile
     dockerContext: ..
-    # The Dockerfile ENTRYPOINT is ["atlas-server"] with CMD defaults.
-    # We override CMD to ensure 0.0.0.0 binding and explicit config.
-    dockerCommand: >
-      /usr/local/bin/atlas-server
-      -addr=0.0.0.0:$PORT
-      -store=/data/state.json
-      -key=/data/authority.key
-      -trust-domain=domain-a.test
-      -rate-limit=600
-      -trust-proxy=true
+    # The Dockerfile has:
+    #   ENTRYPOINT ["atlas-server"]
+    #   CMD ["-store", "/data/state.json", "-key", "/data/authority.key"]
+    #   ENV PORT=8087
+    # The server binds 0.0.0.0:$PORT when PORT is set (Render sets PORT automatically).
+    # No dockerCommand override needed - default CMD works with Render's PORT.
     # Health check: Render uses /health for liveness/readiness
     healthCheckPath: /health
     # Disk for durable state (authority key + delegation store)
