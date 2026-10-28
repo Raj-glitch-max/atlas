@@ -235,6 +235,8 @@ func (a *App) Flush() error { return a.def.store.Flush() }
 // realization only adopts snapshots with a newer as-of). Caller holds s.mu.
 func (a *App) nextAsOf(s *Session) time.Time {
 	now := a.clock.Now()
+	// Truncate to millisecond precision for revstatus (no sub-millisecond)
+	now = now.Truncate(time.Millisecond)
 	if !now.After(s.lastAsOf) {
 		now = s.lastAsOf.Add(time.Millisecond)
 	}
