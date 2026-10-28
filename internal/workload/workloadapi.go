@@ -4,11 +4,12 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"errors"
 	"sync"
 	"time"
 
+	"github.com/spiffe/go-spiffe/v2/bundle/x509bundle"
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
+	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 )
 
@@ -16,8 +17,9 @@ import (
 // SPIFFE Workload API (workloadapi). It connects to the Workload API socket
 // and automatically rotates SVIDs and bundles as they are updated.
 type WorkloadAPISource struct {
-	client *workloadapi.Client
-	mu     sync.RWMutex
+	x509Source    *workloadapi.X509Source
+	bundleSource  *workloadapi.BundleSource
+	mu            sync.RWMutex
 
 	// Current SVID and bundle state
 	currentSVID    *X509SVID
@@ -46,13 +48,20 @@ func WithTrustDomain(td spiffeid.TrustDomain) WorkloadAPISourceOption {
 // NewWorkloadAPISource creates a new Workload API source connected to the
 // default socket path (or SPIFFE_ENDPOINT_SOCKET env var).
 func NewWorkloadAPISource(ctx context.Context, opts ...WorkloadAPISourceOption) (*WorkloadAPISource, error) {
-	client, err := workloadapi.New(ctx)
+	x509Source, err := workloadapi.NewX509Source(ctx)
 	if err != nil {
-		return nil, &WorkloadError{Code: "WORKLOAD_API_CONNECT_FAILED", Message: "failed to connect to Workload API", Cause: err}
+		return nil, &WorkloadError{Code: "WORKLOAD_API_CONNECT_FAILED", Message: "failed to connect to Workload API for X509 SVIDs", Cause: err}
+	}
+
+	bundleSource, err := workloadapi.NewBundleSource(ctx)
+	if err != nil {
+		x509Source.Close()
+		return nil, &WorkloadError{Code: "WORKLOAD_API_CONNECT_FAILED", Message: "failed to connect to Workload API for bundles", Cause: err}
 	}
 
 	s := &WorkloadAPISource{
-		client:         client,
+		x509Source:     x509Source,
+		bundleSource:   bundleSource,
 		currentBundles: make(map[spiffeid.TrustDomain]*Bundle),
 		svidUpdates:    make(chan *X509SVID, 1),
 		bundleUpdates:  make(chan map[spiffeid.TrustDomain]*Bundle, 1),
@@ -65,7 +74,8 @@ func NewWorkloadAPISource(ctx context.Context, opts ...WorkloadAPISourceOption) 
 
 	// Fetch initial SVID and bundles
 	if err := s.fetchInitial(ctx); err != nil {
-		client.Close()
+		x509Source.Close()
+		bundleSource.Close()
 		return nil, err
 	}
 
@@ -79,7 +89,7 @@ func NewWorkloadAPISource(ctx context.Context, opts ...WorkloadAPISourceOption) 
 // fetchInitial fetches the initial SVID and bundles.
 func (s *WorkloadAPISource) fetchInitial(ctx context.Context) error {
 	// Fetch initial X509 SVID
-	svid, err := s.client.FetchX509SVID(ctx)
+	svid, err := s.x509Source.GetX509SVID()
 	if err != nil {
 		return &WorkloadError{Code: "FETCH_SVID_FAILED", Message: "failed to fetch initial X509 SVID", Cause: err}
 	}
@@ -90,7 +100,7 @@ func (s *WorkloadAPISource) fetchInitial(ctx context.Context) error {
 
 	// Fetch bundles for the trust domain
 	td := ourSVID.ID.TrustDomain()
-	bundle, err := s.client.FetchBundle(ctx, td)
+	bundle, err := s.bundleSource.GetX509BundleForTrustDomain(td)
 	if err != nil {
 		return &WorkloadError{Code: "FETCH_BUNDLE_FAILED", Message: "failed to fetch initial bundle", Cause: err}
 	}
@@ -153,7 +163,8 @@ func (s *WorkloadAPISource) Done() <-chan struct{} {
 
 // Close stops the source and releases resources.
 func (s *WorkloadAPISource) Close() error {
-	s.client.Close()
+	s.x509Source.Close()
+	s.bundleSource.Close()
 	close(s.done)
 	return nil
 }
@@ -167,15 +178,15 @@ func (s *WorkloadAPISource) watchX509SVIDs(ctx context.Context) {
 		case <-s.done:
 			return
 		default:
-			// Use the streaming API to watch for updates
-			updates, err := s.client.WatchX509SVID(ctx)
-			if err != nil {
-				// Log error and retry after a delay
-				time.Sleep(5 * time.Second)
-				continue
-			}
-
-			for svid := range updates {
+			// Wait for update signal
+			select {
+			case <-s.x509Source.Updated():
+				// Fetch updated SVID
+				svid, err := s.x509Source.GetX509SVID()
+				if err != nil {
+					time.Sleep(5 * time.Second)
+					continue
+				}
 				ourSVID := s.convertX509SVID(svid)
 				if ourSVID == nil {
 					continue
@@ -196,6 +207,8 @@ func (s *WorkloadAPISource) watchX509SVIDs(ctx context.Context) {
 				default:
 					// Channel full, drop update
 				}
+			case <-time.After(5 * time.Second):
+				// Timeout, continue loop
 			}
 		}
 	}
@@ -220,59 +233,57 @@ func (s *WorkloadAPISource) watchBundles(ctx context.Context) {
 				continue
 			}
 
-			bundle, err := s.client.FetchBundle(ctx, td)
-			if err != nil {
-				time.Sleep(5 * time.Second)
-				continue
-			}
-
-			ourBundle := s.convertBundle(td, bundle)
-			if ourBundle == nil {
-				continue
-			}
-
-			s.mu.Lock()
-			s.currentBundles[td] = ourBundle
-			s.mu.Unlock()
-
-			// Notify
+			// Wait for update signal
 			select {
-			case s.bundleUpdates <- s.AllBundles():
-			default:
+			case <-s.bundleSource.Updated():
+				bundle, err := s.bundleSource.GetX509BundleForTrustDomain(td)
+				if err != nil {
+					time.Sleep(5 * time.Second)
+					continue
+				}
+
+				ourBundle := s.convertBundle(td, bundle)
+				if ourBundle == nil {
+					continue
+				}
+
+				s.mu.Lock()
+				s.currentBundles[td] = ourBundle
+				s.mu.Unlock()
+
+				// Notify
+				select {
+				case s.bundleUpdates <- s.AllBundles():
+				default:
+				}
+			case <-time.After(5 * time.Second):
+				// Timeout, continue loop
 			}
 		}
 	}
 }
 
-// convertX509SVID converts a workloadapi X509SVID to our type.
-func (s *WorkloadAPISource) convertX509SVID(svid *workloadapi.X509SVID) *X509SVID {
+// convertX509SVID converts a x509svid SVID to our type.
+func (s *WorkloadAPISource) convertX509SVID(svid *x509svid.SVID) *X509SVID {
 	if svid == nil || len(svid.Certificates) == 0 {
 		return nil
 	}
 
-	id, err := spiffeid.FromX509Certificate(svid.Certificates[0])
-	if err != nil {
-		return nil
-	}
-
 	return &X509SVID{
-		ID:           id,
+		ID:           svid.ID,
 		Certificates: svid.Certificates,
 		PrivateKey:   svid.PrivateKey,
 		Hint:         svid.Hint,
 	}
 }
 
-// convertBundle converts a workloadapi bundle to our type.
-func (s *WorkloadAPISource) convertBundle(td spiffeid.TrustDomain, bundle *workloadapi.Bundle) *Bundle {
+// convertBundle converts a x509bundle to our type.
+func (s *WorkloadAPISource) convertBundle(td spiffeid.TrustDomain, bundle *x509bundle.Bundle) *Bundle {
 	if bundle == nil {
 		return nil
 	}
 
-	certs := make([]*x509.Certificate, len(bundle.X509Authorities()))
-	for i, c := range bundle.X509Authorities() {
-		certs[i] = c
-	}
+	certs := bundle.X509Authorities()
 
 	return &Bundle{
 		TrustDomain:     td,

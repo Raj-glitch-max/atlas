@@ -181,6 +181,72 @@ func randomBytes(n int) []byte {
 	return b
 }
 
+// StaticSource is a test implementation of X509SVIDSource and BundleSource
+// that returns a fixed SVID and bundle. Useful for testing without a Workload API.
+type StaticSource struct {
+	svid    *X509SVID
+	bundles map[spiffeid.TrustDomain]*Bundle
+	done    chan struct{}
+}
+
+// NewStaticSource creates a new StaticSource with the given SVID and bundles.
+func NewStaticSource(svid *X509SVID, bundles map[spiffeid.TrustDomain]*Bundle) *StaticSource {
+	return &StaticSource{
+		svid:    svid,
+		bundles: bundles,
+		done:    make(chan struct{}),
+	}
+}
+
+// GetX509SVID returns the static SVID.
+func (s *StaticSource) GetX509SVID() (*X509SVID, error) {
+	select {
+	case <-s.done:
+		return nil, ErrSourceClosed
+	default:
+		return s.svid, nil
+	}
+}
+
+// GetBundle returns the static bundle for the given trust domain.
+func (s *StaticSource) GetBundle(trustDomain spiffeid.TrustDomain) (*Bundle, error) {
+	select {
+	case <-s.done:
+		return nil, ErrSourceClosed
+	default:
+		bundle, ok := s.bundles[trustDomain]
+		if !ok {
+			return nil, ErrBundleNotFound
+		}
+		return bundle, nil
+	}
+}
+
+// AllBundles returns all static bundles.
+func (s *StaticSource) AllBundles() map[spiffeid.TrustDomain]*Bundle {
+	select {
+	case <-s.done:
+		return nil
+	default:
+		bundles := make(map[spiffeid.TrustDomain]*Bundle, len(s.bundles))
+		for td, b := range s.bundles {
+			bundles[td] = b
+		}
+		return bundles
+	}
+}
+
+// Done returns a channel that is closed when the source is closed.
+func (s *StaticSource) Done() <-chan struct{} {
+	return s.done
+}
+
+// Close closes the source.
+func (s *StaticSource) Close() error {
+	close(s.done)
+	return nil
+}
+
 // TestX509SVIDSource creates a StaticSource with a test SVID and bundle.
 func TestX509SVIDSource(trustDomain, workloadName string, notBefore, notAfter time.Time) (*StaticSource, *x509.Certificate, *ecdsa.PrivateKey, error) {
 	caCert, caKey, _, _, err := GenerateTestCA(trustDomain, notBefore, notAfter)

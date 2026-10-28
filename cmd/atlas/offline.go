@@ -184,7 +184,7 @@ func verifyOffline(out io.Writer, bundlePath, rec string, maxStaleness time.Dura
 
 	// 3. The real Verification Core, composed locally. --max-staleness is the
 	//    relying party's own freshness policy (R).
-	policy, err := verify.NewPolicy(maxStaleness, 30*time.Second)
+	policy, err := verify.NewPolicy(maxStaleness, 30*time.Second, false)
 	if err != nil {
 		fmt.Fprintln(out, "offline verify: policy:", err)
 		return exitError
@@ -195,7 +195,7 @@ func verifyOffline(out io.Writer, bundlePath, rec string, maxStaleness time.Dura
 		return exitError
 	}
 	start := time.Now()
-	verdict, trace := v.Verify([]byte(rec))
+	verdict, trace := v.Verify([]byte(rec), spiffeid.ID{})
 	elapsed := time.Since(start)
 
 	label := "INCONCLUSIVE"

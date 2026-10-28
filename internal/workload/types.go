@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
+	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 )
 
 // X509SVIDSource is the interface for obtaining X.509 SVIDs from the
@@ -96,7 +97,7 @@ func VerifyX509SVID(svid *X509SVID, bundle *Bundle, opts VerifyOptions) (spiffei
 	leaf := svid.Certificates[0]
 
 	// Verify the SPIFFE ID in the certificate
-	id, err := spiffeid.FromX509SVID(leaf)
+	id, err := x509svid.IDFromCert(leaf)
 	if err != nil {
 		return spiffeid.ID{}, ErrInvalidSPIFFEID
 	}

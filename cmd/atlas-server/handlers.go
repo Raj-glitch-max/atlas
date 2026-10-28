@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/spiffe/go-spiffe/v2/spiffeid"
+	"github.com/spiffe/go-spiffe/v2/svid/x509svid"
 )
 
 // Router builds the HTTP handler for the API. CORS is permissive by design in
@@ -215,7 +216,7 @@ func (a *App) handleVerify(w http.ResponseWriter, r *http.Request) {
 	var presenter spiffeid.ID
 	if r.TLS != nil && len(r.TLS.PeerCertificates) > 0 {
 		peerCert := r.TLS.PeerCertificates[0]
-		if id, err := spiffeid.FromX509SVID(peerCert); err == nil {
+		if id, err := x509svid.IDFromCert(peerCert); err == nil {
 			presenter = id
 		}
 	}

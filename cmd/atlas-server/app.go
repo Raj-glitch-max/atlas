@@ -172,7 +172,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 	if err := trust.Provision(tm, clock.Now()); err != nil {
 		return nil, err
 	}
-	policy, err := verify.NewPolicy(2*time.Second, 30*time.Second)
+	policy, err := verify.NewPolicy(2*time.Second, 30*time.Second, false)
 	if err != nil {
 		return nil, err
 	}
