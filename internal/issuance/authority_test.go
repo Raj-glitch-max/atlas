@@ -47,6 +47,7 @@ func newFixture(t *testing.T) *fixture {
 		issuance.NoBinding{},
 		issuance.RandomMinter{},
 		harness.NewClock(issuedAt),
+		"open",
 	)
 	if err != nil {
 		t.Fatalf("authority: %v", err)
@@ -101,23 +102,16 @@ func TestIssueProperSubsetSucceeds(t *testing.T) {
 
 func TestIssueRefusesOverScope(t *testing.T) {
 	f := newFixture(t)
-	cases := map[string][]string{
-		"reaches outside permissions": {"read:orders", "delete:everything"},
-		"equals full permission set":  {"read:orders", "write:audit", "admin:all"}, // not strict
+	// Only "reaches outside permissions" should be refused; equal scope is allowed per R2.
+	res, err := f.authority.Issue(f.req("read:orders", "delete:everything"))
+	if err != nil {
+		t.Fatalf("issue: %v", err)
 	}
-	for name, scope := range cases {
-		t.Run(name, func(t *testing.T) {
-			res, err := f.authority.Issue(f.req(scope...))
-			if err != nil {
-				t.Fatalf("issue: %v", err)
-			}
-			if res.Outcome != issuance.Refused || res.Refusal != issuance.OverScope {
-				t.Fatalf("outcome=%s refusal=%s, want Refused/OverScope", res.Outcome, res.Refusal)
-			}
-			if res.Record != nil {
-				t.Error("refusal must create nothing (FM6)")
-			}
-		})
+	if res.Outcome != issuance.Refused || res.Refusal != issuance.OverScope {
+		t.Fatalf("outcome=%s refusal=%s, want Refused/OverScope", res.Outcome, res.Refusal)
+	}
+	if res.Record != nil {
+		t.Error("refusal must create nothing (FM6)")
 	}
 }
 
@@ -126,7 +120,7 @@ func TestIssueRefusesPermissionsUnavailable(t *testing.T) {
 	principal := spiffeid.RequireFromString(principalID)
 	// Permission source knows nothing about this principal.
 	perms := harness.NewPermissionSource()
-	auth, err := issuance.NewAuthority(record.Signer{Key: key, KeyID: keyID}, perms, issuance.NoBinding{}, issuance.RandomMinter{}, harness.NewClock(issuedAt))
+	auth, err := issuance.NewAuthority(record.Signer{Key: key, KeyID: keyID}, perms, issuance.NoBinding{}, issuance.RandomMinter{}, harness.NewClock(issuedAt), "open")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -189,19 +183,19 @@ func TestNewAuthorityRefusals(t *testing.T) {
 	perms := harness.NewPermissionSource()
 	clock := harness.NewClock(issuedAt)
 
-	if _, err := issuance.NewAuthority(record.Signer{}, perms, issuance.NoBinding{}, issuance.RandomMinter{}, clock); err == nil {
+	if _, err := issuance.NewAuthority(record.Signer{}, perms, issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open"); err == nil {
 		t.Error("empty signer must refuse")
 	}
-	if _, err := issuance.NewAuthority(good, nil, issuance.NoBinding{}, issuance.RandomMinter{}, clock); err == nil {
+	if _, err := issuance.NewAuthority(good, nil, issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open"); err == nil {
 		t.Error("nil permission source must refuse")
 	}
-	if _, err := issuance.NewAuthority(good, perms, nil, issuance.RandomMinter{}, clock); err == nil {
+	if _, err := issuance.NewAuthority(good, perms, nil, issuance.RandomMinter{}, clock, "open"); err == nil {
 		t.Error("nil binding source must refuse")
 	}
-	if _, err := issuance.NewAuthority(good, perms, issuance.NoBinding{}, nil, clock); err == nil {
+	if _, err := issuance.NewAuthority(good, perms, issuance.NoBinding{}, nil, clock, "open"); err == nil {
 		t.Error("nil minter must refuse")
 	}
-	if _, err := issuance.NewAuthority(good, perms, issuance.NoBinding{}, issuance.RandomMinter{}, nil); err == nil {
+	if _, err := issuance.NewAuthority(good, perms, issuance.NoBinding{}, issuance.RandomMinter{}, nil, "open"); err == nil {
 		t.Error("nil clock must refuse")
 	}
 }
@@ -233,14 +227,14 @@ func TestDefectD2_EqualScopeRefused(t *testing.T) {
 	if err != nil {
 		t.Fatalf("issue: %v", err)
 	}
-	// CURRENT WRONG BEHAVIOR: Refused with OverScope
-	if res.Outcome != issuance.Refused || res.Refusal != issuance.OverScope {
-		t.Fatalf("DEFECT D2 NOT REPRODUCED: outcome=%s refusal=%s, want Refused/OverScope (equal scope should be refused in current code)", res.Outcome, res.Refusal)
+	// FIXED BEHAVIOR: Issued (equal scope is allowed per R2)
+	if res.Outcome != issuance.Issued || res.Refusal != issuance.NoRefusal {
+		t.Fatalf("DEFECT D2 FIXED: outcome=%s refusal=%s, want Issued/NoRefusal (equal scope should be allowed)", res.Outcome, res.Refusal)
 	}
-	if res.Record != nil {
-		t.Error("refusal must create nothing (FM6)")
+	if res.Record == nil {
+		t.Error("issued must create a record")
 	}
-	t.Logf("DEFECT D2 REPRODUCED: equal-scope delegation refused with OverScope")
+	t.Logf("DEFECT D2 FIXED: equal-scope delegation allowed (Issued)")
 }
 
 // DEFECT D2 variant: Global permission set means principal A can only delegate scopes principal B holds
@@ -260,6 +254,7 @@ func TestDefectD2_GlobalPermissionSet(t *testing.T) {
 		issuance.NoBinding{},
 		issuance.RandomMinter{},
 		harness.NewClock(issuedAt),
+		"open",
 	)
 	if err != nil {
 		t.Fatal(err)

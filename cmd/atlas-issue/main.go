@@ -58,7 +58,7 @@ func run() error {
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: "authority-key-1"},
 		demoPermissions{principal: principal, perms: issuance.NewPermissionSet("read:orders", "write:audit", "admin:all")},
-		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
+		issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open")
 	if err != nil {
 		return err
 	}

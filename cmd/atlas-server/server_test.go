@@ -236,9 +236,9 @@ func TestDefectD11_VersionNoKeyPersistence(t *testing.T) {
 	var out map[string]any
 	_ = json.NewDecoder(resp.Body).Decode(&out)
 
-	// CURRENT WRONG BEHAVIOR: no key_persistent field
-	if _, ok := out["key_persistent"]; ok {
-		t.Fatalf("DEFECT D11 NOT REPRODUCED: key_persistent field present: %v", out["key_persistent"])
+	// FIXED BEHAVIOR: key_persistent field is present
+	if _, ok := out["key_persistent"]; !ok {
+		t.Fatalf("DEFECT D11 FIXED: key_persistent field missing")
 	}
-	t.Logf("DEFECT D11 REPRODUCED: /version lacks key_persistent field")
+	t.Logf("DEFECT D11 FIXED: /version includes key_persistent field: %v", out["key_persistent"])
 }

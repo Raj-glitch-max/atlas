@@ -61,13 +61,13 @@ import (
 type DenyReason string
 
 const (
-	DenyReasonMissingCapability  DenyReason = "missing_capability"
-	DenyReasonInvalidCapability  DenyReason = "invalid_capability"
-	DenyReasonRevoked            DenyReason = "revoked"
-	DenyReasonStaleSnapshot      DenyReason = "stale_snapshot"
-	DenyReasonScopeMismatch      DenyReason = "scope_mismatch"
+	DenyReasonMissingCapability   DenyReason = "missing_capability"
+	DenyReasonInvalidCapability   DenyReason = "invalid_capability"
+	DenyReasonRevoked             DenyReason = "revoked"
+	DenyReasonStaleSnapshot       DenyReason = "stale_snapshot"
+	DenyReasonScopeMismatch       DenyReason = "scope_mismatch"
 	DenyReasonUpstreamUnavailable DenyReason = "upstream_unavailable"
-	DenyReasonInternalError      DenyReason = "internal_error"
+	DenyReasonInternalError       DenyReason = "internal_error"
 )
 
 // String returns the reason as a string for the Atlas-Reason header.
@@ -242,7 +242,7 @@ func main() {
 			denyWithReason(w, http.StatusServiceUnavailable, DenyReasonInternalError, "verifier not initialized")
 			return
 		}
-		verdict, trace := bundle.verifier.Verify([]byte(rec))
+		verdict, trace := bundle.verifier.Verify([]byte(rec), spiffeid.ID{})
 		if !verdict.IsAccept() {
 			// Map verdict to deny reason
 			reason := mapVerdictToReason(verdict, trace)
@@ -445,12 +445,16 @@ func buildVerifier(path string, maxStaleness time.Duration) (*verifierBundle, er
 	if provider == nil {
 		return nil, errRefuseBundle
 	}
-	policy, err := verify.NewPolicy(maxStaleness, 30*time.Second)
+	policy, err := verify.NewPolicy(maxStaleness, 30*time.Second, false)
+	if err != nil {
+		return nil, err
+	}
+	v, err := verify.NewVerifier(policy, trust, revAdapter{p: provider}, sysClock{})
 	if err != nil {
 		return nil, err
 	}
 	return &verifierBundle{
-		verifier: verify.NewVerifier(policy, trust, revAdapter{p: provider}, sysClock{}),
+		verifier: v,
 		snapAsOf: b.Revocation.AsOf,
 	}, nil
 }

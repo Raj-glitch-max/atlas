@@ -76,7 +76,7 @@ func GenerateTestCert(config TestCertConfig) (*x509.Certificate, *ecdsa.PrivateK
 	signKey := privateKey
 	if config.Parent != nil && config.ParentKey != nil {
 		parent = &x509.Certificate{
-			Subject: pkix.Name{CommonName: config.Parent.SPIFFEID},
+			Subject:   pkix.Name{CommonName: config.Parent.SPIFFEID},
 			NotBefore: config.Parent.NotBefore,
 			NotAfter:  config.Parent.NotAfter,
 			IsCA:      config.Parent.IsCA,
@@ -135,7 +135,7 @@ func GenerateTestWorkloadSVID(trustDomain, workloadName string, caCert *x509.Cer
 		NotAfter:    notAfter,
 		IsCA:        false,
 		Parent: &TestCertConfig{
-			SPIFFEID: "spiffe://" + trustDomain + "/spiffe/ca",
+			SPIFFEID:  "spiffe://" + trustDomain + "/spiffe/ca",
 			NotBefore: notBefore,
 			NotAfter:  notAfter,
 			IsCA:      true,

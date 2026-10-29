@@ -86,7 +86,7 @@ func run() error {
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: keyID},
 		demoPermissions{principal: principal, perms: issuance.NewPermissionSet("read:orders", "write:audit", "admin:all")},
-		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
+		issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open")
 	if err != nil {
 		return err
 	}
@@ -109,7 +109,7 @@ func run() error {
 	if err := trust.Provision(tm, clock.Now()); err != nil {
 		return err
 	}
-	policy, err := verify.NewPolicy(time.Minute, 30*time.Second)
+	policy, err := verify.NewPolicy(time.Minute, 30*time.Second, false)
 	if err != nil {
 		return err
 	}
@@ -132,7 +132,7 @@ func run() error {
 			return err
 		}
 		start := time.Now()
-		verdict, trace := v.Verify(res.Record.Presented()) // AT26 measurement point: around Verify
+		verdict, trace := v.Verify(res.Record.Presented(), spiffeid.ID{}) // AT26 measurement point: around Verify
 		elapsed := time.Since(start)
 
 		fmt.Printf("scenario: %s\n", scenario.name)
@@ -157,7 +157,7 @@ func run() error {
 		return err
 	}
 	provider := revstatus.NewSignedSetProvider(&raKey.PublicKey, "demo-revlist")
-	realPolicy, err := verify.NewPolicy(2*time.Second, 30*time.Second)
+	realPolicy, err := verify.NewPolicy(2*time.Second, 30*time.Second, false)
 	if err != nil {
 		return err
 	}
@@ -176,7 +176,7 @@ func run() error {
 	if _, err := provider.Ingest(empty); err != nil {
 		return err
 	}
-	before, _ := realVerifier.Verify(res.Record.Presented())
+	before, _ := realVerifier.Verify(res.Record.Presented(), spiffeid.ID{})
 	fmt.Printf("  before revocation: %s\n", before.Decision)
 
 	// (b) revoke the instance -> publish a newer signed snapshot -> Reject
@@ -187,7 +187,7 @@ func run() error {
 	if _, err := provider.Ingest(revoked); err != nil {
 		return err
 	}
-	after, trace := realVerifier.Verify(res.Record.Presented())
+	after, trace := realVerifier.Verify(res.Record.Presented(), spiffeid.ID{})
 	fmt.Printf("  after revocation:  %s %v\n", after.Decision, after.Causes)
 	for _, e := range trace.Entries {
 		fmt.Printf("    %-18s %-14s %s\n", e.Check, e.Outcome, e.Cause)

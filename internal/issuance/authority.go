@@ -99,12 +99,13 @@ type Authority struct {
 	binding RevBindingSource
 	minter  Minter
 	clock   Clock
+	mode    string // "open", "strict", "sandbox"
 }
 
 // NewAuthority constructs an Authority, refusing an incomplete signer or any
 // nil port: an authority that cannot sign or cannot consult its inputs must
-// not exist.
-func NewAuthority(signer record.Signer, perms PermissionSource, binding RevBindingSource, minter Minter, clock Clock) (*Authority, error) {
+// not exist. mode can be "open", "strict", or "sandbox" (defaults to "open").
+func NewAuthority(signer record.Signer, perms PermissionSource, binding RevBindingSource, minter Minter, clock Clock, mode string) (*Authority, error) {
 	if signer.Key == nil || signer.KeyID == "" {
 		return nil, ErrNoSigner
 	}
@@ -120,7 +121,10 @@ func NewAuthority(signer record.Signer, perms PermissionSource, binding RevBindi
 	if clock == nil {
 		return nil, ErrNoClock
 	}
-	return &Authority{signer: signer, perms: perms, binding: binding, minter: minter, clock: clock}, nil
+	if mode == "" {
+		mode = "open"
+	}
+	return &Authority{signer: signer, perms: perms, binding: binding, minter: minter, clock: clock, mode: mode}, nil
 }
 
 // Issue attempts to create a delegation record for the request. It returns a
@@ -140,6 +144,12 @@ func (a *Authority) Issue(req Request) (Result, error) {
 
 	if cause := validateRequest(req); cause != NoRefusal {
 		return refused(cause, tr), nil
+	}
+
+	// Sandbox mode: principal can only delegate to itself
+	if a.mode == "sandbox" && req.Principal != req.Delegate {
+		tr.SubsetSatisfied = false
+		return refused(OverScope, tr), nil
 	}
 
 	perms, ok := a.perms.PermissionsOf(req.Principal)

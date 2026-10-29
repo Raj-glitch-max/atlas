@@ -10,13 +10,11 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"strings"
 	"testing"
 	"time"
 
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/revstatus"
-	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // buildTestBundle creates a minimal trust bundle for testing
@@ -89,21 +87,17 @@ func writeFile(path, content string) error {
 // This test asserts the CURRENT WRONG behavior: all failures return 403 with generic message.
 // After fix, this test should be renamed TestD5_GateFailVisible and inverted.
 func TestDefectD5_GateIndistinguishableFailures(t *testing.T) {
-	// This test documents the current behavior by examining the deny() function
+	// This test documents the current behavior by examining the denyWithReason() function
 	// and the single error path in the gate handler.
 
-	// The deny() function at main.go:174-178 returns a JSON error with the same
+	// The denyWithReason() function at main.go:275-283 returns a JSON error with the same
 	// structure for all failure cases.
-	// The gate handler at main.go:156-158 has a single deny call for all non-accept verdicts:
-	//   if !verdict.IsAccept() {
-	//       deny(w, http.StatusForbidden, "capability did not verify (not accepted / revoked / stale)")
-	//       return
-	//   }
+	// The gate handler at main.go:245-252 has a single deny call for all non-accept verdicts.
 
-	// This test verifies that the deny function produces the same structure
+	// This test verifies that the denyWithReason function produces the same structure
 	var buf bytes.Buffer
-	w := &responseWriter{Header: make(http.Header), Body: &buf}
-	deny(w, http.StatusForbidden, "test message")
+	w := &responseWriter{header: make(http.Header), Body: &buf}
+	denyWithReason(w, http.StatusForbidden, "invalid_capability", "test message")
 
 	var out map[string]string
 	json.Unmarshal(buf.Bytes(), &out)
@@ -114,23 +108,27 @@ func TestDefectD5_GateIndistinguishableFailures(t *testing.T) {
 		t.Fatalf("status: %d, want 403", w.statusCode)
 	}
 
-	// Check that there's no Atlas-Reason header (current behavior)
-	if w.Header().Get("Atlas-Reason") != "" {
-		t.Fatalf("DEFECT D5 NOT REPRODUCED: Atlas-Reason header present: %s", w.Header().Get("Atlas-Reason"))
+	// Check that Atlas-Reason header IS present (fixed behavior)
+	reason := w.Header().Get("Atlas-Reason")
+	if reason == "" {
+		t.Fatalf("DEFECT D5 FIXED: Atlas-Reason header missing")
+	}
+	if reason != "invalid_capability" {
+		t.Fatalf("Atlas-Reason = %q, want 'invalid_capability'", reason)
 	}
 
 	// Check that /metrics endpoint doesn't exist in current gate (no metrics)
 	// This would require running the full gate, which we can't easily do in unit test
-	t.Logf("DEFECT D5 REPRODUCED: gate returns same 403 for all failures, no Atlas-Reason header, no metrics")
+	t.Logf("DEFECT D5 FIXED: gate includes Atlas-Reason header: %s", reason)
 }
 
 // responseWriter captures HTTP response for testing
 type responseWriter struct {
-	Header http.Header
-	Body   *bytes.Buffer
+	header     http.Header
+	Body       *bytes.Buffer
 	statusCode int
 }
 
-func (w *responseWriter) Header() http.Header { return w.Header }
+func (w *responseWriter) Header() http.Header         { return w.header }
 func (w *responseWriter) Write(b []byte) (int, error) { return w.Body.Write(b) }
-func (w *responseWriter) WriteHeader(statusCode int) { w.statusCode = statusCode }
+func (w *responseWriter) WriteHeader(statusCode int)  { w.statusCode = statusCode }

@@ -84,7 +84,7 @@ func TestVectorsReplayAgainstReferenceVerifier(t *testing.T) {
 			trust := buildTrust(t, domain, vec.Trust.Keys)
 			rev := buildRevocation(t, vec.Revocation)
 			now := parseTime(t, vec.Now)
-			policy, err := verify.NewPolicy(seconds(vec.Policy.RSeconds), seconds(vec.Policy.SkewSeconds))
+			policy, err := verify.NewPolicy(seconds(vec.Policy.RSeconds), seconds(vec.Policy.SkewSeconds), false)
 			if err != nil {
 				t.Fatalf("policy: %v", err)
 			}
@@ -93,7 +93,7 @@ func TestVectorsReplayAgainstReferenceVerifier(t *testing.T) {
 				t.Fatalf("verifier: %v", err)
 			}
 
-			verdict, _ := v.Verify([]byte(vec.Record))
+			verdict, _ := v.Verify([]byte(vec.Record), spiffeid.ID{})
 
 			if got := decisionToken(verdict.Decision); got != vec.Expect.Decision {
 				t.Fatalf("decision = %s, vector expects %s", got, vec.Expect.Decision)
@@ -134,7 +134,7 @@ func TestNegativeVectorsReplay(t *testing.T) {
 			trust := buildTrust(t, domain, vec.Trust.Keys)
 			rev := buildRevocation(t, vec.Revocation)
 			now := parseTime(t, vec.Now)
-			policy, err := verify.NewPolicy(seconds(vec.Policy.RSeconds), seconds(vec.Policy.SkewSeconds))
+			policy, err := verify.NewPolicy(seconds(vec.Policy.RSeconds), seconds(vec.Policy.SkewSeconds), false)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -142,7 +142,7 @@ func TestNegativeVectorsReplay(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			verdict, _ := v.Verify([]byte(vec.Record))
+			verdict, _ := v.Verify([]byte(vec.Record), spiffeid.ID{})
 			if verdict.IsAccept() {
 				t.Fatalf("adversarial record ACCEPTED — silent-acceptance differential")
 			}

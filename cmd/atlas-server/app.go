@@ -67,13 +67,13 @@ func defaultPermissions() issuance.PermissionSet {
 
 // Config is the server's construction-time configuration.
 type Config struct {
-	Domain         string   // trust domain (issued principals must belong to it)
-	StorePath      string   // durable state file ("" => in-memory)
-	KeyPath        string   // authority key file ("" => ephemeral)
-	APIKey         string   // optional bearer token guarding mutating endpoints
-	Grant          []string // scopes a principal may delegate ("" => default set)
-	PermissionsFile string  // JSON file mapping SPIFFE IDs to permission sets (per-principal)
-	Mode           string   // issuance mode: "open", "strict", "sandbox"
+	Domain          string   // trust domain (issued principals must belong to it)
+	StorePath       string   // durable state file ("" => in-memory)
+	KeyPath         string   // authority key file ("" => ephemeral)
+	APIKey          string   // optional bearer token guarding mutating endpoints
+	Grant           []string // scopes a principal may delegate ("" => default set)
+	PermissionsFile string   // JSON file mapping SPIFFE IDs to permission sets (per-principal)
+	Mode            string   // issuance mode: "open", "strict", "sandbox"
 
 	AllowOrigin  string // CORS Access-Control-Allow-Origin ("" => "*", dev default)
 	RateLimitRPM int    // per-IP requests/min on mutating endpoints (0 => off)
@@ -160,7 +160,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: keyID},
 		permsSource,
-		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
+		issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open")
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +202,7 @@ func NewApp(cfg Config, clock Clock) (*App, error) {
 		policy: policy, revWindow: 2 * time.Second,
 		allowOrigin: allowOrigin, limiter: limiter, trustProxy: cfg.TrustProxy,
 		logRequests: cfg.LogRequests, logVerbose: cfg.LogVerbose,
-		mode:        cfg.Mode,
+		mode:     cfg.Mode,
 		sessions: map[string]*Session{},
 		activity: newActivityLog(),
 	}

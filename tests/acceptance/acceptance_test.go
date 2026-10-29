@@ -64,7 +64,7 @@ func newSystem(t *testing.T) *system {
 	perms := harness.NewPermissionSource().Grant(principal, "read:orders", "write:audit", "admin:all")
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: keyID}, perms,
-		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
+		issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -107,7 +107,7 @@ func (s *system) issue(t *testing.T, scope ...string) *record.Record {
 // verifier builds a verifier wired with the given revocation port.
 func (s *system) verifier(t *testing.T, rev verify.RevocationStatusPort) *verify.Verifier {
 	t.Helper()
-	policy, err := verify.NewPolicy(time.Minute, 30*time.Second)
+	policy, err := verify.NewPolicy(time.Minute, 30*time.Second, false)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -132,7 +132,7 @@ func TestAT1_AT3_IssueVerifyAcceptRecoverIdentitiesAndScope(t *testing.T) {
 	s.clock.Set(nowMid)
 	rec := s.issue(t, "read:orders", "write:audit")
 
-	verdict, trace := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented())
+	verdict, trace := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented(), spiffeid.ID{})
 	if !verdict.IsAccept() {
 		t.Fatalf("verdict = %s causes=%v, want Accept", verdict.Decision, verdict.Causes)
 	}
@@ -143,8 +143,8 @@ func TestAT1_AT3_IssueVerifyAcceptRecoverIdentitiesAndScope(t *testing.T) {
 	if len(a.Scope) != 2 {
 		t.Errorf("scope = %v", a.Scope)
 	}
-	if len(trace.Entries) != 5 {
-		t.Errorf("trace must carry five stages, got %d", len(trace.Entries))
+	if len(trace.Entries) != 6 {
+		t.Errorf("trace must carry six stages, got %d", len(trace.Entries))
 	}
 }
 
@@ -176,7 +176,7 @@ func TestAT5_TamperedRecordRejected(t *testing.T) {
 	tampered := append([]byte(nil), rec.Presented()...)
 	tampered[len(tampered)/2] ^= 0x01
 
-	verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(tampered)
+	verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(tampered, spiffeid.ID{})
 	if verdict.Decision != verify.Reject || !hasCause(verdict.Causes, verify.IntegrityFailed) {
 		t.Fatalf("verdict=%s causes=%v, want Reject(IntegrityFailed)", verdict.Decision, verdict.Causes)
 	}
@@ -189,12 +189,12 @@ func TestAT6_AT7_ExpiryBoundary(t *testing.T) {
 	rec := s.issue(t, "read:orders")
 
 	s.clock.Set(nowMid) // within window
-	if verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented()); !verdict.IsAccept() {
+	if verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented(), spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("within window: verdict=%s, want Accept", verdict.Decision)
 	}
 
 	s.clock.Set(expiry.Add(time.Hour)) // past window
-	verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented())
+	verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.Reject || !hasCause(verdict.Causes, verify.Expired) {
 		t.Fatalf("expired: verdict=%s causes=%v, want Reject(Expired)", verdict.Decision, verdict.Causes)
 	}
@@ -224,7 +224,7 @@ func TestAT9_AT11_RevokedObservableRejectedAndStaysRejected(t *testing.T) {
 	// AT11: rejected at three successive times.
 	for i, dt := range []time.Duration{0, time.Minute, 10 * time.Minute} {
 		s.clock.Set(nowMid.Add(dt))
-		verdict, _ := v.Verify(rec.Presented())
+		verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 		if verdict.Decision != verify.Reject || !hasCause(verdict.Causes, verify.RevokedObservable) {
 			t.Fatalf("time %d: verdict=%s causes=%v, want Reject(RevokedObservable)", i, verdict.Decision, verdict.Causes)
 		}
@@ -240,7 +240,7 @@ func TestAT18_EphemeralDelegateIssuance(t *testing.T) {
 	s := newSystem(t)
 	s.clock.Set(nowMid)
 	rec := s.issue(t, "read:orders")
-	if verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented()); !verdict.IsAccept() {
+	if verdict, _ := s.verifier(t, s.freshNotRevoked()).Verify(rec.Presented(), spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("ephemeral issuance verify = %s, want Accept", verdict.Decision)
 	}
 }
@@ -280,7 +280,7 @@ func TestAT22_FailClosed_DegenerateProvider(t *testing.T) {
 	rec := s.issue(t, "read:orders")
 
 	rev := harness.AdaptRevocation(revstatus.NewDegenerate())
-	verdict, _ := s.verifier(t, rev).Verify(rec.Presented())
+	verdict, _ := s.verifier(t, rev).Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.IsAccept() {
 		t.Fatal("[HYPOTHESIS] fail-closed violated: accepted on indeterminate revocation")
 	}

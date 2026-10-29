@@ -6,6 +6,7 @@ import (
 
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // AT8 logic — expiry within an explicit, bounded clock-skew tolerance (ER3,
@@ -40,7 +41,7 @@ func TestExpiryGraceBandBoundaries(t *testing.T) {
 			rec := w.seal(t, nil)
 			v := w.verifier(t, time.Minute, skew)
 
-			verdict, trace := v.Verify(rec.Presented())
+			verdict, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 			entry, _ := trace.Find(verify.CheckExpiry)
 			if tc.wantAccept {
 				if !verdict.IsAccept() {
@@ -85,7 +86,7 @@ func TestFutureIssuanceToleranceBoundaries(t *testing.T) {
 			})
 			v := w.verifier(t, time.Minute, skew)
 
-			verdict, _ := v.Verify(rec.Presented())
+			verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 			if tc.wantInconclusive {
 				if verdict.Decision != verify.InconclusiveRejected || !hasCause(verdict.Causes, verify.ClockBeyondTolerance) {
 					t.Fatalf("iat=%v: verdict=%s causes=%v, want InconclusiveRejected(ClockBeyondTolerance)",

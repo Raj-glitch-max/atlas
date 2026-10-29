@@ -83,7 +83,7 @@ func (w *world) seal(t *testing.T, mutate func(*record.Assertions)) *record.Reco
 
 func (w *world) verifier(t *testing.T, r, skew time.Duration) *verify.Verifier {
 	t.Helper()
-	policy, err := verify.NewPolicy(r, skew)
+	policy, err := verify.NewPolicy(r, skew, false)
 	if err != nil {
 		t.Fatalf("policy: %v", err)
 	}
@@ -111,12 +111,12 @@ func TestVerifyBaselineAccept(t *testing.T) {
 	rec := w.seal(t, nil)
 	v := w.verifier(t, time.Minute, 30*time.Second)
 
-	verdict, trace := v.Verify(rec.Presented())
+	verdict, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 	if !verdict.IsAccept() {
 		t.Fatalf("verdict = %s causes=%v, want Accept", verdict.Decision, verdict.Causes)
 	}
-	if len(trace.Entries) != 5 {
-		t.Fatalf("trace has %d entries, want 5", len(trace.Entries))
+	if len(trace.Entries) != 6 {
+		t.Fatalf("trace has %d entries, want 6", len(trace.Entries))
 	}
 	for _, e := range trace.Entries {
 		if e.Outcome != verify.OutcomePass {
@@ -164,7 +164,7 @@ func TestVerifyDefinitiveRejects(t *testing.T) {
 		// Flip a byte in the payload segment (middle of the token).
 		tampered[len(tampered)/2] ^= 0x01
 		v := w.verifier(t, time.Minute, time.Second)
-		verdict, _ := v.Verify(tampered)
+		verdict, _ := v.Verify(tampered, spiffeid.ID{})
 		if verdict.Decision != verify.Reject {
 			t.Fatalf("verdict = %s, want Reject (IntegrityFailed)", verdict.Decision)
 		}
@@ -224,7 +224,7 @@ func TestVerifyHasNoMemoryAndIsDeterministic(t *testing.T) {
 	v := w.verifier(t, time.Minute, 30*time.Second)
 
 	for i := 0; i < 25; i++ {
-		verdict, _ := v.Verify(rec.Presented())
+		verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 		if !verdict.IsAccept() {
 			t.Fatalf("iteration %d: verdict changed to %s", i, verdict.Decision)
 		}
@@ -232,7 +232,7 @@ func TestVerifyHasNoMemoryAndIsDeterministic(t *testing.T) {
 	// A subsequent revoked presentation is judged fresh, uninfluenced by
 	// the prior accepts (no memory).
 	w.revoc.Set(w.instance, verify.RevocationStatus{State: verify.ObservablyRevoked, AsOf: w.clock.Now()})
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.Reject {
 		t.Fatalf("verdict = %s, want Reject after revocation", verdict.Decision)
 	}
@@ -241,23 +241,23 @@ func TestVerifyHasNoMemoryAndIsDeterministic(t *testing.T) {
 // --- construction refusals ----------------------------------------------
 
 func TestNewPolicyRefusals(t *testing.T) {
-	if _, err := verify.NewPolicy(0, time.Second); err == nil {
+	if _, err := verify.NewPolicy(0, time.Second, false); err == nil {
 		t.Error("R = 0 must refuse (unparameterized verifier forbidden)")
 	}
-	if _, err := verify.NewPolicy(-time.Second, time.Second); err == nil {
+	if _, err := verify.NewPolicy(-time.Second, time.Second, false); err == nil {
 		t.Error("negative R must refuse")
 	}
-	if _, err := verify.NewPolicy(time.Minute, -time.Second); err == nil {
+	if _, err := verify.NewPolicy(time.Minute, -time.Second, false); err == nil {
 		t.Error("negative skew must refuse")
 	}
-	if _, err := verify.NewPolicy(time.Minute, 0); err != nil {
+	if _, err := verify.NewPolicy(time.Minute, 0, false); err != nil {
 		t.Errorf("zero skew is a valid explicit choice: %v", err)
 	}
 }
 
 func TestNewVerifierRefusals(t *testing.T) {
 	w := newWorld(t)
-	good, _ := verify.NewPolicy(time.Minute, time.Second)
+	good, _ := verify.NewPolicy(time.Minute, time.Second, false)
 
 	if _, err := verify.NewVerifier(verify.Policy{}, w.trust, w.revoc, w.clock); err == nil {
 		t.Error("zero-value (unset) policy must refuse")
@@ -280,7 +280,7 @@ func TestNewVerifierRefusals(t *testing.T) {
 
 func assertReject(t *testing.T, v *verify.Verifier, rec *record.Record, want verify.Cause) {
 	t.Helper()
-	verdict, trace := v.Verify(rec.Presented())
+	verdict, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.Reject {
 		t.Fatalf("verdict = %s causes=%v, want Reject(%s)", verdict.Decision, verdict.Causes, want)
 	}
@@ -295,7 +295,7 @@ func assertReject(t *testing.T, v *verify.Verifier, rec *record.Record, want ver
 
 func assertInconclusive(t *testing.T, v *verify.Verifier, rec *record.Record, want verify.Cause) {
 	t.Helper()
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.InconclusiveRejected {
 		t.Fatalf("verdict = %s causes=%v, want InconclusiveRejected(%s)", verdict.Decision, verdict.Causes, want)
 	}
@@ -331,7 +331,7 @@ func TestDefectD4_NoPresenterBinding(t *testing.T) {
 
 	// Current Verify() signature: Verify([]byte) (Verdict, Trace)
 	// No presenter parameter exists
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 
 	// CURRENT WRONG BEHAVIOR: Accept (no presenter check)
 	if !verdict.IsAccept() {

@@ -142,15 +142,15 @@ func VerifyX509SVID(svid *X509SVID, bundle *Bundle, opts VerifyOptions) (spiffei
 
 // Error types for workload operations.
 var (
-	ErrNoCertificates       = &WorkloadError{Code: "NO_CERTIFICATES", Message: "X509 SVID has no certificates"}
-	ErrInvalidSPIFFEID      = &WorkloadError{Code: "INVALID_SPIFFE_ID", Message: "certificate does not contain a valid SPIFFE ID"}
-	ErrTrustDomainMismatch  = &WorkloadError{Code: "TRUST_DOMAIN_MISMATCH", Message: "SVID trust domain does not match expected"}
-	ErrVerificationFailed   = &WorkloadError{Code: "VERIFICATION_FAILED", Message: "certificate chain verification failed"}
-	ErrDNSMismatch          = &WorkloadError{Code: "DNS_MISMATCH", Message: "certificate does not match expected DNS name"}
-	ErrSourceNotReady       = &WorkloadError{Code: "SOURCE_NOT_READY", Message: "workload API source not ready"}
-	ErrSourceClosed         = &WorkloadError{Code: "SOURCE_CLOSED", Message: "workload API source has been closed"}
-	ErrBundleNotFound       = &WorkloadError{Code: "BUNDLE_NOT_FOUND", Message: "trust bundle not found for trust domain"}
-	ErrNoPrivateKey         = &WorkloadError{Code: "NO_PRIVATE_KEY", Message: "X509 SVID has no private key"}
+	ErrNoCertificates      = &WorkloadError{Code: "NO_CERTIFICATES", Message: "X509 SVID has no certificates"}
+	ErrInvalidSPIFFEID     = &WorkloadError{Code: "INVALID_SPIFFE_ID", Message: "certificate does not contain a valid SPIFFE ID"}
+	ErrTrustDomainMismatch = &WorkloadError{Code: "TRUST_DOMAIN_MISMATCH", Message: "SVID trust domain does not match expected"}
+	ErrVerificationFailed  = &WorkloadError{Code: "VERIFICATION_FAILED", Message: "certificate chain verification failed"}
+	ErrDNSMismatch         = &WorkloadError{Code: "DNS_MISMATCH", Message: "certificate does not match expected DNS name"}
+	ErrSourceNotReady      = &WorkloadError{Code: "SOURCE_NOT_READY", Message: "workload API source not ready"}
+	ErrSourceClosed        = &WorkloadError{Code: "SOURCE_CLOSED", Message: "workload API source has been closed"}
+	ErrBundleNotFound      = &WorkloadError{Code: "BUNDLE_NOT_FOUND", Message: "trust bundle not found for trust domain"}
+	ErrNoPrivateKey        = &WorkloadError{Code: "NO_PRIVATE_KEY", Message: "X509 SVID has no private key"}
 )
 
 // WorkloadError is a structured error for workload operations.

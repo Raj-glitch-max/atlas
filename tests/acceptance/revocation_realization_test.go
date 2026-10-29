@@ -11,6 +11,7 @@ import (
 	"github.com/Raj-glitch-max/atlas/internal/revstatus"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	"github.com/Raj-glitch-max/atlas/tests/harness"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // End-to-end of the revocation α-path (Epic E7 composition 1, built under the
@@ -60,7 +61,7 @@ func TestE2E_RevocationRealization_SignedRevokedSet(t *testing.T) {
 		}
 	}
 
-	policy, err := verify.NewPolicy(R, 30*time.Second)
+	policy, err := verify.NewPolicy(R, 30*time.Second, false)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +74,7 @@ func TestE2E_RevocationRealization_SignedRevokedSet(t *testing.T) {
 	//    against the REAL provider (not a fake): freshness is verifiable (the
 	//    snapshot's signed as-of), not asserted.
 	propagate(s.clock.Now())
-	if verdict, _ := verifier.Verify(rec.Presented()); !verdict.IsAccept() {
+	if verdict, _ := verifier.Verify(rec.Presented(), spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("before revocation: verdict=%s, want Accept", verdict.Decision)
 	}
 
@@ -85,13 +86,13 @@ func TestE2E_RevocationRealization_SignedRevokedSet(t *testing.T) {
 	s.clock.Set(nowMid.Add(time.Second))
 	s.register.Revoke(instance, s.clock.Now())
 	propagate(s.clock.Now())
-	verdict, _ := verifier.Verify(rec.Presented())
+	verdict, _ := verifier.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.Reject || !hasCause(verdict.Causes, verify.RevokedObservable) {
 		t.Fatalf("after revocation: verdict=%s causes=%v, want Reject(RevokedObservable)", verdict.Decision, verdict.Causes)
 	}
 
 	// 3. Revocation is terminal: it stays rejected on re-presentation.
-	if v2, _ := verifier.Verify(rec.Presented()); v2.Decision != verify.Reject {
+	if v2, _ := verifier.Verify(rec.Presented(), spiffeid.ID{}); v2.Decision != verify.Reject {
 		t.Fatalf("revocation not terminal: verdict=%s", v2.Decision)
 	}
 }
@@ -116,18 +117,18 @@ func TestE2E_RevocationFreshnessBound_RGoverns(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	policy, _ := verify.NewPolicy(R, 30*time.Second)
+	policy, _ := verify.NewPolicy(R, 30*time.Second, false)
 	verifier, _ := verify.NewVerifier(policy, s.trust, harness.AdaptRevocation(prov), s.clock)
 
 	// Fresh: Accept.
-	if verdict, _ := verifier.Verify(rec.Presented()); !verdict.IsAccept() {
+	if verdict, _ := verifier.Verify(rec.Presented(), spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("fresh snapshot: verdict=%s, want Accept", verdict.Decision)
 	}
 
 	// Advance the verifier clock past R without re-publishing: the held
 	// snapshot's as-of is now stale (age > R) → fail closed.
 	s.clock.Set(nowMid.Add(R + time.Second))
-	verdict, _ := verifier.Verify(rec.Presented())
+	verdict, _ := verifier.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.InconclusiveRejected || !hasCause(verdict.Causes, verify.RevocationKnowledgeStale) {
 		t.Fatalf("stale snapshot: verdict=%s causes=%v, want InconclusiveRejected(RevocationKnowledgeStale)", verdict.Decision, verdict.Causes)
 	}

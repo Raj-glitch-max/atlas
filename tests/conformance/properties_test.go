@@ -8,6 +8,7 @@ import (
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	"github.com/Raj-glitch-max/atlas/tests/conformance"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // assertionsEqual reports whether two decoded records assert identical
@@ -95,7 +96,7 @@ func TestProperty_TamperNeverAcceptsDifferentContent(t *testing.T) {
 		t.Fatal("baseline valid record did not decode")
 	}
 	v := buildVerifier(t, k, conformance.MidTime(), freshRev())
-	if verdict, _ := v.Verify(valid); !verdict.IsAccept() {
+	if verdict, _ := v.Verify(valid, spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("baseline valid record did not accept: %s", verdict.Decision)
 	}
 
@@ -105,7 +106,7 @@ func TestProperty_TamperNeverAcceptsDifferentContent(t *testing.T) {
 		m := append([]byte(nil), valid...)
 		pos := rng.Intn(len(m))
 		m[pos] ^= 1 << uint(rng.Intn(8))
-		verdict, _ := v.Verify(m)
+		verdict, _ := v.Verify(m, spiffeid.ID{})
 		if !verdict.IsAccept() {
 			continue
 		}
@@ -118,7 +119,7 @@ func TestProperty_TamperNeverAcceptsDifferentContent(t *testing.T) {
 	t.Logf("accepted %d encoding-equivalent reframings (base64 malleability, identical content)", acceptedEquivalents)
 }
 
-// P2 — Random garbage never accepts, and the trace is always five stages.
+// P2 — Random garbage never accepts, and the trace is always six stages.
 func TestProperty_GarbageNeverAccepts(t *testing.T) {
 	k := mustKit(t)
 	v := buildVerifier(t, k, conformance.MidTime(), freshRev())
@@ -126,12 +127,12 @@ func TestProperty_GarbageNeverAccepts(t *testing.T) {
 	for i := 0; i < 3000; i++ {
 		b := make([]byte, rng.Intn(600))
 		rng.Read(b)
-		verdict, trace := v.Verify(b)
+		verdict, trace := v.Verify(b, spiffeid.ID{})
 		if verdict.IsAccept() {
 			t.Fatalf("random bytes ACCEPTED (len %d)", len(b))
 		}
-		if len(trace.Entries) != 5 {
-			t.Fatalf("trace must have 5 stages even on garbage, got %d", len(trace.Entries))
+		if len(trace.Entries) != 6 {
+			t.Fatalf("trace must have 6 stages even on garbage, got %d", len(trace.Entries))
 		}
 	}
 }
@@ -143,7 +144,7 @@ func TestProperty_AcceptImpliesAllPass(t *testing.T) {
 	for i := 0; i < 2000; i++ {
 		clock := conformance.MidTime().Add(time.Duration(rng.Intn(20000)-10000) * time.Second)
 		v := buildVerifier(t, k, clock, randomRev(rng))
-		verdict, trace := v.Verify(k.Valid())
+		verdict, trace := v.Verify(k.Valid(), spiffeid.ID{})
 		if verdict.Decision == verify.Accept {
 			for _, e := range trace.Entries {
 				if e.Outcome != verify.OutcomePass {
@@ -167,7 +168,7 @@ func TestProperty_RoutingConsistency(t *testing.T) {
 		if rng.Intn(3) == 0 {
 			rec[rng.Intn(len(rec))] ^= 1 << uint(rng.Intn(8))
 		}
-		verdict, _ := v.Verify(rec)
+		verdict, _ := v.Verify(rec, spiffeid.ID{})
 		anyDef, anyInc := false, false
 		for _, c := range verdict.Causes {
 			if c.IsDefinitive() {
@@ -202,7 +203,7 @@ func TestProperty_AbsentMaterialNeverAccepts(t *testing.T) {
 	k := mustKit(t)
 	v := buildVerifierEmptyTrust(t, k)
 	for i := 0; i < 500; i++ {
-		if verdict, _ := v.Verify(k.Valid()); verdict.IsAccept() {
+		if verdict, _ := v.Verify(k.Valid(), spiffeid.ID{}); verdict.IsAccept() {
 			t.Fatal("accepted with absent trust material")
 		}
 	}
@@ -213,9 +214,9 @@ func TestProperty_Deterministic(t *testing.T) {
 	k := mustKit(t)
 	v := buildVerifier(t, k, conformance.MidTime(), freshRev())
 	valid := k.Valid()
-	first, _ := v.Verify(valid)
+	first, _ := v.Verify(valid, spiffeid.ID{})
 	for i := 0; i < 500; i++ {
-		if got, _ := v.Verify(valid); got.Decision != first.Decision {
+		if got, _ := v.Verify(valid, spiffeid.ID{}); got.Decision != first.Decision {
 			t.Fatalf("iteration %d: verdict changed %s -> %s", i, first.Decision, got.Decision)
 		}
 	}

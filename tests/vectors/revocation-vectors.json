@@ -5,7 +5,7 @@
     {
       "name": "fresh-not-revoked",
       "description": "A validly-signed snapshot within R that does not list the instance. The only case that may accept.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -15,8 +15,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -26,8 +26,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -35,7 +35,7 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEQCIEXbs4E0nZFZArU2h35HF2O+vy9rMAGd79/kxD5buRztAiB5xxC1xF/ile1vTHZXx7X6e8jIcKQjyj+nxFAjm2qtRA=="
+          "sig": "MEQCIH6/QhfSJIFklyCHXFGSCvfaeNtrvlg/OvacVswGd7/EAiAjT7gUFRp8BgplQdxufR3AGVlSiqY7OI2A2sngmYe8SA=="
         }
       ],
       "expect_adopt": [
@@ -54,7 +54,7 @@
     {
       "name": "fresh-revoked",
       "description": "A validly-signed snapshot within R listing the instance. Definitive rejection.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -64,8 +64,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -75,8 +75,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -86,7 +86,7 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQD3YwrwIPJ0z4KZIeExTZx9vhna28UZvm/P/6Ogee/VUAIgOgVLX70Pzvf+MMxqxnG6Hp/qRqmEMQIa6F7WWj89lzg="
+          "sig": "MEUCIQDHPPScSCsoDfA3AhCNUkS5X15rD2Io/Jp32+8LyZH64wIgVEPRi1Tvvy6M7b+vfVLJFXdMpYCx1961iFykpqoZtqM="
         }
       ],
       "expect_adopt": [
@@ -107,7 +107,7 @@
     {
       "name": "stale-not-revoked-fails-closed",
       "description": "The instance is NOT revoked, but the snapshot is older than R. The verifier cannot prove freshness and MUST refuse rather than accept. This is the fail-closed property; an implementation that accepts here is unsafe even though its answer happens to be right.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -117,8 +117,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -128,8 +128,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -137,7 +137,7 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEQCIEXbs4E0nZFZArU2h35HF2O+vy9rMAGd79/kxD5buRztAiB5xxC1xF/ile1vTHZXx7X6e8jIcKQjyj+nxFAjm2qtRA=="
+          "sig": "MEQCIH6/QhfSJIFklyCHXFGSCvfaeNtrvlg/OvacVswGd7/EAiAjT7gUFRp8BgplQdxufR3AGVlSiqY7OI2A2sngmYe8SA=="
         }
       ],
       "expect_adopt": [
@@ -158,7 +158,7 @@
     {
       "name": "no-snapshot-is-indeterminate",
       "description": "No snapshot was ever ingested. Absence of a revocation record is NOT evidence of non-revocation.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -168,8 +168,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -179,8 +179,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": null,
@@ -200,7 +200,7 @@
     {
       "name": "bad-signature-not-adopted",
       "description": "A snapshot whose signature was corrupted after signing MUST NOT be adopted, leaving the verifier with no knowledge — not with the snapshot's contents.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -210,8 +210,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -221,8 +221,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -230,7 +230,7 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEQCIEXbs4E0nZFZArU2h35HF2O+vy9rMAGd79/kxD5buRztAiB5xxC1xF/ile1vTHZXx7X6e8jIcKQjyj+nxFAjm2qtRQ=="
+          "sig": "MEQCIH6/QhfSJIFklyCHXFGSCvfaeNtrvlg/OvacVswGd7/EAiAjT7gUFRp8BgplQdxufR3AGVlSiqY7OI2A2sngmYe8SQ=="
         }
       ],
       "expect_adopt": [
@@ -251,7 +251,7 @@
     {
       "name": "stripped-entry-not-adopted",
       "description": "An attacker removes the instance from the revoked set to hide a revocation. The signature covers the set, so the snapshot MUST NOT be adopted — and the verifier must NOT fall back to accepting.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -261,8 +261,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -272,8 +272,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -281,7 +281,7 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": null,
-          "sig": "MEUCIQD3YwrwIPJ0z4KZIeExTZx9vhna28UZvm/P/6Ogee/VUAIgOgVLX70Pzvf+MMxqxnG6Hp/qRqmEMQIa6F7WWj89lzg="
+          "sig": "MEUCIQDHPPScSCsoDfA3AhCNUkS5X15rD2Io/Jp32+8LyZH64wIgVEPRi1Tvvy6M7b+vfVLJFXdMpYCx1961iFykpqoZtqM="
         }
       ],
       "expect_adopt": [
@@ -302,7 +302,7 @@
     {
       "name": "foreign-key-not-adopted",
       "description": "A well-formed snapshot signed by a key the RP does not hold for the revocation origin. Correct signature, wrong signer.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -312,8 +312,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -323,8 +323,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -332,7 +332,7 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEQCIH22mukdQYDjBpSwP+/zz/Bg2/zvsDd7nJMB58SPWKhUAiAwGCJZaiWBlmPYAYGQNSzN0ghkaS6kAYQJnRCeveLRpA=="
+          "sig": "MEQCIBWPS11MPh0jP4Ur2h0aHHXEnSM4X3oNpDeO13TyUzLeAiB4k8+Ly7YjjbpoEDoPNy24gMED8Q9dEQ3Gfy2ygkQOvg=="
         }
       ],
       "expect_adopt": [
@@ -353,7 +353,7 @@
     {
       "name": "wrong-list-id-not-adopted",
       "description": "A validly-signed snapshot from a DIFFERENT revocation stream. Binding to the expected list id is what stops one domain's revocation state being substituted for another's.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -363,8 +363,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -374,8 +374,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -383,7 +383,7 @@
           "list_id": "atlas-revlist:someone-else.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEUCIAlR8KwaeRHoAcwECTuggQR+K7CvMPWAvvPNGlI+yX49AiEA682HHubOs7qoAfo5RP1po1l3pIzqcG2K+YUnHUonxcU="
+          "sig": "MEUCIQCI4X7YRic/qCWI/bQHtaCUYjDXq0XLSTJ+ukTtBD0tgAIgIfpypow/bdGOALBmyVt6AZ2fzI99yHzT8aq3m+s94oc="
         }
       ],
       "expect_adopt": [
@@ -404,7 +404,7 @@
     {
       "name": "rollback-rejected",
       "description": "A newer snapshot listing the instance, then an OLDER validly-signed snapshot that does not. Both signatures are genuine. Adopting the second would un-revoke the capability, so monotonic adoption MUST reject it and the verdict must remain Reject.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -414,8 +414,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -425,8 +425,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -436,13 +436,13 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQCry9+XAMLnh6/7Zhe/fquSVmspGNxALch1Akfq5hwwygIgWqHll9cS6IGIF5+30TgBGqIE0gcdTeoOrxQlpH35Id0="
+          "sig": "MEUCIQDRrMDubVGywE078QOO6ljUn0hKqUrrxyqciiQQXiClfQIgVtNPtbYXdHr8ssL5q10ue0eeFHSvNb6XS0Pzt/U2yUU="
         },
         {
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T07:59:50Z",
           "revoked": [],
-          "sig": "MEYCIQC8PlSezBr75h5dCVv9/9xFnF8Er/T9AXVvcHl0OWRXtAIhANRvsDyRT0/V1RK7RQFEIdttgyJjSFpJWd+WqSj+favr"
+          "sig": "MEQCIDqSvnsfD8jxY9jpVeprUh2W94rRry+inukCks6rAX6bAiBJ/1T5nn3JMYBZ+QoOJLqQ8m+oQP5JvWPk8mmj17wT4g=="
         }
       ],
       "expect_adopt": [
@@ -464,7 +464,7 @@
     {
       "name": "replay-same-asof-rejected",
       "description": "Re-ingesting the identical snapshot must not be adopted a second time: adoption is strictly monotonic in as-of, not merely non-decreasing.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -474,8 +474,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -485,8 +485,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -496,7 +496,7 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQD3YwrwIPJ0z4KZIeExTZx9vhna28UZvm/P/6Ogee/VUAIgOgVLX70Pzvf+MMxqxnG6Hp/qRqmEMQIa6F7WWj89lzg="
+          "sig": "MEUCIQDHPPScSCsoDfA3AhCNUkS5X15rD2Io/Jp32+8LyZH64wIgVEPRi1Tvvy6M7b+vfVLJFXdMpYCx1961iFykpqoZtqM="
         },
         {
           "list_id": "atlas-revlist:domain-a.test",
@@ -504,7 +504,7 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQD3YwrwIPJ0z4KZIeExTZx9vhna28UZvm/P/6Ogee/VUAIgOgVLX70Pzvf+MMxqxnG6Hp/qRqmEMQIa6F7WWj89lzg="
+          "sig": "MEUCIQDHPPScSCsoDfA3AhCNUkS5X15rD2Io/Jp32+8LyZH64wIgVEPRi1Tvvy6M7b+vfVLJFXdMpYCx1961iFykpqoZtqM="
         }
       ],
       "expect_adopt": [
@@ -526,7 +526,7 @@
     {
       "name": "newer-snapshot-supersedes",
       "description": "A revoked snapshot followed by a genuinely newer one that still lists the instance. The newer one is adopted and revocation remains terminal.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -536,8 +536,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -547,8 +547,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -558,7 +558,7 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQD3YwrwIPJ0z4KZIeExTZx9vhna28UZvm/P/6Ogee/VUAIgOgVLX70Pzvf+MMxqxnG6Hp/qRqmEMQIa6F7WWj89lzg="
+          "sig": "MEUCIQDHPPScSCsoDfA3AhCNUkS5X15rD2Io/Jp32+8LyZH64wIgVEPRi1Tvvy6M7b+vfVLJFXdMpYCx1961iFykpqoZtqM="
         },
         {
           "list_id": "atlas-revlist:domain-a.test",
@@ -566,7 +566,7 @@
           "revoked": [
             "inst-revocation-vectors"
           ],
-          "sig": "MEUCIQCry9+XAMLnh6/7Zhe/fquSVmspGNxALch1Akfq5hwwygIgWqHll9cS6IGIF5+30TgBGqIE0gcdTeoOrxQlpH35Id0="
+          "sig": "MEUCIQDRrMDubVGywE078QOO6ljUn0hKqUrrxyqciiQQXiClfQIgVtNPtbYXdHr8ssL5q10ue0eeFHSvNb6XS0Pzt/U2yUU="
         }
       ],
       "expect_adopt": [
@@ -588,7 +588,7 @@
     {
       "name": "boundary-exactly-at-R",
       "description": "A snapshot exactly R old. The boundary is inclusive: age == R is still fresh. Pinned because an off-by-one here silently changes every deployment's revocation window.",
-      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.3sifiOSV1NVyuTu9elMNRw5t_yM91Tur7wKlAOLfSSiAEvuxGYTighAHEIpIW02KyW0HhqU0mw0u8q54SZVMBw",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
       "trust": {
         "domain": "domain-a.test",
         "keys": [
@@ -598,8 +598,8 @@
             "kid": "authority-key-1",
             "crv": "P-256",
             "alg": "ES256",
-            "x": "07dLb2iVH11Zb4f6OR37PyioFHU8OaimljJ34YDucsE",
-            "y": "V5gEJC09rOFZtZKzL_nbbIlPCtyykMCFB7rf6zauE_w"
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
           }
         ]
       },
@@ -609,8 +609,8 @@
         "kid": "revocation-origin-1",
         "crv": "P-256",
         "alg": "ES256",
-        "x": "fZcdUANkySzCobazxFCmyh0Y6C1uzAoVq0OxTzsNDJI",
-        "y": "BL3AlvfK6EQel1GGHBKUVDcFHK85aDyOjR-thPVeriY"
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
       },
       "expect_list": "atlas-revlist:domain-a.test",
       "ingest": [
@@ -618,13 +618,173 @@
           "list_id": "atlas-revlist:domain-a.test",
           "as_of": "2027-01-15T08:00:00Z",
           "revoked": [],
-          "sig": "MEQCIEXbs4E0nZFZArU2h35HF2O+vy9rMAGd79/kxD5buRztAiB5xxC1xF/ile1vTHZXx7X6e8jIcKQjyj+nxFAjm2qtRA=="
+          "sig": "MEQCIH6/QhfSJIFklyCHXFGSCvfaeNtrvlg/OvacVswGd7/EAiAjT7gUFRp8BgplQdxufR3AGVlSiqY7OI2A2sngmYe8SA=="
         }
       ],
       "expect_adopt": [
         true
       ],
       "now": "2027-01-15T08:00:30Z",
+      "policy": {
+        "r_seconds": 30,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Accept",
+        "causes": []
+      }
+    },
+    {
+      "name": "rollback-same-second-rejected",
+      "description": "Within the same second, a snapshot at T+500ms revokes the instance, then a snapshot at T+999ms (same Unix second, different millisecond) with the SAME signature attempts to un-revoke. With millisecond-precision digest, the digests differ so the second signature fails verification.",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "authority-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
+          }
+        ]
+      },
+      "snapshot_key": {
+        "use": "sig",
+        "kty": "EC",
+        "kid": "revocation-origin-1",
+        "crv": "P-256",
+        "alg": "ES256",
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
+      },
+      "expect_list": "atlas-revlist:domain-a.test",
+      "ingest": [
+        {
+          "list_id": "atlas-revlist:domain-a.test",
+          "as_of": "2027-01-15T08:00:00.5Z",
+          "revoked": [
+            "inst-revocation-vectors"
+          ],
+          "sig": "MEUCIQCyf5bLPFxRPK53q5rWI2JidcdVLjaTXByxXKMBuvR4zwIgKN7LxdeDKHqoAvzSWCnTydfN+P2zLms3WDpnSGND/+k="
+        },
+        {
+          "list_id": "atlas-revlist:domain-a.test",
+          "as_of": "2027-01-15T08:00:00.999Z",
+          "revoked": [],
+          "sig": "MEQCID6ZlrCO16dO4Q36OBsfS37gp+qLdyFsu7vTKie1CMDhAiBD3LE6Ba8HySv6x/3N4+fme9u3eh4rLe9kleFpxYAcXQ=="
+        }
+      ],
+      "expect_adopt": [
+        true,
+        false
+      ],
+      "now": "2027-01-15T08:00:01Z",
+      "policy": {
+        "r_seconds": 30,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "Reject",
+        "causes": [
+          "RevokedObservable"
+        ]
+      }
+    },
+    {
+      "name": "asof-submillisecond-rejected",
+      "description": "A snapshot whose asOf has sub-millisecond precision (nanoseconds not divisible by 1,000,000) MUST be rejected by validation before signature verification. This prevents ambiguous timestamps that would produce different digests in different implementations.",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "authority-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
+          }
+        ]
+      },
+      "snapshot_key": {
+        "use": "sig",
+        "kty": "EC",
+        "kid": "revocation-origin-1",
+        "crv": "P-256",
+        "alg": "ES256",
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
+      },
+      "expect_list": "atlas-revlist:domain-a.test",
+      "ingest": [
+        {
+          "list_id": "atlas-revlist:domain-a.test",
+          "as_of": "2027-01-15T08:00:00.500123456Z",
+          "revoked": [],
+          "sig": "MEYCIQCFhPEo0QQu8x6b2GoUz+Rkt+p20tO+otCSOiwJtTY9WAIhAId1BXARAUfjATqEOXfVabdWiB/LS4/ZJob2HlexCQbU"
+        }
+      ],
+      "expect_adopt": [
+        false
+      ],
+      "now": "2027-01-15T08:00:01Z",
+      "policy": {
+        "r_seconds": 30,
+        "skew_seconds": 30
+      },
+      "expect": {
+        "decision": "InconclusiveRejected",
+        "causes": [
+          "RevocationStatusIndeterminate"
+        ]
+      }
+    },
+    {
+      "name": "asof-ms-boundary-accepted",
+      "description": "A snapshot whose asOf is exactly on a millisecond boundary (nanoseconds divisible by 1,000,000) MUST be accepted. This confirms the boundary condition is handled correctly.",
+      "record": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImF1dGhvcml0eS1rZXktMSIsInR5cCI6ImF0bGFzLXJlY29yZCtqd3MifQ.eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYS50ZXN0L3dvcmtsb2FkL3BheW1lbnRzLWFwaSIsImFjdCI6eyJzdWIiOiJzcGlmZmU6Ly9kb21haW4tYi50ZXN0L2FnZW50L2Jvb2tpbmctd29ya2VyIn0sInNjb3BlIjpbInJlYWQ6b3JkZXJzIl0sImV4cCI6MTgwMDA4NjQwMCwiaWF0IjoxNzk5OTk5OTQwLCJhdGxfaW5zIjoiaW5zdC1yZXZvY2F0aW9uLXZlY3RvcnMifQ.q55nOzOsglozlBO8NTqJ-8jT5WrcZjjCDrzfH7GgEzwNNhjTEOIU0pwAWbGgQfekCY7LGflFM7DhgvWuKu95sA",
+      "trust": {
+        "domain": "domain-a.test",
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "EC",
+            "kid": "authority-key-1",
+            "crv": "P-256",
+            "alg": "ES256",
+            "x": "avfRAxVXZ0pup_epQR1PW2GHuoid8VeH6eJlNXQrJNc",
+            "y": "OrLtKzpUrBm2RAYhZ5rbrq1VGkAvORxC6yWqasHIsjc"
+          }
+        ]
+      },
+      "snapshot_key": {
+        "use": "sig",
+        "kty": "EC",
+        "kid": "revocation-origin-1",
+        "crv": "P-256",
+        "alg": "ES256",
+        "x": "PBnjErhgmqF-uHQHUny7m0CJAFKS0tP1IXGVTtsvBOk",
+        "y": "cXmBWlxuj_7zogFCg4dHLcLXBIUZwyqNQ-QH_7fERrc"
+      },
+      "expect_list": "atlas-revlist:domain-a.test",
+      "ingest": [
+        {
+          "list_id": "atlas-revlist:domain-a.test",
+          "as_of": "2027-01-15T08:00:00.5Z",
+          "revoked": [],
+          "sig": "MEUCICQ1mj4iq+VzT4QLOxSbsUZ/C4dtIBDaqXy3/eqV3A0HAiEA7KycTISJHI9LTGRe0ab4+iR9s5VjBL+fi/jW+pWv+7U="
+        }
+      ],
+      "expect_adopt": [
+        true
+      ],
+      "now": "2027-01-15T08:00:01Z",
       "policy": {
         "r_seconds": 30,
         "skew_seconds": 30

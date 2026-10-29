@@ -9,6 +9,7 @@ import (
 
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	jose "github.com/go-jose/go-jose/v3"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // Negative (adversarial) conformance vectors: malformed and attacking records
@@ -179,7 +180,7 @@ func EmitNegativeVectors() (VectorFile, error) {
 		if err != nil {
 			return VectorFile{}, err
 		}
-		verdict, _ := v.Verify(m.rec)
+		verdict, _ := v.Verify(m.rec, spiffeid.ID{})
 		if verdict.IsAccept() {
 			return VectorFile{}, fmt.Errorf("negative vector %q was ACCEPTED — silent-acceptance bug", m.name)
 		}

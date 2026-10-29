@@ -92,7 +92,7 @@ func newRig(b testing.TB) rig {
 
 func (r rig) verifier(b testing.TB, state verify.RevocationState) *verify.Verifier {
 	b.Helper()
-	policy, err := verify.NewPolicy(2*time.Second, 30*time.Second)
+	policy, err := verify.NewPolicy(2*time.Second, 30*time.Second, false)
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -136,7 +136,7 @@ func BenchmarkVerifyAccept(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if verdict, _ := v.Verify(r.record); !verdict.IsAccept() {
+		if verdict, _ := v.Verify(r.record, spiffeid.ID{}); !verdict.IsAccept() {
 			b.Fatalf("want Accept, got %s", verdict.Decision)
 		}
 	}
@@ -148,7 +148,7 @@ func BenchmarkVerifyRevoked(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if verdict, _ := v.Verify(r.record); verdict.Decision != verify.Reject {
+		if verdict, _ := v.Verify(r.record, spiffeid.ID{}); verdict.Decision != verify.Reject {
 			b.Fatalf("want Reject, got %s", verdict.Decision)
 		}
 	}
@@ -192,7 +192,7 @@ func BenchmarkLatencyVerifyAccept(b *testing.B) {
 	r := newRig(b)
 	v := r.verifier(b, verify.NotObservedRevoked)
 	percentiles(b, func() {
-		if verdict, _ := v.Verify(r.record); !verdict.IsAccept() {
+		if verdict, _ := v.Verify(r.record, spiffeid.ID{}); !verdict.IsAccept() {
 			b.Fatalf("want Accept, got %s", verdict.Decision)
 		}
 	})

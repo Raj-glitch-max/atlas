@@ -4,9 +4,6 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"crypto/sha256"
-	"encoding/binary"
-	"sort"
 	"testing"
 	"time"
 
@@ -165,117 +162,9 @@ func TestSignedSet_SatisfiesContractWhenIgnorant(t *testing.T) {
 	contracttest.Run(t, prov, inst(t, "unknown"), inst(t, "a"), inst(t, "b"))
 }
 
-// DEFECT D1: Snapshot as-of uses whole seconds in signature but nanosecond comparison in Ingest
-// This test asserts the CURRENT WRONG behavior: a snapshot with fractional seconds
-// edited to appear newer can be adopted, causing rollback from revoked to not-revoked.
-// After fix, this test should be renamed TestD1_SnapshotAsOfRollbackRejected and inverted.
-func TestDefectD1_SnapshotAsOfRollback(t *testing.T) {
-	k := key(t)
-	pub, _ := revstatus.NewPublisher(k, "list-A")
-	prov := revstatus.NewSignedSetProvider(&k.PublicKey, "list-A")
-
-	revoked := inst(t, "inst-revoked")
-	notRevoked := inst(t, "inst-live")
-
-	// Snapshot A: revoked, as-of T+0.9s (Unix() = T, signed as T)
-	// We simulate this by creating a snapshot with AsOf = T+900ms
-	// The signature covers Unix() = T (whole seconds)
-	tRef := time.Unix(1_800_000_000, 0).UTC()
-	snapA := revstatus.SignedRevokedSet{
-		ListID:  "list-A",
-		AsOf:    tRef.Add(900 * time.Millisecond), // T+0.9s
-		Revoked: []record.InstanceID{revoked},
-		// Signature would be computed over canonicalDigest with asOf.Unix() = T
-		// For this characterization test, we manually construct what the buggy
-		// canonicalDigest would produce for T+0.9s (which is same as T)
-	}
-	// Manually compute the buggy digest (whole seconds)
-	buggyDigestA := canonicalDigestBuggy("list-A", tRef.Add(900*time.Millisecond), []record.InstanceID{revoked})
-	sigA, _ := ecdsa.SignASN1(rand.Reader, k, buggyDigestA[:])
-	snapA.Sig = sigA
-
-	adopted, err := prov.Ingest(snapA)
-	if err != nil || !adopted {
-		t.Fatalf("ingest snapA (revoked): adopted=%v err=%v", adopted, err)
-	}
-	// Should be revoked
-	if got := prov.StatusOf(revoked); got.State != revstatus.ObservablyRevoked {
-		t.Fatalf("after snapA: %s, want ObservablyRevoked", got.State)
-	}
-
-	// Snapshot B: NOT revoked, as-of T+0.1s (Unix() = T)
-	// But we EDIT the AsOf to T+0.95s to make it appear "newer" than snapA in nanosecond comparison
-	// The signature covers Unix() = T (same as snapA)
-	snapB := revstatus.SignedRevokedSet{
-		ListID:  "list-A",
-		AsOf:    tRef.Add(950 * time.Millisecond), // T+0.95s (edited fractional seconds)
-		Revoked: []record.InstanceID{},            // NOT revoked
-	}
-	buggyDigestB := canonicalDigestBuggy("list-A", tRef.Add(100*time.Millisecond), []record.InstanceID{})
-	// The signature is over the ORIGINAL as-of (T+0.1s) which has same Unix() = T
-	sigB, _ := ecdsa.SignASN1(rand.Reader, k, buggyDigestB[:])
-	snapB.Sig = sigB
-
-	// Ingest B AFTER A - in the buggy code, B.AsOf.After(A.AsOf) is TRUE (950ms > 900ms)
-	// even though both signatures cover the SAME whole-second timestamp T
-	adopted, err = prov.Ingest(snapB)
-	// CURRENT WRONG BEHAVIOR: B is adopted because nanosecond comparison says it's newer
-	// even though both have same signed whole-second timestamp
-	if !adopted {
-		t.Logf("DEFECT D1 NOT REPRODUCED: snapB not adopted (adopted=%v, err=%v)", adopted, err)
-		// This is the expected PASS after fix
-		return
-	}
-
-	// WRONG: instance flips from revoked to not-observed-revoked
-	got := prov.StatusOf(revoked)
-	if got.State != revstatus.NotObservedRevoked {
-		t.Fatalf("DEFECT D1: expected rollback to NotObservedRevoked, got %s", got.State)
-	}
-	t.Logf("DEFECT D1 REPRODUCED: instance flipped from ObservablyRevoked to NotObservedRevoked via same-second rollback")
-}
-
-// canonicalDigestBuggy replicates the CURRENT buggy behavior: uses Unix() (whole seconds)
-func canonicalDigestBuggy(listID string, asOf time.Time, revoked []record.InstanceID) [32]byte {
-	sorted := dedupSortedBuggy(revoked)
-	h := sha256.New()
-	h.Write([]byte(listID))
-	h.Write([]byte{0})
-	var ts [8]byte
-	binary.BigEndian.PutUint64(ts[:], uint64(asOf.Unix())) // BUG: whole seconds only
-	h.Write(ts[:])
-	h.Write([]byte{0})
-	for _, id := range sorted {
-		h.Write([]byte(id.String()))
-		h.Write([]byte{0})
-	}
-	var out [32]byte
-	copy(out[:], h.Sum(nil))
-	return out
-}
-
-func dedupSortedBuggy(in []record.InstanceID) []record.InstanceID {
-	if len(in) == 0 {
-		return nil
-	}
-	cp := append([]record.InstanceID(nil), in...)
-	sort.Slice(cp, func(i, j int) bool { return cp[i].String() < cp[j].String() })
-	out := cp[:0]
-	var prev string
-	for i, id := range cp {
-		if i > 0 && id.String() == prev {
-			continue
-		}
-		out = append(out, id)
-		prev = id.String()
-	}
-	return out
-}
-
 // TestD1_SnapshotAsOfRollbackRejected tests that the D1 fix works: a snapshot
 // with a different millisecond timestamp cannot reuse a signature from a
-// different millisecond timestamp. This replaces TestDefectD1_SnapshotAsOfRollback
-// after the fix.
+// different millisecond timestamp.
 func TestD1_SnapshotAsOfRollbackRejected(t *testing.T) {
 	k := key(t)
 	pub, _ := revstatus.NewPublisher(k, "list-A")

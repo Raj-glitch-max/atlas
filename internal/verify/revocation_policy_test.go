@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Raj-glitch-max/atlas/internal/verify"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // AT13/AT14 logic — revocation under the freshness policy, parametric over R
@@ -20,7 +21,7 @@ func TestRevokedObservableRejectsAtEveryR(t *testing.T) {
 		rec := w.seal(t, nil)
 		w.revoc.Set(w.instance, verify.RevocationStatus{State: verify.ObservablyRevoked, AsOf: w.clock.Now()})
 		v := w.verifier(t, r, time.Second)
-		verdict, _ := v.Verify(rec.Presented())
+		verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 		if verdict.Decision != verify.Reject || !hasCause(verdict.Causes, verify.RevokedObservable) {
 			t.Fatalf("R=%s: verdict=%s, want Reject(RevokedObservable)", r, verdict.Decision)
 		}
@@ -53,7 +54,7 @@ func TestNotRevokedFreshnessBoundaryParametricOverR(t *testing.T) {
 					AsOf:  now.Add(-tc.staleness),
 				})
 				v := w.verifier(t, r, time.Second)
-				verdict, _ := v.Verify(rec.Presented())
+				verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 
 				if tc.wantAccept {
 					if !verdict.IsAccept() {
@@ -82,7 +83,7 @@ func TestNotRevokedObservationMarginallyAheadWithinSkewIsFresh(t *testing.T) {
 		AsOf:  w.clock.Now().Add(5 * time.Second), // ahead, but within skew below
 	})
 	v := w.verifier(t, time.Minute, 30*time.Second) // skew 30s > 5s
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if !verdict.IsAccept() {
 		t.Fatalf("marginally-ahead as-of within skew must be fresh: verdict=%s causes=%v", verdict.Decision, verdict.Causes)
 	}
@@ -98,7 +99,7 @@ func TestNotRevokedObservationDatedAheadIsInconclusive(t *testing.T) {
 		AsOf:  w.clock.Now().Add(time.Hour),
 	})
 	v := w.verifier(t, time.Minute, time.Second)
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.InconclusiveRejected || !hasCause(verdict.Causes, verify.RevocationKnowledgeStale) {
 		t.Fatalf("verdict=%s causes=%v, want InconclusiveRejected(RevocationKnowledgeStale)", verdict.Decision, verdict.Causes)
 	}
@@ -111,7 +112,7 @@ func TestDegenerateProviderFailsClosed(t *testing.T) {
 	w := newWorld(t)
 	rec := w.seal(t, nil) // revoc left answering Indeterminate for all
 	v := w.verifier(t, time.Minute, time.Second)
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.InconclusiveRejected || !hasCause(verdict.Causes, verify.RevocationStatusIndeterminate) {
 		t.Fatalf("verdict=%s causes=%v, want InconclusiveRejected(RevocationStatusIndeterminate)", verdict.Decision, verdict.Causes)
 	}

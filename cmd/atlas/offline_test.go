@@ -40,7 +40,7 @@ func buildBundle(t *testing.T, revokeIt bool, asOf time.Time) (bundlePath, rec s
 	authority, err := issuance.NewAuthority(
 		record.Signer{Key: key, KeyID: "authority-key-1"},
 		allPerms{set: issuance.NewPermissionSet("read:orders", "write:audit")},
-		issuance.NoBinding{}, issuance.RandomMinter{}, clock)
+		issuance.NoBinding{}, issuance.RandomMinter{}, clock, "open")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func buildBundle(t *testing.T, revokeIt bool, asOf time.Time) (bundlePath, rec s
 }
 
 func TestOfflineVerifyAccept(t *testing.T) {
-	path, rec := buildBundle(t, false, time.Now())
+	path, rec := buildBundle(t, false, time.Now().Truncate(time.Millisecond))
 	var out bytes.Buffer
 	if code := verifyOffline(&out, path, rec, 10*time.Minute, ""); code != exitOK {
 		t.Fatalf("exit=%d out=%s", code, out.String())
@@ -97,7 +97,7 @@ func TestOfflineVerifyAccept(t *testing.T) {
 }
 
 func TestOfflineVerifyRevokedRejects(t *testing.T) {
-	path, rec := buildBundle(t, true, time.Now())
+	path, rec := buildBundle(t, true, time.Now().Truncate(time.Millisecond))
 	var out bytes.Buffer
 	if code := verifyOffline(&out, path, rec, 10*time.Minute, ""); code != exitNonPass {
 		t.Fatalf("revoked should exit %d, got %d: %s", exitNonPass, code, out.String())
@@ -109,7 +109,7 @@ func TestOfflineVerifyRevokedRejects(t *testing.T) {
 
 func TestOfflineStaleSnapshotFailsClosed(t *testing.T) {
 	// snapshot signed 10s in the past; budget 1s → fail closed (inconclusive).
-	path, rec := buildBundle(t, false, time.Now().Add(-10*time.Second))
+	path, rec := buildBundle(t, false, time.Now().Truncate(time.Millisecond).Add(-10*time.Second))
 	var out bytes.Buffer
 	if code := verifyOffline(&out, path, rec, time.Second, ""); code != exitNonPass {
 		t.Fatalf("stale should exit %d, got %d: %s", exitNonPass, code, out.String())
@@ -121,7 +121,7 @@ func TestOfflineStaleSnapshotFailsClosed(t *testing.T) {
 
 func TestOfflineScopeGate(t *testing.T) {
 	// the record grants read:orders (see buildBundle).
-	path, rec := buildBundle(t, false, time.Now())
+	path, rec := buildBundle(t, false, time.Now().Truncate(time.Millisecond))
 
 	// authorized for a granted scope
 	var out bytes.Buffer
@@ -145,7 +145,7 @@ func TestOfflineScopeGate(t *testing.T) {
 
 func TestOfflineScopeGateDeniedWhenRevoked(t *testing.T) {
 	// even a granted scope must be denied if the capability is revoked.
-	path, rec := buildBundle(t, true, time.Now())
+	path, rec := buildBundle(t, true, time.Now().Truncate(time.Millisecond))
 	var out bytes.Buffer
 	if code := verifyOffline(&out, path, rec, 10*time.Minute, "read:orders"); code != exitNonPass {
 		t.Fatalf("revoked capability must not authorize, got %d: %s", code, out.String())
@@ -156,7 +156,7 @@ func TestOfflineScopeGateDeniedWhenRevoked(t *testing.T) {
 }
 
 func TestOfflineTamperedBundleRefused(t *testing.T) {
-	path, rec := buildBundle(t, true, time.Now())
+	path, rec := buildBundle(t, true, time.Now().Truncate(time.Millisecond))
 	// strip the revocation (the attack) — signature must no longer verify.
 	raw, _ := os.ReadFile(path)
 	var b map[string]any

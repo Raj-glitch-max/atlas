@@ -21,25 +21,25 @@ var updateIssuance = flag.Bool("update-issuance", false, "regenerate issuance ve
 
 // IssuanceVector is one issuance-layer conformance case.
 type IssuanceVector struct {
-	Name        string            `json:"name"`
-	Description string            `json:"description"`
-	Principal   string            `json:"principal"`
-	Delegate    string            `json:"delegate"`
-	Scope       []string          `json:"scope"`
+	Name        string              `json:"name"`
+	Description string              `json:"description"`
+	Principal   string              `json:"principal"`
+	Delegate    string              `json:"delegate"`
+	Scope       []string            `json:"scope"`
 	Permissions map[string][]string `json:"permissions"` // SPIFFE ID -> scopes
-	Mode        string            `json:"mode"`          // open, strict, sandbox
-	Expect      IssuanceExpect    `json:"expect"`
+	Mode        string              `json:"mode"`        // open, strict, sandbox
+	Expect      IssuanceExpect      `json:"expect"`
 }
 
 type IssuanceExpect struct {
-	Outcome  string `json:"outcome"`  // Issued or Refused
-	Refusal  string `json:"refusal"`  // NoRefusal, OverScope, PermissionsUnavailable, MalformedRequest
+	Outcome string `json:"outcome"` // Issued or Refused
+	Refusal string `json:"refusal"` // NoRefusal, OverScope, PermissionsUnavailable, MalformedRequest
 }
 
 type IssuanceVectorFile struct {
-	Schema      int                `json:"schema"`
-	Description string             `json:"description"`
-	Vectors     []IssuanceVector   `json:"vectors"`
+	Schema      int              `json:"schema"`
+	Description string           `json:"description"`
+	Vectors     []IssuanceVector `json:"vectors"`
 }
 
 func TestIssuanceVectorsReplay(t *testing.T) {
@@ -78,14 +78,28 @@ func TestIssuanceVectorsReplay(t *testing.T) {
 				permSrc,
 				issuance.NoBinding{},
 				issuance.RandomMinter{},
-				fixedClock{now},
+				clockPort{now},
+				vec.Mode,
 			)
 			if err != nil {
 				t.Fatalf("authority: %v", err)
 			}
 
-			principal := spiffeid.RequireFromString(vec.Principal)
-			delegate := spiffeid.RequireFromString(vec.Delegate)
+			var principal, delegate spiffeid.ID
+			if vec.Principal != "" {
+				var err error
+				principal, err = spiffeid.FromString(vec.Principal)
+				if err != nil {
+					t.Fatalf("invalid principal %q: %v", vec.Principal, err)
+				}
+			}
+			if vec.Delegate != "" {
+				var err error
+				delegate, err = spiffeid.FromString(vec.Delegate)
+				if err != nil {
+					t.Fatalf("invalid delegate %q: %v", vec.Delegate, err)
+				}
+			}
 
 			res, err := auth.Issue(issuance.Request{
 				Principal:  principal,
@@ -97,10 +111,10 @@ func TestIssuanceVectorsReplay(t *testing.T) {
 				t.Fatalf("issue: %v", err)
 			}
 
-			if string(res.Outcome) != vec.Expect.Outcome {
+			if res.Outcome.String() != vec.Expect.Outcome {
 				t.Fatalf("outcome = %s, expect %s", res.Outcome, vec.Expect.Outcome)
 			}
-			if string(res.Refusal) != vec.Expect.Refusal {
+			if res.Refusal.String() != vec.Expect.Refusal {
 				t.Fatalf("refusal = %s, expect %s", res.Refusal, vec.Expect.Refusal)
 			}
 
@@ -137,10 +151,6 @@ func TestIssuanceVectorsReplay(t *testing.T) {
 		})
 	}
 }
-
-type fixedClock struct{ t time.Time }
-
-func (c fixedClock) Now() time.Time { return c.t }
 
 func buildPermissionSource(t *testing.T, perms map[string][]string) issuance.PermissionSource {
 	t.Helper()

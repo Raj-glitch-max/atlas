@@ -124,15 +124,16 @@ func TestRevocationVectorsReplay(t *testing.T) {
 			policy, err := verify.NewPolicy(
 				time.Duration(v.Policy.RSeconds*float64(time.Second)),
 				time.Duration(v.Policy.SkewSeconds*float64(time.Second)),
+				false,
 			)
 			if err != nil {
 				t.Fatalf("policy: %v", err)
 			}
-			ver, err := verify.NewVerifier(policy, ts, revAdapter{p: provider}, fixedClock{t: now})
+			ver, err := verify.NewVerifier(policy, ts, revAdapter{p: provider}, clockPort{t: now})
 			if err != nil {
 				t.Fatalf("verifier: %v", err)
 			}
-			verdict, trace := ver.Verify([]byte(v.Record))
+			verdict, trace := ver.Verify([]byte(v.Record), spiffeid.ID{})
 
 			if got := decisionToken(verdict.Decision); got != v.Expect.Decision {
 				t.Fatalf("decision = %s, want %s\n  %s", got, v.Expect.Decision, v.Description)
@@ -140,8 +141,8 @@ func TestRevocationVectorsReplay(t *testing.T) {
 			if !sameSet(causeNames(verdict.Causes), v.Expect.Causes) {
 				t.Fatalf("causes = %v, want %v\n  %s", causeNames(verdict.Causes), v.Expect.Causes, v.Description)
 			}
-			if len(trace.Entries) != 5 {
-				t.Fatalf("trace has %d entries, want 5 unconditionally", len(trace.Entries))
+			if len(trace.Entries) != 6 {
+				t.Fatalf("trace has %d entries, want 6 unconditionally", len(trace.Entries))
 			}
 		})
 	}
@@ -174,7 +175,3 @@ func (a revAdapter) StatusOf(i record.InstanceID) verify.RevocationStatus {
 	}
 	return verify.RevocationStatus{State: st, AsOf: ans.AsOf}
 }
-
-type fixedClock struct{ t time.Time }
-
-func (c fixedClock) Now() time.Time { return c.t }

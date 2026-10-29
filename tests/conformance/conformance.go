@@ -33,7 +33,7 @@ import (
 // Verifier is the contract a conformant verification implementation exposes.
 // verify.Verifier satisfies it; a competing implementation would too.
 type Verifier interface {
-	Verify(presented []byte) (verify.Verdict, verify.DecisionTrace)
+	Verify(presented []byte, presenter spiffeid.ID) (verify.Verdict, verify.DecisionTrace)
 }
 
 // Factory builds a verifier from a policy and the three ports. Each
@@ -156,7 +156,7 @@ func (k *Kit) Valid() []byte {
 }
 
 func mustPolicy() verify.Policy {
-	p, err := verify.NewPolicy(time.Minute, 30*time.Second)
+	p, err := verify.NewPolicy(time.Minute, 30*time.Second, false)
 	if err != nil {
 		panic("conformance: policy: " + err.Error())
 	}
@@ -297,7 +297,7 @@ func Run(t *testing.T, factory Factory) {
 			if err != nil {
 				t.Fatalf("factory: %v", err)
 			}
-			verdict, trace := v.Verify(s.Presented)
+			verdict, trace := v.Verify(s.Presented, spiffeid.ID{})
 
 			if verdict.Decision != s.WantDecision {
 				t.Fatalf("decision = %s (causes %v), want %s", verdict.Decision, verdict.Causes, s.WantDecision)
@@ -307,13 +307,13 @@ func Run(t *testing.T, factory Factory) {
 					t.Fatalf("causes = %v, want to contain %s", verdict.Causes, want)
 				}
 			}
-			if len(trace.Entries) != 5 {
-				t.Errorf("trace = %d stages, want 5 (unconditional)", len(trace.Entries))
+			if len(trace.Entries) != 6 {
+				t.Errorf("trace = %d stages, want 6 (unconditional)", len(trace.Entries))
 			}
 			// Determinism: a re-presentation is a fresh verification with the
 			// identical verdict (no memory) — required for the invariant to
 			// hold across repeated observation.
-			verdict2, _ := v.Verify(s.Presented)
+			verdict2, _ := v.Verify(s.Presented, spiffeid.ID{})
 			if verdict2.Decision != verdict.Decision || !sameCauses(verdict.Causes, verdict2.Causes) {
 				t.Errorf("non-deterministic: %s%v then %s%v", verdict.Decision, verdict.Causes, verdict2.Decision, verdict2.Causes)
 			}

@@ -159,15 +159,15 @@ func (a *App) handleReady(w http.ResponseWriter, _ *http.Request) {
 func (a *App) handleVersion(w http.ResponseWriter, _ *http.Request) {
 	keyPersistent := a.keyID != "" && a.def != nil && a.def.store != nil
 	writeJSON(w, 200, map[string]any{
-		"service":       "atlas-server",
-		"version":       version,
-		"trustDomain":   a.domain.Name(),
-		"algorithm":     "ES256 (P-256)",
-		"keyId":         a.keyID,
-		"publicKey":     a.pubKeyHex,
-		"revocationR":   a.revWindow.String(),
-		"singleHop":     true,
-		"federation":    "off",
+		"service":        "atlas-server",
+		"version":        version,
+		"trustDomain":    a.domain.Name(),
+		"algorithm":      "ES256 (P-256)",
+		"keyId":          a.keyID,
+		"publicKey":      a.pubKeyHex,
+		"revocationR":    a.revWindow.String(),
+		"singleHop":      true,
+		"federation":     "off",
 		"key_persistent": keyPersistent,
 	})
 }

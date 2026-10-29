@@ -55,7 +55,7 @@ func FuzzVerify(f *testing.F) {
 	f.Add([]byte("a.b.c"))
 	f.Add([]byte("eyJhbGciOiJub25lIn0..")) // alg=none shape
 
-	policy, err := verify.NewPolicy(time.Minute, 30*time.Second)
+	policy, err := verify.NewPolicy(time.Minute, 30*time.Second, false)
 	if err != nil {
 		f.Fatal(err)
 	}
@@ -70,10 +70,10 @@ func FuzzVerify(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, data []byte) {
-		verdict, trace := v.Verify(data) // must not panic on any input
+		verdict, trace := v.Verify(data, spiffeid.ID{}) // must not panic on any input
 
-		if len(trace.Entries) != 5 {
-			t.Fatalf("trace has %d stages, want 5 (unconditional) for input %q", len(trace.Entries), data)
+		if len(trace.Entries) != 6 {
+			t.Fatalf("trace has %d stages, want 6 (unconditional) for input %q", len(trace.Entries), data)
 		}
 		if verdict.IsAccept() {
 			// Soundness: an Accept must correspond to a genuinely authentic,

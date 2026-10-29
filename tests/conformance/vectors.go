@@ -6,6 +6,7 @@ import (
 
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	jose "github.com/go-jose/go-jose/v3"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // Language-neutral conformance vectors: the executable corpus serialized to
@@ -131,7 +132,7 @@ func EmitVectors() (VectorFile, error) {
 		if err != nil {
 			return VectorFile{}, err
 		}
-		verdict, _ := v.Verify(s.Presented)
+		verdict, _ := v.Verify(s.Presented, spiffeid.ID{})
 		causes := make([]string, 0, len(verdict.Causes))
 		for _, c := range verdict.Causes {
 			causes = append(causes, c.String())

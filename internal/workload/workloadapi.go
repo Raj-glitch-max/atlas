@@ -17,9 +17,9 @@ import (
 // SPIFFE Workload API (workloadapi). It connects to the Workload API socket
 // and automatically rotates SVIDs and bundles as they are updated.
 type WorkloadAPISource struct {
-	x509Source    *workloadapi.X509Source
-	bundleSource  *workloadapi.BundleSource
-	mu            sync.RWMutex
+	x509Source   *workloadapi.X509Source
+	bundleSource *workloadapi.BundleSource
+	mu           sync.RWMutex
 
 	// Current SVID and bundle state
 	currentSVID    *X509SVID

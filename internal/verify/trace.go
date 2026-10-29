@@ -19,12 +19,12 @@ import (
 type CheckName string
 
 const (
-	CheckIdentityBinding    CheckName = "identity_binding"
-	CheckIntegrity          CheckName = "integrity"
-	CheckExpiry             CheckName = "expiry"
-	CheckScope              CheckName = "scope_integrity"
-	CheckRevocation         CheckName = "revocation_status"
-	CheckPresenterBinding   CheckName = "presenter_binding"
+	CheckIdentityBinding  CheckName = "identity_binding"
+	CheckIntegrity        CheckName = "integrity"
+	CheckExpiry           CheckName = "expiry"
+	CheckScope            CheckName = "scope_integrity"
+	CheckRevocation       CheckName = "revocation_status"
+	CheckPresenterBinding CheckName = "presenter_binding"
 )
 
 // CheckOutcome is the per-stage result. NotEvaluated is honest, not a gap: a
@@ -66,8 +66,8 @@ type CheckEntry struct {
 
 // PolicySummary is the trace-visible view of the policy in force.
 type PolicySummary struct {
-	R               time.Duration
-	SkewTolerance   time.Duration
+	R                time.Duration
+	SkewTolerance    time.Duration
 	RequirePresenter bool
 }
 

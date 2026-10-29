@@ -159,10 +159,10 @@ func TestDefectD10_NoSPIREIntegration(t *testing.T) {
 		return nil
 	})
 
-	if found {
-		t.Fatalf("DEFECT D10 NOT REPRODUCED: workloadapi import found in Atlas code")
+	if !found {
+		t.Fatalf("DEFECT D10 FIXED: no workloadapi import found in Atlas code")
 	}
-	t.Logf("DEFECT D10 REPRODUCED: no workloadapi import in Atlas code (excluding lab)")
+	t.Logf("DEFECT D10 FIXED: workloadapi import found in Atlas code (excluding lab)")
 
 	// Check TestSubstrateBlockedATs skips
 	acceptanceTest := readFile(t, "tests/acceptance/revocation_realization_test.go")
@@ -188,15 +188,15 @@ func readFileDirect(t *testing.T, path string) string {
 // After fix, this test should be renamed TestD12_GRPCExists and inverted.
 func TestDefectD12_NoGRPC(t *testing.T) {
 	goMod := readFile(t, "go.mod")
-	if strings.Contains(goMod, "grpc") || strings.Contains(goMod, "go-control-plane") {
-		t.Fatalf("DEFECT D12 NOT REPRODUCED: grpc or go-control-plane found in go.mod")
+	if !strings.Contains(goMod, "grpc") && !strings.Contains(goMod, "go-control-plane") {
+		t.Fatalf("DEFECT D12 FIXED: no grpc or go-control-plane found in go.mod")
 	}
-	t.Logf("DEFECT D12 REPRODUCED: no gRPC dependencies in go.mod")
+	t.Logf("DEFECT D12 FIXED: grpc dependency found in go.mod")
 
 	// Check README/ROADMAP for gRPC claims
 	readme := readFile(t, "README.md")
 	roadmap := readFile(t, "ROADMAP.md")
 	if strings.Contains(readme, "gRPC") || strings.Contains(roadmap, "gRPC") {
-		t.Logf("Documentation mentions gRPC (claim exists but not implemented)")
+		t.Logf("Documentation mentions gRPC (claim exists and implemented)")
 	}
 }

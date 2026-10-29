@@ -9,6 +9,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // TestPersistenceRoundTrip proves durable state survives a restart: issue two
@@ -67,12 +69,12 @@ func TestPersistenceRoundTrip(t *testing.T) {
 	}
 	// the revoked one must still read revoked, and the verifier must reject its
 	// record (the revoked set was rebuilt and republished on load).
-	v := app2.Verify(app2.def, r1.Record)
+	v := app2.Verify(app2.def, r1.Record, spiffeid.ID{})
 	if v.Decision != "reject" {
 		t.Fatalf("restored revocation not observed: verdict=%s causes=%v", v.Decision, v.Causes)
 	}
 	// the other one still verifies accept
-	v2 := app2.Verify(app2.def, r2.Record)
+	v2 := app2.Verify(app2.def, r2.Record, spiffeid.ID{})
 	if v2.Decision != "accept" {
 		t.Fatalf("non-revoked delegation should still accept, got %s %v", v2.Decision, v2.Causes)
 	}

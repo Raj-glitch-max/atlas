@@ -7,11 +7,12 @@ import (
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	"github.com/Raj-glitch-max/atlas/tests/harness"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // The decision trace is the reviewer's instrument (SO8) and the substrate of
 // single-check rollback (SO5): it must be emitted unconditionally — Accepts
-// included — carry all five stages in canonical order, record the policy in
+// included — carry all six stages in canonical order, record the policy in
 // force, and expose per-stage outcomes without leaking material.
 
 func TestTraceEmittedOnAccept(t *testing.T) {
@@ -20,12 +21,12 @@ func TestTraceEmittedOnAccept(t *testing.T) {
 	rec := w.seal(t, nil)
 	v := w.verifier(t, time.Minute, 30*time.Second)
 
-	verdict, trace := v.Verify(rec.Presented())
+	verdict, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 	if !verdict.IsAccept() {
 		t.Fatalf("precondition: want Accept, got %s", verdict.Decision)
 	}
-	if len(trace.Entries) != 5 {
-		t.Fatalf("Accept must still carry all five stages, got %d", len(trace.Entries))
+	if len(trace.Entries) != 6 {
+		t.Fatalf("Accept must still carry all six stages, got %d", len(trace.Entries))
 	}
 	// An Accept trace must be as inspectable as a reject trace: every stage
 	// present and passing, verdict recorded.
@@ -39,7 +40,7 @@ func TestTraceCanonicalOrderAndCompleteness(t *testing.T) {
 	w.freshNotRevoked()
 	rec := w.seal(t, nil)
 	v := w.verifier(t, time.Minute, 30*time.Second)
-	_, trace := v.Verify(rec.Presented())
+	_, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 
 	want := []verify.CheckName{
 		verify.CheckIdentityBinding,
@@ -47,6 +48,7 @@ func TestTraceCanonicalOrderAndCompleteness(t *testing.T) {
 		verify.CheckExpiry,
 		verify.CheckScope,
 		verify.CheckRevocation,
+		verify.CheckPresenterBinding,
 	}
 	if len(trace.Entries) != len(want) {
 		t.Fatalf("trace has %d entries, want %d", len(trace.Entries), len(want))
@@ -68,7 +70,7 @@ func TestTraceRecordsPolicyAndTime(t *testing.T) {
 	const r, skew = 42 * time.Second, 7 * time.Second
 	v := w.verifier(t, r, skew)
 
-	_, trace := v.Verify(rec.Presented())
+	_, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 	if trace.Policy.R != r || trace.Policy.SkewTolerance != skew {
 		t.Errorf("trace policy = {R:%s skew:%s}, want {R:%s skew:%s}",
 			trace.Policy.R, trace.Policy.SkewTolerance, r, skew)
@@ -87,12 +89,12 @@ func TestTraceGatedStagesMarkedNotEvaluated(t *testing.T) {
 	w.trust = harness.NewTrustStore() // force TrustMaterialAbsent at integrity
 	v := w.verifier(t, time.Minute, time.Second)
 
-	verdict, trace := v.Verify(rec.Presented())
+	verdict, trace := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.InconclusiveRejected {
 		t.Fatalf("want InconclusiveRejected, got %s", verdict.Decision)
 	}
-	if len(trace.Entries) != 5 {
-		t.Fatalf("gated trace must still carry five stages, got %d", len(trace.Entries))
+	if len(trace.Entries) != 6 {
+		t.Fatalf("gated trace must still carry six stages, got %d", len(trace.Entries))
 	}
 	integrity, _ := trace.Find(verify.CheckIntegrity)
 	if integrity.Outcome != verify.OutcomeInconclusive || integrity.Cause != verify.TrustMaterialAbsent {
@@ -114,8 +116,8 @@ func TestTraceDigestsAreStableAndInputSensitive(t *testing.T) {
 	rec := w.seal(t, nil)
 	v := w.verifier(t, time.Minute, 30*time.Second)
 
-	_, t1 := v.Verify(rec.Presented())
-	_, t2 := v.Verify(rec.Presented())
+	_, t1 := v.Verify(rec.Presented(), spiffeid.ID{})
+	_, t2 := v.Verify(rec.Presented(), spiffeid.ID{})
 	e1, _ := t1.Find(verify.CheckIntegrity)
 	e2, _ := t2.Find(verify.CheckIntegrity)
 	if e1.InputsDigest != e2.InputsDigest {
@@ -123,7 +125,7 @@ func TestTraceDigestsAreStableAndInputSensitive(t *testing.T) {
 	}
 
 	other := w.seal(t, func(a *record.Assertions) {}) // same content, fresh signature
-	_, t3 := v.Verify(other.Presented())
+	_, t3 := v.Verify(other.Presented(), spiffeid.ID{})
 	e3, _ := t3.Find(verify.CheckIntegrity)
 	// other is byte-identical content but a fresh signature (ECDSA is
 	// randomized), so the presented bytes differ -> digest differs.

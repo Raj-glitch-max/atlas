@@ -6,6 +6,7 @@ import (
 
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // AT23 / SO5 — single-check rollback (no silent acceptance): for each
@@ -31,7 +32,7 @@ func TestSingleCheckRollback(t *testing.T) {
 	base := newWorld(t)
 	base.freshNotRevoked()
 	baseRec := base.seal(t, nil)
-	if verdict, _ := base.verifier(t, r, skew).Verify(baseRec.Presented()); !verdict.IsAccept() {
+	if verdict, _ := base.verifier(t, r, skew).Verify(baseRec.Presented(), spiffeid.ID{}); !verdict.IsAccept() {
 		t.Fatalf("baseline is not Accept (%s); rollback test cannot proceed", verdict.Decision)
 	}
 
@@ -99,15 +100,15 @@ func TestSingleCheckRollback(t *testing.T) {
 	for _, rb := range rollbacks {
 		t.Run(rb.name, func(t *testing.T) {
 			v, presented := rb.build(t)
-			verdict, trace := v.Verify(presented)
+			verdict, trace := v.Verify(presented, spiffeid.ID{})
 			if verdict.IsAccept() {
 				t.Fatalf("rolling back a single check still ACCEPTED — silent-trust failure (FM11/SO5)")
 			}
 			if !hasCause(verdict.Causes, rb.cause) {
 				t.Fatalf("causes = %v, want to contain %s", verdict.Causes, rb.cause)
 			}
-			if len(trace.Entries) != 5 {
-				t.Errorf("trace must still contain all five stages, got %d", len(trace.Entries))
+			if len(trace.Entries) != 6 {
+				t.Errorf("trace must still contain all six stages, got %d", len(trace.Entries))
 			}
 		})
 	}

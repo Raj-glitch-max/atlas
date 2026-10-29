@@ -32,10 +32,10 @@ import (
 // distinct ceiling would require a partition signal the honest answer set
 // deliberately does not provide.
 type Policy struct {
-	r               time.Duration
-	skew            time.Duration
+	r                time.Duration
+	skew             time.Duration
 	requirePresenter bool
-	set             bool
+	set              bool
 }
 
 // Construction refusal causes (closed set).

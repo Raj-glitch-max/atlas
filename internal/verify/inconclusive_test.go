@@ -7,6 +7,7 @@ import (
 	"github.com/Raj-glitch-max/atlas/internal/record"
 	"github.com/Raj-glitch-max/atlas/internal/verify"
 	"github.com/Raj-glitch-max/atlas/tests/harness"
+	"github.com/spiffe/go-spiffe/v2/spiffeid"
 )
 
 // AT22 [HYPOTHESIS] — fail-closed under inconclusive verification. This is
@@ -56,7 +57,7 @@ func TestHypothesisFailClosed_InconclusiveNeverAccepts(t *testing.T) {
 			w := newWorld(t)
 			rec := c.setup(t, w)
 			v := w.verifier(t, time.Minute, time.Second)
-			verdict, _ := v.Verify(rec.Presented())
+			verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 			if verdict.IsAccept() {
 				t.Fatalf("[HYPOTHESIS] fail-closed violated: inconclusive condition ACCEPTED")
 			}
@@ -80,7 +81,7 @@ func TestDefinitiveDominatesInconclusive(t *testing.T) {
 	w.clock.Set(baseExpiry.Add(time.Hour))
 	v := w.verifier(t, time.Minute, time.Second)
 
-	verdict, _ := v.Verify(rec.Presented())
+	verdict, _ := v.Verify(rec.Presented(), spiffeid.ID{})
 	if verdict.Decision != verify.Reject {
 		t.Fatalf("verdict=%s, want Reject (definitive dominates inconclusive)", verdict.Decision)
 	}
